@@ -1,27 +1,17 @@
+import {NavLinkMenu} from '../../const.ts';
+
 export default function NavMenu () {
   return (
     <nav className="main-nav header__main-nav">
       <ul className="main-nav__list">
-        <li className="main-nav__item">
-          <a className="main-nav__link" href="#">
-    Каталог
-          </a>
-        </li>
-        <li className="main-nav__item">
-          <a className="main-nav__link" href="#">
-    Гарантии
-          </a>
-        </li>
-        <li className="main-nav__item">
-          <a className="main-nav__link" href="#">
-    Доставка
-          </a>
-        </li>
-        <li className="main-nav__item">
-          <a className="main-nav__link" href="#">
-    О компании
-          </a>
-        </li>
+        {Object.entries(NavLinkMenu).map(([item1,item2]) => (
+          <li className="main-nav__item" key={item1}>
+            <a className="main-nav__link" href="#">
+              {item2}
+            </a>
+          </li>
+        ))}
+
       </ul>
     </nav>
   );

@@ -5,5 +5,7 @@ export enum AppRoute {
 
 export const NavLinkMenu = {
   Catalog: 'Каталог',
-  Guarantee: 'Гарантии'
-}
+  Guarantee: 'Гарантии',
+  Delivery: 'Доставка',
+  About: 'О компании'
+};
