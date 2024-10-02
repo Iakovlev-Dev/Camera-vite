@@ -3627,6 +3627,8 @@ button,
   }
 } */
 
+
+
 @media (hover: hover), screen and (min-width: 0\0 ) {
   .header__basket-link:hover,
   .header__basket-link:focus-visible {
@@ -3747,3 +3749,5 @@ button,
     background-color: #f4f4fc;
   }
 }
+
+

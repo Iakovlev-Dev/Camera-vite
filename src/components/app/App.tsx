@@ -5,6 +5,8 @@ import {Route, Routes} from 'react-router-dom';
 
 import PageMain from '../../pages/page-main/page-main.tsx';
 import {AppRoute} from '../../const.ts';
+import PageCard from '../../pages/page-card/page-card.tsx';
+import PageNotFound from '../../pages/page-not-found/page-not-found.tsx';
 
 export default function App () {
   return (
@@ -14,6 +16,14 @@ export default function App () {
           <Route
             path={AppRoute.Main}
             element={<PageMain />}
+          />
+          <Route
+            path={AppRoute.Camera}
+            element={<PageCard />}
+          />
+          <Route
+            path='*'
+            element={<PageNotFound />}
           />
         </Routes>
       </HistoryRouter>
