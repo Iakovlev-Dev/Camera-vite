@@ -9,3 +9,15 @@ export const NavLinkMenu = {
   Delivery: 'Доставка',
   About: 'О компании'
 };
+
+export const NameSpace = {
+  DATA_CARDS: 'DATA_CARDS',
+  REVIEWS: 'REVIEWS'
+};
+
+export const APIRoute = {
+  Cameras: '/cameras'
+};
+
+export const MIN_COUNT_STARS = 1;
+export const MAX_COUNT_STARS = 5;
