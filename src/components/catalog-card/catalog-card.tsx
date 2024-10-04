@@ -1,18 +1,24 @@
-export default function CatalogCard() {
+import {TCameraCard} from '../../types/type-cards.ts';
+
+type TCatalogCard = {
+  card: TCameraCard;
+}
+
+export default function CatalogCard({card}: TCatalogCard) {
   return (
     <div className="product-card">
       <div className="product-card__img">
         <picture>
           <source
             type="image/webp"
-            srcSet="img/content/das-auge.webp, img/content/das-auge@2x.webp 2x"
+            srcSet={`/${card.previewImgWebp && card.previewImgWebp2x} 2x`}
           />
           <img
-            src="img/content/das-auge.jpg"
-            srcSet="img/content/das-auge@2x.jpg 2x"
+            src={`/${card.previewImg}`}
+            srcSet={`/${card.previewImg2x} 2x`}
             width={280}
             height={240}
-            alt="Ретрокамера «Das Auge IV»"
+            alt={card.name}
           />
         </picture>
       </div>
@@ -33,16 +39,16 @@ export default function CatalogCard() {
           <svg width={17} height={16} aria-hidden="true">
             <use xlinkHref="#icon-star"/>
           </svg>
-          <p className="visually-hidden">Рейтинг: 3</p>
+          <p className="visually-hidden">Рейтинг: {card.rating}</p>
           <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>23
+            <span className="visually-hidden">Всего оценок:</span>{card.reviewCount}
           </p>
         </div>
         <p className="product-card__title">
-          Ретрокамера «Das Auge IV»
+          {card.name}
         </p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>73 450 ₽
+          <span className="visually-hidden">Цена:</span>{card.price} ₽
         </p>
       </div>
       <div className="product-card__buttons">

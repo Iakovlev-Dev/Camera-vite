@@ -9,3 +9,12 @@ export const NavLinkMenu = {
   Delivery: 'Доставка',
   About: 'О компании'
 };
+
+export const NameSpace = {
+  DATA_CARDS: 'DATA_CARDS',
+  REVIEWS: 'REVIEWS'
+};
+
+export const APIRoute = {
+  Cameras: '/cameras'
+};
