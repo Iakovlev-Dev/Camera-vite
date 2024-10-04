@@ -18,3 +18,6 @@ export const NameSpace = {
 export const APIRoute = {
   Cameras: '/cameras'
 };
+
+export const MIN_COUNT_STARS = 1;
+export const MAX_COUNT_STARS = 5;

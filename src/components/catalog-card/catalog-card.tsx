@@ -1,4 +1,5 @@
 import {TCameraCard} from '../../types/type-cards.ts';
+import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 
 type TCatalogCard = {
   card: TCameraCard;
@@ -23,27 +24,7 @@ export default function CatalogCard({card}: TCatalogCard) {
         </picture>
       </div>
       <div className="product-card__info">
-        <div className="rate product-card__rate">
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-star"/>
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-star"/>
-          </svg>
-          <p className="visually-hidden">Рейтинг: {card.rating}</p>
-          <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>{card.reviewCount}
-          </p>
-        </div>
+        <CatalogCardRating countRating={card.rating} countReviews={card.reviewCount} />
         <p className="product-card__title">
           {card.name}
         </p>
