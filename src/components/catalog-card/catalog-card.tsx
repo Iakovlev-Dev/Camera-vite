@@ -3,9 +3,10 @@ import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 
 type TCatalogCard = {
   card: TCameraCard;
+  onClick: () => void;
 }
 
-export default function CatalogCard({card}: TCatalogCard) {
+export default function CatalogCard({card, onClick}: TCatalogCard) {
   return (
     <div className="product-card">
       <div className="product-card__img">
@@ -36,6 +37,7 @@ export default function CatalogCard({card}: TCatalogCard) {
         <button
           className="btn btn--purple product-card__btn"
           type="button"
+          onClick={onClick}
         >
           Купить
         </button>

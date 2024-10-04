@@ -1,6 +1,10 @@
-export default function CatalogModal() {
+type TCatalogModal = {
+  onClose: () => void;
+}
+
+export default function CatalogModal({onClose}: TCatalogModal) {
   return (
-    <div className="modal">
+    <div className="modal is-active">
       <div className="modal__wrapper">
         <div className="modal__overlay"/>
         <div className="modal__content">
@@ -64,7 +68,7 @@ export default function CatalogModal() {
               Заказать
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onClose}>
             <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close"/>
             </svg>
