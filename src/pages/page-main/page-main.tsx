@@ -7,10 +7,12 @@ import {useEffect, useState} from 'react';
 
 export default function PageMain () {
   const [isOpen, setIsOpen] = useState(false);
-  const handleModalOpen = () => {
+  const [idCamera, setIdCamera] = useState<number>(0);
+
+  const handleModalOpen = (id: number) => {
     setIsOpen(true);
     document.body.classList.add('scroll-lock');
-
+    setIdCamera(id)
   };
 
   const handleModalClose = () => {
@@ -54,7 +56,7 @@ export default function PageMain () {
          <Breadcrumbs />
          <Catalog onClick={handleModalOpen} />
        </div>
-       {isOpen && <CatalogModal onClose={handleModalClose} />}
+       {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
      </main>
    </div>
 
