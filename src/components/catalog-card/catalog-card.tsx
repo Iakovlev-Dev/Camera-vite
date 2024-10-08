@@ -1,5 +1,7 @@
 import {TCameraCard} from '../../types/type-cards.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
+import {Link} from 'react-router-dom';
+
 
 type TCatalogCard = {
   card: TCameraCard;
@@ -7,9 +9,11 @@ type TCatalogCard = {
 }
 
 export default function CatalogCard({card, onClick}: TCatalogCard) {
-  const handleClick = (id: number) => {
-    onClick(id)
-  }
+  const pathCard = `/cameras/${card.id}`;
+  const handleClickModal = (id: number) => {
+    onClick(id);
+  };
+
   return (
     <div className="product-card">
       <div className="product-card__img">
@@ -40,13 +44,16 @@ export default function CatalogCard({card, onClick}: TCatalogCard) {
         <button
           className="btn btn--purple product-card__btn"
           type="button"
-          onClick={() => handleClick(card.id)}
+          onClick={() => handleClickModal(card.id)}
         >
           Купить
         </button>
-        <a className="btn btn--transparent" href="#">
+        <Link
+          className="btn btn--transparent"
+          to={pathCard}
+        >
           Подробнее
-        </a>
+        </Link>
       </div>
     </div>
   );

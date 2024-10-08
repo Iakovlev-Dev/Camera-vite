@@ -19,15 +19,15 @@ export const fetchCameraCardsAction = createAsyncThunk<TCameraArray, undefined, 
 );
 
 export const fetchCameraCardAction = createAsyncThunk<TCameraCard, string, TAPIAction>('fetchCameraCardAction',
-  async (cameraId, {extra: api}) => {
+  async (cameraId, {extra: api, dispatch}) => {
     const {data} = await api.get<TCameraCard>(`${APIRoute.Cameras}/${cameraId}`);
+    dispatch(fetchCameraCardAction(cameraId));
     return data;
   }
 );
 
 export const postOrder = createAsyncThunk<void, TOrder, TAPIAction>('postOrderAction',
   async (body, {extra: api}) => {
-    console.log('body');
     await api.post(APIRoute.Orders, body);
   }
 );

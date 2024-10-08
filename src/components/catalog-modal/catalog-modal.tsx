@@ -116,7 +116,6 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
                   <button
                     className="btn btn--purple modal__btn modal__btn--fit-width"
                     type="submit"
-                    // onClick={() => handleSubmitTelNumber(tel)}
                   >
                     <svg width={24} height={16} aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"/>
