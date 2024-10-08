@@ -12,7 +12,7 @@ export default function PageMain () {
   const handleModalOpen = (id: number) => {
     setIsOpen(true);
     document.body.classList.add('scroll-lock');
-    setIdCamera(id)
+    setIdCamera(id);
   };
 
   const handleModalClose = () => {

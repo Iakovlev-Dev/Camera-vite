@@ -1,8 +1,10 @@
 import {useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import ReactFocusLock from 'react-focus-lock';
-import {ChangeEvent, useState} from 'react';
-import {isValidPhoneNumber, parsePhoneNumber} from 'libphonenumber-js';
+import React, {ChangeEvent, useState} from 'react';
+import {isValidPhoneNumber, parsePhoneNumber, validatePhoneNumberLength} from 'libphonenumber-js';
+import {postOrder} from '../../store/api-actions.ts';
+import {TOrder} from '../../types/type-order.ts';
 
 type TCatalogModal = {
   idCamera: number;
@@ -17,23 +19,35 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
   const [tel, setTel] = useState('');
   const [style, setStyle] = useState({opacity: 0});
 
-
   const handleChangeTel = (evt: ChangeEvent<HTMLInputElement>) => {
     setTel(evt.target.value);
   };
 
-  const handleSubmitTelNumber = (number: string) => {
+  const handleSubmitTelNumber = (number: string, evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     try {
       const parseTel = parsePhoneNumber(number, 'RU');
-      if (isValidPhoneNumber(parseTel.number, 'RU')) {
+      if (isValidPhoneNumber(parseTel.number, 'RU') && validatePhoneNumberLength(parseTel.number, 'RU') === undefined) {
+        const body: TOrder = {
+          tel: parseTel.number,
+          coupon: 'asda',
+          camerasIds: [1]
+        };
         setTel('');
         setStyle({opacity: 0});
+        postOrder(body);
         onClose();
+      } else {
+        setStyle({opacity: 1});
       }
     } catch (err) {
       setStyle({opacity: 1});
     }
   };
+
+  if(!currentCamera) {
+    return null;
+  }
 
   return (currentCamera &&
       <ReactFocusLock>
@@ -95,16 +109,22 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
                 <p className="custom-input__error" style={style}>Нужно указать номер</p>
               </div>
               <div className="modal__buttons">
-                <button
-                  className="btn btn--purple modal__btn modal__btn--fit-width"
-                  type="button"
-                  onClick={() => handleSubmitTelNumber(tel)}
+                <form
+                  method='POST'
+                  onSubmit={(evt) => handleSubmitTelNumber(tel, evt)}
                 >
-                  <svg width={24} height={16} aria-hidden="true">
-                    <use xlinkHref="#icon-add-basket"/>
-                  </svg>
-                  Заказать
-                </button>
+                  <button
+                    className="btn btn--purple modal__btn modal__btn--fit-width"
+                    type="submit"
+                    // onClick={() => handleSubmitTelNumber(tel)}
+                  >
+                    <svg width={24} height={16} aria-hidden="true">
+                      <use xlinkHref="#icon-add-basket"/>
+                    </svg>
+                    Заказать
+                  </button>
+                </form>
+
               </div>
               <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onClose}>
                 <svg width={10} height={10} aria-hidden="true">

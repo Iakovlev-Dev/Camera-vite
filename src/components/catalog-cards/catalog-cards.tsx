@@ -8,8 +8,8 @@ type TCatalogCard = {
 
 export default function CatalogCards ({onClick}: TCatalogCard) {
   const handleClick = (id: number) => {
-    onClick(id)
-  }
+    onClick(id);
+  };
   const cameras = useAppSelector(selectCameras);
   return (
     <div className="cards catalog__cards">

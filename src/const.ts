@@ -16,7 +16,8 @@ export const NameSpace = {
 };
 
 export const APIRoute = {
-  Cameras: '/cameras'
+  Cameras: '/cameras',
+  Orders: '/orders'
 };
 
 export const MIN_COUNT_STARS = 1;
