@@ -1,6 +1,13 @@
 import CatalogCards from '../catalog-cards/catalog-cards.tsx';
 
-export default function Catalog () {
+type TCatalog = {
+  onClick: (id: number) => void;
+}
+
+export default function Catalog ({onClick}: TCatalog) {
+  const handleClick = (id: number) => {
+    onClick(id);
+  }
   return (
     <section className="catalog">
       <div className="container">
@@ -12,7 +19,7 @@ export default function Catalog () {
           </div>
           <div className="catalog__content">
             {/*<CatalogSort />*/}
-            <CatalogCards />
+            <CatalogCards onClick={handleClick} />
           </div>
         </div>
       </div>
