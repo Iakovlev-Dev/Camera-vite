@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs.tsx';
 import Catalog from '../../components/catalog/catalog.tsx';
 import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import {useEffect, useState} from 'react';
+import {Helmet} from 'react-helmet-async';
 
 export default function PageMain () {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,17 +49,23 @@ export default function PageMain () {
  }, [isOpen]);
 
  return (
-   <div className="wrapper">
-     <Header />
-     <main>
-       <Banner />
-       <div className="page-content">
-         <Breadcrumbs />
-         <Catalog onClick={handleModalOpen} />
-       </div>
-       {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
-     </main>
-   </div>
+   <>
+     <Helmet>
+       <title>{'Каталог'}</title>
+     </Helmet>
+     <div className="wrapper">
+       <Header/>
+       <main>
+         <Banner/>
+         <div className="page-content">
+           <Breadcrumbs/>
+           <Catalog onClick={handleModalOpen}/>
+         </div>
+         {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
+       </main>
+     </div>
+   </>
+
 
  );
 }
