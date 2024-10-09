@@ -4,9 +4,20 @@ import ProductCard from '../../components/product-card/product-card.tsx';
 import ProductReviews from '../../components/product-reviews/product-reviews.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import ProductReviewsButtonUp from '../../components/product-reviews-button-up/product-reviews-button-up.tsx';
+import {useAppDispatch} from '../../store/hooks.ts';
+import {useParams} from 'react-router-dom';
+import {useEffect} from 'react';
+import {fetchCameraCardAction} from '../../store/api-actions.ts';
 
 
 export default function PageCard () {
+  const dispatch = useAppDispatch();
+  const {id} = useParams();
+
+  useEffect(() => {
+    dispatch(fetchCameraCardAction(id as string));
+  }, [dispatch, id]);
+
   return (
     <div className="wrapper">
       <Header />
