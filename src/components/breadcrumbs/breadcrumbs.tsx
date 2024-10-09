@@ -1,4 +1,4 @@
-export default function   Breadcrumbs () {
+export default function Breadcrumbs () {
   return (
     <div className="breadcrumbs">
       <div className="container">

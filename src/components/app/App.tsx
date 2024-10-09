@@ -21,10 +21,10 @@ export default function App () {
             path={AppRoute.Cameras}
             element={<PageCard />}
           />
-        <Route
-          path='*'
-          element={<PageNotFound />}
-        />
+          <Route
+            path='*'
+            element={<PageNotFound />}
+          />
         </Routes>
       </HistoryRouter>
     </HelmetProvider>

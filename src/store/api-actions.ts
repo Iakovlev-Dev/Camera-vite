@@ -20,7 +20,7 @@ export const fetchCameraCardsAction = createAsyncThunk<TCameraArray, undefined, 
 
 export const fetchCameraCardAction = createAsyncThunk<TCameraCard, string, TAPIAction>('fetchCameraAction',
   async (id, {extra: api}) => {
-  const {data} = await api.get<TCameraCard>(`${APIRoute.Cameras}/${id}`)
+    const {data} = await api.get<TCameraCard>(`${APIRoute.Cameras}/${id}`)
     return data;
   }
 );
