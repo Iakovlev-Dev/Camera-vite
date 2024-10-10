@@ -6,10 +6,10 @@ import {selectReviews} from '../../store/review-proccess/selectors.ts';
 
 export default function ProductReviews () {
   const [countReviews, setCountReviews] = useState(3);
-  const reviews = useAppSelector(selectReviews)
+  const reviews = useAppSelector(selectReviews);
   const handleClickButtonReviews = () => {
     setCountReviews(countReviews + 3);
-  }
+  };
 
   return (
     <div className="page-content__section">
