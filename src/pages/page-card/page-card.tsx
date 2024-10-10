@@ -9,6 +9,8 @@ import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import {fetchCameraCardAction, fetchReviewsAction} from '../../store/api-actions.ts';
 
+import ReactFocusLock from 'react-focus-lock';
+
 
 export default function PageCard () {
   const dispatch = useAppDispatch();
@@ -20,18 +22,20 @@ export default function PageCard () {
   }, [dispatch, id]);
 
   return (
-    <div className="wrapper">
-      <Header />
-      <main>
-        <div className="page-content">
-          <Breadcrumbs />
-          <ProductCard />
-          {/*<ProductSimilar />*/}
-          <ProductReviews />
-        </div>
-      </main>
-      <ProductReviewsButtonUp />
-      <Footer />
-    </div>
+    <ReactFocusLock autoFocus={false}>
+      <div className="wrapper">
+        <Header/>
+        <main>
+          <div className="page-content">
+            <Breadcrumbs/>
+            <ProductCard/>
+            {/*<ProductSimilar />*/}
+            <ProductReviews/>
+          </div>
+        </main>
+        <ProductReviewsButtonUp/>
+        <Footer/>
+      </div>
+    </ReactFocusLock>
   );
 }
