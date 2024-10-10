@@ -7,7 +7,6 @@ import {Provider} from 'react-redux';
 
 store.dispatch(fetchCameraCardsAction());
 
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
