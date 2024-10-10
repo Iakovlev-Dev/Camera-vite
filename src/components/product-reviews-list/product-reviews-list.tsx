@@ -3,12 +3,16 @@ import {useAppSelector} from '../../store/hooks.ts';
 import {selectReviews} from '../../store/review-proccess/selectors.ts';
 import {sortingReview} from '../../utils.ts';
 
-export default function ProductReviewsList() {
+export type TProductReviewsList = {
+  countReviews: number
+}
+
+export default function ProductReviewsList({countReviews}: TProductReviewsList) {
   const reviews = useAppSelector(selectReviews);
   const sortReviews = [...reviews].sort(sortingReview);
   return (
     <ul className="review-block__list">
-      {sortReviews.map((review) => (
+      {sortReviews.slice(0, countReviews).map((review) => (
         <ProductReviewItem review={review} key={review.id} />
       ))}
     </ul>
