@@ -4,7 +4,7 @@ import {selectReviews} from '../../store/review-proccess/selectors.ts';
 import {sortingReview} from '../../utils.ts';
 
 export type TProductReviewsList = {
-  countReviews: number
+  countReviews: number;
 }
 
 export default function ProductReviewsList({countReviews}: TProductReviewsList) {
