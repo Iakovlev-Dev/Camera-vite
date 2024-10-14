@@ -18,7 +18,7 @@ export default function App () {
             element={<PageMain />}
           />
           <Route
-            path={AppRoute.Camera}
+            path={AppRoute.Cameras}
             element={<PageCard />}
           />
           <Route
