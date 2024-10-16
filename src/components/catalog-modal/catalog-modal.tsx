@@ -1,8 +1,8 @@
-import {useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import ReactFocusLock from 'react-focus-lock';
-import React, {ChangeEvent, useState} from 'react';
-import {isValidPhoneNumber, parsePhoneNumber, validatePhoneNumberLength} from 'libphonenumber-js';
+import {parsePhoneNumber} from 'libphonenumber-js';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {postOrder} from '../../store/api-actions.ts';
 import {TOrder} from '../../types/type-order.ts';
 
@@ -11,38 +11,29 @@ type TCatalogModal = {
   onClose: () => void;
 }
 
-export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
-  const cameras = useAppSelector(selectCameras);
+type TFormValues = {
+  userTel: string;
+}
 
+export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
+  const dispatch = useAppDispatch();
+  const cameras = useAppSelector(selectCameras);
   const currentCamera = cameras.find((camera) => camera.id === idCamera);
 
-  const [tel, setTel] = useState('');
-  const [style, setStyle] = useState({opacity: 0});
+  const {register, handleSubmit, formState: {errors}} = useForm<TFormValues>();
 
-  const handleChangeTel = (evt: ChangeEvent<HTMLInputElement>) => {
-    setTel(evt.target.value);
-  };
+  const onSubmit: SubmitHandler<TFormValues> = (data: TFormValues, evt) => {
+    evt?.preventDefault();
 
-  const handleSubmitTelNumber = (number: string, evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    try {
-      const parseTel = parsePhoneNumber(number, 'RU');
-      if (isValidPhoneNumber(parseTel.number, 'RU') && validatePhoneNumberLength(parseTel.number, 'RU') === undefined) {
-        const body: TOrder = {
-          tel: parseTel.number,
-          coupon: 'asda',
-          camerasIds: [1]
-        };
-        setTel('');
-        setStyle({opacity: 0});
-        postOrder(body);
-        onClose();
-      } else {
-        setStyle({opacity: 1});
-      }
-    } catch (err) {
-      setStyle({opacity: 1});
-    }
+    const userNumber = parsePhoneNumber(data.userTel, 'RU').number;
+    const body: TOrder = {
+      tel: userNumber,
+      coupon: null,
+      camerasIds: [idCamera]
+    };
+
+    dispatch(postOrder(body));
+    onClose();
   };
 
   if(!currentCamera) {
@@ -87,32 +78,35 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
                   </p>
                 </div>
               </div>
-              <div className="custom-input form-review__item">
-                <label>
-                  <span className="custom-input__label">
-            Телефон
-                    <svg width={9} height={9} aria-hidden="true">
-                      <use xlinkHref="#icon-snowflake"/>
-                    </svg>
-                  </span>
-                  <input
-                    type="tel"
-                    name="user-tel"
-                    placeholder="Введите ваш номер"
-                    maxLength={16}
-                    required
-                    value={tel}
-                    onChange={handleChangeTel}
-                    autoComplete='false'
-                  />
-                </label>
-                <p className="custom-input__error" style={style}>Нужно указать номер</p>
-              </div>
-              <div className="modal__buttons">
-                <form
-                  method='POST'
-                  onSubmit={(evt) => handleSubmitTelNumber(tel, evt)}
-                >
+              <form
+                method='post'
+                onSubmit={(evt) => void handleSubmit(onSubmit)(evt)}
+              >
+                <div className="custom-input form-review__item">
+                  <label>
+                    <span className="custom-input__label">
+                 Телефон
+                      <svg width={9} height={9} aria-hidden="true">
+                        <use xlinkHref="#icon-snowflake"/>
+                      </svg>
+                    </span>
+                    <input
+                      type="tel"
+                      placeholder="Введите ваш номер"
+                      maxLength={16}
+                      required
+                      {...register('userTel', {
+                        required: 'Нужно указать номер',
+                        pattern: {
+                          value: /^(\+7|8)\s*\(?9\d{2}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/,
+                          message: 'Введите номер +7(9XX)XXX-XX-XX'
+                        }
+                      })}
+                    />
+                  </label>
+                  {errors.userTel && <p className="custom-input__error" style={{opacity: 1}}>{errors.userTel.message}</p>}
+                </div>
+                <div className="modal__buttons">
                   <button
                     className="btn btn--purple modal__btn modal__btn--fit-width"
                     type="submit"
@@ -122,14 +116,14 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
                     </svg>
                     Заказать
                   </button>
-                </form>
-
-              </div>
+                </div>
+              </form>
               <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onClose}>
                 <svg width={10} height={10} aria-hidden="true">
                   <use xlinkHref="#icon-close"/>
                 </svg>
               </button>
+
             </div>
           </div>
         </div>

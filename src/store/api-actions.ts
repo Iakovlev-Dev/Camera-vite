@@ -28,7 +28,7 @@ export const fetchCameraCardAction = createAsyncThunk<TCameraCard, string, TAPIA
 
 export const postOrder = createAsyncThunk<void, TOrder, TAPIAction>('postOrderAction',
   async (body, {extra: api}) => {
-    await api.post(APIRoute.Orders, body);
+    await api.post('oreder', body);
   }
 );
 
