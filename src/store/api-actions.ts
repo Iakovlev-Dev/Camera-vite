@@ -5,6 +5,7 @@ import {TCameraArray, TCameraCard} from '../types/type-cards.ts';
 import {APIRoute} from '../const.ts';
 import {TOrder} from '../types/type-order.ts';
 import {TReviews} from '../types/type-reviews.ts';
+import {TPromoArray} from '../types/type-promo.ts';
 
 export type TAPIAction = {
   dispatch: TAppDispatch;
@@ -35,6 +36,13 @@ export const postOrder = createAsyncThunk<void, TOrder, TAPIAction>('postOrderAc
 export const fetchReviewsAction = createAsyncThunk<TReviews, string, TAPIAction>('fetchReviewsAction',
   async (id: string, {extra: api}) => {
     const {data} = await api.get<TReviews>(`${APIRoute.Cameras}/${id}/reviews`);
+    return data;
+  }
+);
+
+export const fetchPromo = createAsyncThunk<TPromoArray, undefined, TAPIAction>('fetchPromo',
+  async (_args, {extra: api}) => {
+    const {data} = await api.get<TPromoArray>(APIRoute.Promo);
     return data;
   }
 );

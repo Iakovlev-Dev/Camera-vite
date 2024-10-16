@@ -7,7 +7,6 @@ import {AppRoute} from '../../const.ts';
 export default function Breadcrumbs () {
   const {id} = useParams();
   const cameras = useAppSelector(selectCameras);
-
   const currentCamera = cameras.find((camera) => camera.id.toString() === id);
 
   const renderBreadcrumbs = (idParams: string | undefined, camera: TCameraCard | undefined) => {
@@ -30,7 +29,7 @@ export default function Breadcrumbs () {
         </>
       );
 
-    } else if(typeof idParams === undefined) {
+    } else {
       return (
         <li className="breadcrumbs__item">
           <span className="breadcrumbs__link breadcrumbs__link--active">

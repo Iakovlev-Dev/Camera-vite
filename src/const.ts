@@ -12,12 +12,14 @@ export const NavLinkMenu = {
 
 export const NameSpace = {
   DATA_CARDS: 'DATA_CARDS',
-  REVIEWS: 'REVIEWS'
+  REVIEWS: 'REVIEWS',
+  PROMO: 'PROMO'
 } as const;
 
 export const APIRoute = {
   Cameras: '/cameras',
-  Orders: '/orders'
+  Orders: '/orders',
+  Promo: '/promo'
 };
 
 export const MIN_COUNT_STARS = 1;
