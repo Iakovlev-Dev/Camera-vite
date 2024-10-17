@@ -7,9 +7,10 @@ import ProductReviewsButtonUp from '../../components/product-reviews-button-up/p
 import {useAppDispatch} from '../../store/hooks.ts';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
-import {fetchCameraCardAction, fetchReviewsAction} from '../../store/api-actions.ts';
+import {fetchCameraCardAction, fetchReviewsAction, fetchSimilarCameras} from '../../store/api-actions.ts';
 
 import ReactFocusLock from 'react-focus-lock';
+import ProductSimilar from '../../components/product-similar/product-similar.tsx';
 
 
 export default function PageCard () {
@@ -19,6 +20,7 @@ export default function PageCard () {
   useEffect(() => {
     dispatch(fetchCameraCardAction(id as string));
     dispatch(fetchReviewsAction(id as string));
+    dispatch(fetchSimilarCameras(id as string));
   }, [dispatch, id]);
 
   return (
@@ -29,7 +31,7 @@ export default function PageCard () {
           <div className="page-content">
             <Breadcrumbs/>
             <ProductCard/>
-            {/*<ProductSimilar />*/}
+            <ProductSimilar />
             <ProductReviews/>
           </div>
         </main>

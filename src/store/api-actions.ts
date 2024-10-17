@@ -46,3 +46,10 @@ export const fetchPromo = createAsyncThunk<TPromoArray, undefined, TAPIAction>('
     return data;
   }
 );
+
+export const fetchSimilarCameras = createAsyncThunk<TCameraArray, string, TAPIAction>('fetchSimilarCameras',
+  async (id: string, {extra: api}) => {
+    const {data} = await api.get<TCameraArray>(`${APIRoute.Cameras}/${id}/similar`);
+    return data;
+  }
+);

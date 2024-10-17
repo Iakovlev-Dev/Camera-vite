@@ -2,7 +2,6 @@ import {TCameraCard} from '../../types/type-cards.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Link} from 'react-router-dom';
 
-
 type TCatalogCard = {
   card: TCameraCard;
   onClick: (id: number) => void;
