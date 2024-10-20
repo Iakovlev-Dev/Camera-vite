@@ -20,7 +20,7 @@ export default function ProductReviews () {
             {/*<button class="btn" type="button">Оставить свой отзыв</button>*/}
           </div>
           <ProductReviewsList countReviews={countReviews} />
-          {reviews.length > countReviews && <ProductReviewsButton onClick={handleClickButtonReviews}/>}
+          {countReviews < reviews.length ? <ProductReviewsButton onClick={handleClickButtonReviews}/> : ''}
         </div>
       </section>
     </div>

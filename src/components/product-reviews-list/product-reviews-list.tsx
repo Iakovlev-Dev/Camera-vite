@@ -10,9 +10,10 @@ export type TProductReviewsList = {
 export default function ProductReviewsList({countReviews}: TProductReviewsList) {
   const reviews = useAppSelector(selectReviews);
   const sortReviews = [...reviews].sort(sortingReview);
+  const slicedReviews = sortReviews.slice(0, countReviews);
   return (
     <ul className="review-block__list" data-testid='product-reviews-list'>
-      {sortReviews.slice(0, countReviews).map((review) => (
+      {slicedReviews.map((review) => (
         <ProductReviewItem review={review} key={review.id} />
       ))}
     </ul>
