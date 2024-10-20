@@ -18,7 +18,7 @@ describe('Component: CatalogCards', () => {
       }
     });
     const {withStoreComponent} = withStore(<CatalogCards onClick={fakeOnClick} />, fakeStore);
-    const preparedComponent = withHistory(withStoreComponent)
+    const preparedComponent = withHistory(withStoreComponent);
 
     render(preparedComponent);
 

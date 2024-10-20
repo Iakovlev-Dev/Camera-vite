@@ -47,5 +47,5 @@ export default function CatalogSort() {
       </form>
     </div>
 
-  )
+  );
 }
