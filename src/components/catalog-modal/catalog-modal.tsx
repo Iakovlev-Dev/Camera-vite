@@ -42,7 +42,7 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
 
   return (currentCamera &&
       <ReactFocusLock>
-        <div className="modal is-active">
+        <div className="modal is-active" data-testid="catalog-modal">
           <div className="modal__wrapper">
             <div className="modal__overlay"/>
             <div className="modal__content">

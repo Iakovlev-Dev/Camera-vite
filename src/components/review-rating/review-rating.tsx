@@ -25,7 +25,7 @@ export default function ReviewRating ({countRating}: TReviewRating) {
   };
 
   return (
-    <div className="rate review-card__rate">
+    <div className="rate review-card__rate" data-testid='review-rating'>
       {setFullStars(countRating)}
       <p className="visually-hidden">Оценка: {countRating}</p>
     </div>

@@ -8,24 +8,24 @@ const MAX_SIMILAR_CAMERAS = 3;
 export default function ProductSimilar () {
   const similarCameras = useAppSelector(selectSimilarCameras);
 
-  const [firstIndex, setFirstindex] = useState(0);
-  const [lastIndex, setLastindex] = useState(MAX_SIMILAR_CAMERAS);
+  const [firstIndex, setFirstIndex] = useState(0);
+  const [lastIndex, setLastIndex] = useState(MAX_SIMILAR_CAMERAS);
 
   const slicedSimilarCameras = similarCameras.slice(firstIndex, lastIndex);
 
   const handleNextButtonClick = () => {
-    setFirstindex(firstIndex + MAX_SIMILAR_CAMERAS);
-    setLastindex(lastIndex + MAX_SIMILAR_CAMERAS);
+    setFirstIndex(firstIndex + MAX_SIMILAR_CAMERAS);
+    setLastIndex(lastIndex + MAX_SIMILAR_CAMERAS);
   };
 
   const handlePrevButtonClick = () => {
-    setFirstindex(firstIndex - MAX_SIMILAR_CAMERAS);
-    setLastindex(lastIndex - MAX_SIMILAR_CAMERAS);
+    setFirstIndex(firstIndex - MAX_SIMILAR_CAMERAS);
+    setLastIndex(lastIndex - MAX_SIMILAR_CAMERAS);
   };
 
   useEffect(() => {
-    setFirstindex(0);
-    setLastindex(MAX_SIMILAR_CAMERAS);
+    setFirstIndex(0);
+    setLastIndex(MAX_SIMILAR_CAMERAS);
   }, [similarCameras]);
 
   return (
