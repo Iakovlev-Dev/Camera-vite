@@ -12,7 +12,7 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   };
   const cameras = useAppSelector(selectCameras);
   return (
-    <div className="cards catalog__cards">
+    <div className="cards catalog__cards" data-testid="catalog-cards">
       {cameras.map((camera) => (
         <CatalogCard card={camera} key={camera.id} onClick={() => handleClick(camera.id)} />
       ))}

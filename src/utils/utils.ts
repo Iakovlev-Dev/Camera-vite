@@ -1,6 +1,6 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import {TReview} from './types/type-reviews.ts';
+import {TReview} from '../types/type-reviews.ts';
 
 export const dateFormatToReview = (date: string) => dayjs(date).format('DD MMMM');
 

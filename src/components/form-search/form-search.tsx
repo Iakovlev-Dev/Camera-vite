@@ -1,7 +1,7 @@
 export default function FormSearch() {
   return (
     <>
-      <div className="form-search">
+      <div className="form-search" data-testid="form-search">
         <form>
           <label>
             <svg

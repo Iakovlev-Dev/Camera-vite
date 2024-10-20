@@ -19,7 +19,7 @@ export default function ProductCard () {
       <Helmet>
         <title>{currentCamera.name}</title>
       </Helmet>
-      <div className="page-content__section">
+      <div className="page-content__section" data-testid="product-card">
         <section className="product">
           <div className="container">
             <div className="product__img">

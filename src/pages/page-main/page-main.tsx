@@ -53,7 +53,7 @@ export default function PageMain () {
      <Helmet>
        <title>{'Каталог'}</title>
      </Helmet>
-     <div className="wrapper">
+     <div className="wrapper" data-testid='main-page'>
        <Header/>
        <main>
          <Banner/>

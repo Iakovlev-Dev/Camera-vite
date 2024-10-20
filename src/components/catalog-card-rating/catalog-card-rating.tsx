@@ -26,7 +26,7 @@ export default function CatalogCardRating ({countRating, countReviews}: TCardRat
   };
 
   return (
-    <div className="rate product-card__rate">
+    <div className="rate product-card__rate" data-testid="catalog-card-rating">
       {setFullStars(countRating)}
       <p className="visually-hidden">Рейтинг: {countRating}</p>
       <p className="rate__count">

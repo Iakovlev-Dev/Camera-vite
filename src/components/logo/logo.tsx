@@ -7,6 +7,7 @@ export default function Logo () {
       className="header__logo"
       to={AppRoute.Main}
       aria-label="Переход на главную"
+      data-testid="logo"
     >
       <svg width={100} height={36} aria-hidden="true">
         <use xlinkHref="#icon-logo"/>

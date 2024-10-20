@@ -1,6 +1,6 @@
 import {TReview} from '../../types/type-reviews.ts';
 import ReviewRating from '../review-rating/review-rating.tsx';
-import {dateFormatToReview} from '../../utils.ts';
+import {dateFormatToReview} from '../../utils/utils.ts';
 
 export type TProductReviewsItem = {
   review: TReview;
@@ -11,7 +11,7 @@ export default function ProductReviewItem({ review }: TProductReviewsItem) {
     <li className="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
-        <time className="review-card__data" dateTime="2022-04-13">
+        <time className="review-card__data" dateTime={review.createAt}>
           {dateFormatToReview(review.createAt)}
         </time>
       </div>

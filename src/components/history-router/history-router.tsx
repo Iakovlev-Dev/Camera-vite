@@ -29,5 +29,5 @@ export default function HistoryRouter ({
     >
       {children}
     </Router>
-  )
+  );
 }
