@@ -24,3 +24,5 @@ export const APIRoute = {
 
 export const MIN_COUNT_STARS = 1;
 export const MAX_COUNT_STARS = 5;
+
+export const MIN_LETTER_FOR_SEARCH = 3;

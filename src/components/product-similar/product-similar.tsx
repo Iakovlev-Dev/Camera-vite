@@ -26,6 +26,7 @@ export default function ProductSimilar () {
   useEffect(() => {
     setFirstIndex(0);
     setLastIndex(MAX_SIMILAR_CAMERAS);
+
   }, [similarCameras]);
 
   return (

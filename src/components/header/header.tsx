@@ -1,5 +1,6 @@
 import NavMenu from '../nav-menu/nav-menu.tsx';
 import Logo from '../logo/logo.tsx';
+import FormSearch from '../form-search/form-search.tsx';
 
 
 export default function Header () {
@@ -8,7 +9,7 @@ export default function Header () {
       <div className="container">
         <Logo />
         <NavMenu />
-        {/*<FormSearch />*/}
+        <FormSearch />
       </div>
     </header>
   );
