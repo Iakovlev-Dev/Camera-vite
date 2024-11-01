@@ -22,6 +22,10 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
   [NameSpace.PROMO]: {
     promo: []
   },
+  [NameSpace.SORTING]: {
+    sortOrder: '',
+    sortInner: ''
+  },
   ...initialState ?? {},
 });
 
