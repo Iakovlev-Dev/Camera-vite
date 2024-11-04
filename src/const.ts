@@ -35,3 +35,22 @@ export const SortingOrder: Record<string, string> = {
   up: 'По возрастанию',
   down: 'По убыванию'
 };
+
+export const FilterCategory: Record<string, string> = {
+  photocamera: 'Фотокамера',
+  videocamera: 'Видеокамера'
+};
+
+export const FilterLevel: Record<string, string> = {
+  zero: 'Нулевой',
+  nonProfessional: 'Любительский',
+  professional: 'Профессиональный'
+};
+
+export const FilterType: Record<string, string> = {
+  digital: 'Цифровая',
+  film: 'Плёночная',
+  snapshot: 'Моментальная',
+  collection: 'Коллекционная'
+};
+
