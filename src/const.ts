@@ -42,7 +42,7 @@ export const SortingOrder: Record<string, string> = {
 export const FilterCategory: Record<string, string> = {
   photocamera: 'Фотокамера',
   videocamera: 'Видеокамера'
-} as const;
+};
 
 export const FilterLevel: Record<string, string> = {
   zero: 'Нулевой',
@@ -56,4 +56,3 @@ export const FilterType: Record<string, string> = {
   snapshot: 'Моментальная',
   collection: 'Коллекционная'
 };
-

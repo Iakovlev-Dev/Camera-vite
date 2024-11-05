@@ -1,12 +1,21 @@
 import {FilterLevel} from '../../const.ts';
-import {useAppDispatch} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setFilterLevel} from '../../store/filters-process/filter-process.ts';
+import {selectFilterLevel} from '../../store/filters-process/selectors.ts';
 
 export default function CatalogFilterLevel() {
   const dispatch = useAppDispatch();
+  const currentFiltersLevel = useAppSelector(selectFilterLevel)
 
   const handlerChangeLevel = (level: string) => {
-    dispatch(setFilterLevel(level));
+    const checkedType = [...currentFiltersLevel]
+    const indexType = checkedType.indexOf(level)
+    if(indexType === -1) {
+      checkedType.push(level)
+    } else {
+      checkedType.splice(indexType, 1)
+    }
+    dispatch(setFilterLevel(checkedType));
   };
 
   return (

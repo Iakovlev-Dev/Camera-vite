@@ -1,14 +1,20 @@
 import CatalogCard from '../catalog-card/catalog-card.tsx';
-import {useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectSortInner, selectSortOrder} from '../../store/sorting-filtered-process/selectors.ts';
 import {sortingCameras} from '../../utils/utils.ts';
+import {selectFilterCategory, selectFilterLevel, selectFilterType} from '../../store/filters-process/selectors.ts';
+import {TCameraCard} from '../../types/type-cards.ts';
+import {useEffect} from 'react';
+import {setFilterPriceDown, setFilterPriceUp} from '../../store/filters-process/filter-process.ts';
 
 type TCatalogCard = {
   onClick: (id: number) => void;
 }
 
 export default function CatalogCards ({onClick}: TCatalogCard) {
+  const dispatch = useAppDispatch()
+
   const handleClick = (id: number) => {
     onClick(id);
   };
@@ -16,15 +22,39 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   const currentSortInner = useAppSelector(selectSortInner);
   const currentSortOrder = useAppSelector(selectSortOrder);
 
+  const currentFilterCategory = useAppSelector(selectFilterCategory);
+  const currentFilterType = useAppSelector(selectFilterType);
+  const currentFilterLevel = useAppSelector(selectFilterLevel)
+
   const sortedCameras = sortingCameras(currentSortInner, currentSortOrder, [...cameras]);
 
   if(!sortedCameras) {
     return null;
   }
 
-  return (sortedCameras &&
+  const getFilteredCameras = (camera: TCameraCard) => {
+    let matchesCategory = currentFilterCategory === '' ? true : currentFilterCategory.includes(camera.category)
+    let matchesType = currentFilterType.length === 0 ? true : currentFilterType.includes(camera.type);
+    let matchesLevel = currentFilterLevel.length === 0 ? true: currentFilterLevel.includes(camera.level)
+    return matchesCategory && matchesType && matchesLevel;
+  }
+
+  const filteredCameras = sortedCameras.filter((camera: TCameraCard) => getFilteredCameras(camera));
+
+  if (!filteredCameras) {
+    return null
+  }
+
+  useEffect(() => {
+    const priceDown = filteredCameras[0]?.price.toString()
+    const priceUp= filteredCameras[filteredCameras.length - 1]?.price.toString();
+    dispatch(setFilterPriceDown(priceDown));
+    dispatch(setFilterPriceUp(priceUp));
+  }, [filteredCameras, currentFilterType, currentFilterLevel, currentFilterCategory]);
+
+  return (filteredCameras &&
     <div className="cards catalog__cards" data-testid="catalog-cards">
-      {sortedCameras.map((camera) => (
+      {filteredCameras.map((camera: TCameraCard) => (
         <CatalogCard card={camera} key={camera.id} onClick={() => handleClick(camera.id)} />
       ))}
     </div>

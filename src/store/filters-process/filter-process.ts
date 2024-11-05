@@ -4,16 +4,16 @@ import {NameSpace} from '../../const.ts';
 
 type TInitialStateFilters = {
   filterCategory: string;
-  filterType: string;
-  filterLevel: string;
+  filterType: string[];
+  filterLevel: string[];
   filterPriceUp: string;
   filterPriceDown: string;
 }
 
 const initialState: TInitialStateFilters = {
   filterCategory: '',
-  filterType: '',
-  filterLevel: '',
+  filterType: [],
+  filterLevel: [],
   filterPriceUp: '',
   filterPriceDown: ''
 };
@@ -25,10 +25,10 @@ export const filterProcess = createSlice({
     setFilterCategory: (state, action: PayloadAction<string>) => {
       state.filterCategory = action.payload;
     },
-    setFilterType: (state, action: PayloadAction<string>) => {
+    setFilterType: (state, action: PayloadAction<string[]>) => {
       state.filterType = action.payload;
     },
-    setFilterLevel: (state, action: PayloadAction<string>) => {
+    setFilterLevel: (state, action: PayloadAction<string[]>) => {
       state.filterLevel = action.payload;
     },
     setFilterPriceUp: (state, action: PayloadAction<string>) => {

@@ -1,8 +1,15 @@
 import {useDispatch} from 'react-redux';
 import {setFilterPriceDown, setFilterPriceUp} from '../../store/filters-process/filter-process.ts';
+import {useAppSelector} from '../../store/hooks.ts';
+import {selectFilterDown, selectFilterUp} from '../../store/filters-process/selectors.ts';
+import {useRef} from 'react';
 
 export default function CatalogFilterPrice() {
   const dispatch = useDispatch();
+  const priceDown = useAppSelector(selectFilterDown);
+  const priceUp = useAppSelector(selectFilterUp);
+
+  const inputMinRef = useRef<HTMLInputElement | null>(null);
 
   const handleChangePriceUp = (price: string) => {
     dispatch(setFilterPriceUp(price));
@@ -21,7 +28,8 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="price"
-              placeholder="от"
+              placeholder={`от ${priceDown}`}
+              ref={inputMinRef}
               onBlur={(evt) => handleChangePriceDown(evt.target.value)}
             />
           </label>
@@ -31,7 +39,7 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="priceUp"
-              placeholder="до"
+              placeholder={`до ${priceUp}`}
               onBlur={(evt) => handleChangePriceUp(evt.target.value)}
             />
           </label>

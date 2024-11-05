@@ -6,7 +6,11 @@ export default function CatalogFilterCategories() {
   const dispatch = useAppDispatch();
 
   const handleChangeCategory = (category: string) => {
-    dispatch(setFilterCategory(category));
+    if(category === 'Фотокамера') {
+      dispatch(setFilterCategory('Фотоаппарат'));
+    } else {
+      dispatch(setFilterCategory(category));
+    }
   };
 
   return (
