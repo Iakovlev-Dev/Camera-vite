@@ -1,12 +1,12 @@
-import {FilterCategory, FilterType} from '../../const.ts';
+import { FilterType} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setFilterType} from '../../store/filters-process/filter-process.ts';
 import {selectFilterCategory, selectFilterType} from '../../store/filters-process/selectors.ts';
 
 export default function CatalogFilterType() {
   const dispatch = useAppDispatch();
-  const currentFiltersType = useAppSelector(selectFilterType)
-  const currentFilterCategory = useAppSelector(selectFilterCategory)
+  const currentFiltersType = useAppSelector(selectFilterType);
+  const currentFilterCategory = useAppSelector(selectFilterCategory);
 
   const disabledItem = (active: string, current: string) => {
     if(active === 'Фотоаппарат' || !active) {
@@ -17,15 +17,12 @@ export default function CatalogFilterType() {
   };
 
   const handleChangeType = (type: string) => {
-    const checkedType = [...currentFiltersType]
-    if (currentFilterCategory === FilterCategory.videocamera) {
-
-    }
-    const indexType = checkedType.indexOf(type)
+    const checkedType = [...currentFiltersType];
+    const indexType = checkedType.indexOf(type);
     if(indexType === -1) {
-      checkedType.push(type)
+      checkedType.push(type);
     } else {
-      checkedType.splice(indexType, 1)
+      checkedType.splice(indexType, 1);
     }
     dispatch(setFilterType(checkedType));
   };

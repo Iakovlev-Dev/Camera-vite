@@ -13,7 +13,7 @@ type TCatalogCard = {
 }
 
 export default function CatalogCards ({onClick}: TCatalogCard) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const handleClick = (id: number) => {
     onClick(id);
@@ -24,34 +24,36 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
 
   const currentFilterCategory = useAppSelector(selectFilterCategory);
   const currentFilterType = useAppSelector(selectFilterType);
-  const currentFilterLevel = useAppSelector(selectFilterLevel)
+  const currentFilterLevel = useAppSelector(selectFilterLevel);
 
   const sortedCameras = sortingCameras(currentSortInner, currentSortOrder, [...cameras]);
+
+
+  const getFilteredCameras = (camera: TCameraCard) => {
+    const matchesCategory = currentFilterCategory === '' ? true : currentFilterCategory.includes(camera.category);
+    const matchesType = currentFilterType.length === 0 ? true : currentFilterType.includes(camera.type);
+    const matchesLevel = currentFilterLevel.length === 0 ? true : currentFilterLevel.includes(camera.level);
+    return matchesCategory && matchesType && matchesLevel;
+  };
+
+  const filteredCameras = sortedCameras?.filter((camera: TCameraCard) => getFilteredCameras(camera));
+
+  useEffect(() => {
+    if(filteredCameras) {
+      const priceDown = filteredCameras[0]?.price.toString();
+      const priceUp = filteredCameras[filteredCameras.length - 1]?.price.toString();
+      dispatch(setFilterPriceDown(priceDown));
+      dispatch(setFilterPriceUp(priceUp));
+    }
+  }, [filteredCameras, currentFilterType, currentFilterLevel, currentFilterCategory, dispatch]);
+
+  if (!filteredCameras) {
+    return null;
+  }
 
   if(!sortedCameras) {
     return null;
   }
-
-  const getFilteredCameras = (camera: TCameraCard) => {
-    let matchesCategory = currentFilterCategory === '' ? true : currentFilterCategory.includes(camera.category)
-    let matchesType = currentFilterType.length === 0 ? true : currentFilterType.includes(camera.type);
-    let matchesLevel = currentFilterLevel.length === 0 ? true: currentFilterLevel.includes(camera.level)
-    return matchesCategory && matchesType && matchesLevel;
-  }
-
-  const filteredCameras = sortedCameras.filter((camera: TCameraCard) => getFilteredCameras(camera));
-
-  if (!filteredCameras) {
-    return null
-  }
-
-  useEffect(() => {
-    const priceDown = filteredCameras[0]?.price.toString()
-    const priceUp= filteredCameras[filteredCameras.length - 1]?.price.toString();
-    dispatch(setFilterPriceDown(priceDown));
-    dispatch(setFilterPriceUp(priceUp));
-  }, [filteredCameras, currentFilterType, currentFilterLevel, currentFilterCategory]);
-
   return (filteredCameras &&
     <div className="cards catalog__cards" data-testid="catalog-cards">
       {filteredCameras.map((camera: TCameraCard) => (

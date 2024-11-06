@@ -5,4 +5,4 @@ export const selectFilterCategory = (state: TState) => state[NameSpace.FILTERS].
 export const selectFilterType = (state: TState) => state[NameSpace.FILTERS].filterType;
 export const selectFilterLevel = (state: TState) => state[NameSpace.FILTERS].filterLevel;
 export const selectFilterUp = (state: TState) => state[NameSpace.FILTERS].filterPriceUp;
-export const selectFilterDown = (state: TState) => state[NameSpace.FILTERS].filterPriceDown
+export const selectFilterDown = (state: TState) => state[NameSpace.FILTERS].filterPriceDown;
