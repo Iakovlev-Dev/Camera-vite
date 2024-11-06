@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const.ts';
+import {TCameraArray} from '../../types/type-cards.ts';
 
 
 type TInitialStateFilters = {
@@ -8,6 +9,7 @@ type TInitialStateFilters = {
   filterLevel: string[];
   filterPriceUp: string;
   filterPriceDown: string;
+  filteredCameras: TCameraArray;
 }
 
 const initialState: TInitialStateFilters = {
@@ -15,7 +17,8 @@ const initialState: TInitialStateFilters = {
   filterType: [],
   filterLevel: [],
   filterPriceUp: '',
-  filterPriceDown: ''
+  filterPriceDown: '',
+  filteredCameras: []
 };
 
 export const filterProcess = createSlice({
@@ -36,6 +39,9 @@ export const filterProcess = createSlice({
     },
     setFilterPriceDown: (state, action: PayloadAction<string>) => {
       state.filterPriceDown = action.payload;
+    },
+    setFilteredCameras: (state, action: PayloadAction<TCameraArray>) => {
+      state.filteredCameras = action.payload;
     }
   }
 });
@@ -45,5 +51,6 @@ export const {
   setFilterType,
   setFilterLevel,
   setFilterPriceUp,
-  setFilterPriceDown
+  setFilterPriceDown,
+  setFilteredCameras
 } = filterProcess.actions;

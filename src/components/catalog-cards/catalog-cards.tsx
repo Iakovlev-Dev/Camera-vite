@@ -1,10 +1,11 @@
 import CatalogCard from '../catalog-card/catalog-card.tsx';
-import {useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectSortInner, selectSortOrder} from '../../store/sorting-filtered-process/selectors.ts';
 import {sortingCameras} from '../../utils/utils.ts';
 import {selectFilterCategory, selectFilterLevel, selectFilterType} from '../../store/filters-process/selectors.ts';
 import {TCameraCard} from '../../types/type-cards.ts';
+import {setFilteredCameras} from '../../store/filters-process/filter-process.ts';
 
 
 type TCatalogCard = {
@@ -12,6 +13,8 @@ type TCatalogCard = {
 }
 
 export default function CatalogCards ({onClick}: TCatalogCard) {
+  const dispatch = useAppDispatch();
+
   const handleClick = (id: number) => {
     onClick(id);
   };
@@ -34,6 +37,8 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   };
 
   const filteredCameras = sortedCameras?.filter((camera: TCameraCard) => getFilteredCameras(camera));
+
+  dispatch(setFilteredCameras(filteredCameras || []));
 
   if (!filteredCameras && !sortedCameras) {
     return null;
