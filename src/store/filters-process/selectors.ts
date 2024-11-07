@@ -6,3 +6,4 @@ export const selectFilterType = (state: TState) => state[NameSpace.FILTERS].filt
 export const selectFilterLevel = (state: TState) => state[NameSpace.FILTERS].filterLevel;
 export const selectFilterUp = (state: TState) => state[NameSpace.FILTERS].filterPriceUp;
 export const selectFilterDown = (state: TState) => state[NameSpace.FILTERS].filterPriceDown;
+export const selectFilteredCameras = (state: TState) => state[NameSpace.FILTERS].filteredCameras;

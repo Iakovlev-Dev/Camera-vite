@@ -6,6 +6,7 @@ import {sortingCameras} from '../../utils/utils.ts';
 import {selectFilterCategory, selectFilterLevel, selectFilterType} from '../../store/filters-process/selectors.ts';
 import {TCameraCard} from '../../types/type-cards.ts';
 import {setFilteredCameras} from '../../store/filters-process/filter-process.ts';
+import {useEffect} from 'react';
 
 
 type TCatalogCard = {
@@ -38,7 +39,10 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
 
   const filteredCameras = sortedCameras?.filter((camera: TCameraCard) => getFilteredCameras(camera));
 
-  dispatch(setFilteredCameras(filteredCameras || []));
+  useEffect(() => {
+    dispatch(setFilteredCameras(filteredCameras || []));
+  }, [dispatch, filteredCameras]);
+
 
   if (!filteredCameras && !sortedCameras) {
     return null;

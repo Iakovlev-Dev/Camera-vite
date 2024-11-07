@@ -1,5 +1,10 @@
 import {useAppDispatch} from '../../store/hooks.ts';
-import {setFilterCategory, setFilterLevel, setFilterType} from '../../store/filters-process/filter-process.ts';
+import {
+  setFilterCategory,
+  setFilterLevel,
+  setFilterPriceDown, setFilterPriceUp,
+  setFilterType
+} from '../../store/filters-process/filter-process.ts';
 
 export default function CatalogFilterButton () {
   const dispatch = useAppDispatch();
@@ -8,6 +13,8 @@ export default function CatalogFilterButton () {
     dispatch(setFilterLevel([]));
     dispatch(setFilterType([]));
     dispatch(setFilterCategory(''));
+    dispatch(setFilterPriceDown(''));
+    dispatch(setFilterPriceUp(''));
   };
   return (
     <button
