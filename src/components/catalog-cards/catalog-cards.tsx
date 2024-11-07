@@ -13,7 +13,6 @@ import {TCameraCard} from '../../types/type-cards.ts';
 import {setFilteredCameras} from '../../store/filters-process/filter-process.ts';
 import {useEffect} from 'react';
 
-
 type TCatalogCard = {
   onClick: (id: number) => void;
 }
@@ -35,7 +34,6 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   const currentFilterPriceUp = useAppSelector(selectFilterUp);
 
   const sortedCameras = sortingCameras(currentSortInner, currentSortOrder, [...cameras]);
-
 
   const getFilteredCameras = (camera: TCameraCard) => {
     const matchesCategory = currentFilterCategory === '' ? true : currentFilterCategory.includes(camera.category);
