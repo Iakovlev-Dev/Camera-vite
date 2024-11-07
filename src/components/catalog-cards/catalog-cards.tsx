@@ -3,7 +3,12 @@ import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectSortInner, selectSortOrder} from '../../store/sorting-filtered-process/selectors.ts';
 import {sortingCameras} from '../../utils/utils.ts';
-import {selectFilterCategory, selectFilterLevel, selectFilterType} from '../../store/filters-process/selectors.ts';
+import {
+  selectFilterCategory,
+  selectFilterDown,
+  selectFilterLevel,
+  selectFilterType, selectFilterUp
+} from '../../store/filters-process/selectors.ts';
 import {TCameraCard} from '../../types/type-cards.ts';
 import {setFilteredCameras} from '../../store/filters-process/filter-process.ts';
 import {useEffect} from 'react';
@@ -26,6 +31,8 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   const currentFilterCategory = useAppSelector(selectFilterCategory);
   const currentFilterType = useAppSelector(selectFilterType);
   const currentFilterLevel = useAppSelector(selectFilterLevel);
+  const currentFilterPriceDown = useAppSelector(selectFilterDown);
+  const currentFilterPriceUp = useAppSelector(selectFilterUp);
 
   const sortedCameras = sortingCameras(currentSortInner, currentSortOrder, [...cameras]);
 
@@ -34,7 +41,9 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
     const matchesCategory = currentFilterCategory === '' ? true : currentFilterCategory.includes(camera.category);
     const matchesType = currentFilterType.length === 0 ? true : currentFilterType.includes(camera.type);
     const matchesLevel = currentFilterLevel.length === 0 ? true : currentFilterLevel.includes(camera.level);
-    return matchesCategory && matchesType && matchesLevel;
+    const matchesPriceDown = currentFilterPriceDown === '' ? true : camera.price >= Number(currentFilterPriceDown);
+    const matchesPriceUp = currentFilterPriceUp === '' ? true : camera.price <= Number(currentFilterPriceUp);
+    return matchesCategory && matchesType && matchesLevel && matchesPriceDown && matchesPriceUp;
   };
 
   const filteredCameras = sortedCameras?.filter((camera: TCameraCard) => getFilteredCameras(camera));
@@ -44,7 +53,7 @@ export default function CatalogCards ({onClick}: TCatalogCard) {
   }, [dispatch, filteredCameras]);
 
 
-  if (!filteredCameras && !sortedCameras) {
+  if (!filteredCameras || !sortedCameras) {
     return null;
   }
 

@@ -25,7 +25,7 @@ export default function CatalogFilterPrice() {
       inputMinRef.current.value = priceMin.toString();
       inputMaxRef.current.value = priceMax.toString();
     }
-  }, [priceMin, priceMax, dispatch, filteredCamerasByPrice]);
+  }, [priceMin, priceMax, dispatch]);
 
   const handleChangePriceDown = (evt: React.FocusEvent<HTMLInputElement>) => {
     const minValue = Number(evt.target.value);
