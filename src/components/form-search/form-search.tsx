@@ -1,7 +1,24 @@
+import {useAppSelector} from '../../store/hooks.ts';
+import {selectCameras} from '../../store/data-card-process/selectors.ts';
+import {useEffect, useState} from 'react';
+import {MIN_LETTER_FOR_SEARCH} from '../../const.ts';
+import {Link, useParams} from 'react-router-dom';
+
 export default function FormSearch() {
+  const cameras = useAppSelector(selectCameras);
+  const {id} = useParams();
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const filteredCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+  useEffect(() => {
+    setSearchValue('');
+  }, [id]);
+
   return (
     <>
-      <div className="form-search" data-testid="form-search">
+      <div className={`form-search ${searchValue.length >= MIN_LETTER_FOR_SEARCH ? 'list-opened' : ''}`} data-testid="form-search">
         <form>
           <label>
             <svg
@@ -13,31 +30,30 @@ export default function FormSearch() {
               <use xlinkHref="#icon-lens" />
             </svg>
             <input
+              value={searchValue}
               className="form-search__input"
               type="text"
               autoComplete="off"
               placeholder="Поиск по сайту"
+              onChange={(evt) => setSearchValue(evt.target.value)}
             />
           </label>
           <ul className="form-search__select-list">
-            <li className="form-search__select-item" tabIndex={0}>
-              Cannonball Pro MX 8i
-            </li>
-            <li className="form-search__select-item" tabIndex={0}>
-              Cannonball Pro MX 7i
-            </li>
-            <li className="form-search__select-item" tabIndex={0}>
-              Cannonball Pro MX 6i
-            </li>
-            <li className="form-search__select-item" tabIndex={0}>
-              Cannonball Pro MX 5i
-            </li>
-            <li className="form-search__select-item" tabIndex={0}>
-              Cannonball Pro MX 4i
-            </li>
+            {filteredCameras.map((camera) => (
+              <Link to={`/cameras/${camera.id}`} key={camera.id}>
+                <li className="form-search__select-item">
+                  {camera.name}
+                </li>
+              </Link>
+
+            ))}
           </ul>
         </form>
-        <button className="form-search__reset" type="reset">
+        <button
+          className="form-search__reset"
+          type="reset"
+          onClick={() => setSearchValue('')}
+        >
           <svg width={10} height={10} aria-hidden="true">
             <use xlinkHref="#icon-close" />
           </svg>
@@ -50,6 +66,5 @@ export default function FormSearch() {
         </svg>
       </a>
     </>
-
   );
 }
