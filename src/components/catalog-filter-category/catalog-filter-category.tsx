@@ -23,7 +23,7 @@ export default function CatalogFilterCategories() {
               type="radio"
               name="category"
               defaultValue={category}
-              onChange={() => handleChangeCategory(FilterCategory[category])}
+              onClick={() => handleChangeCategory(FilterCategory[category])}
             />
             <span className="custom-radio__icon"/>
             <span className="custom-radio__label">{FilterCategory[category]}</span>

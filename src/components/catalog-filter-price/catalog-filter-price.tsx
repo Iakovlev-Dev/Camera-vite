@@ -15,8 +15,8 @@ export default function CatalogFilterPrice() {
   const inputMinRef = useRef<HTMLInputElement | null>(null);
   const inputMaxRef = useRef<HTMLInputElement | null>(null);
 
-  const priceDown = useAppSelector(selectFilterDown);
-  const priceUp = useAppSelector(selectFilterUp);
+  const priceDownSelect = useAppSelector(selectFilterDown);
+  const priceUpSelect = useAppSelector(selectFilterUp);
 
   useEffect(() => {
     if(inputMinRef.current && priceMin && priceMax && inputMaxRef.current) {
@@ -27,13 +27,19 @@ export default function CatalogFilterPrice() {
     }
   }, [priceMin, priceMax, dispatch]);
 
+  useEffect(() => {
+    if(filteredCameras.length === 0 && filteredCameras) {
+      dispatch(setFilterPriceDown(''));
+    }
+  }, [dispatch, filteredCameras]);
+
   const handleChangePriceDown = (evt: React.FocusEvent<HTMLInputElement>) => {
     const minValue = Number(evt.target.value);
-    if(minValue < priceMin && inputMinRef.current || minValue < Number(priceDown) && inputMinRef.current) {
+    if(minValue < priceMin && inputMinRef.current || minValue < Number(priceDownSelect) && inputMinRef.current) {
       inputMinRef.current.value = priceMin.toString();
-    } else if (minValue > Number(priceUp) && inputMinRef.current) {
-      inputMinRef.current.value = priceUp;
-      dispatch(setFilterPriceDown(priceUp));
+    } else if (minValue > Number(priceUpSelect) && inputMinRef.current) {
+      inputMinRef.current.value = priceUpSelect;
+      dispatch(setFilterPriceDown(priceUpSelect));
     } else if (minValue > priceMax && inputMinRef.current) {
       inputMinRef.current.value = priceMax?.toString();
       dispatch(setFilterPriceDown(priceMin?.toString()));
@@ -47,10 +53,10 @@ export default function CatalogFilterPrice() {
     const maxValue = Number(evt.target.value);
     if(inputMinRef.current && inputMaxRef.current) {
       const inputMinRefValue = Number(inputMinRef.current.value);
-      if(maxValue > Number(priceUp)) {
+      if(maxValue > Number(priceUpSelect)) {
         inputMaxRef.current.value = priceMax?.toString();
       } else if (maxValue < inputMinRefValue) {
-        inputMaxRef.current.value = priceUp;
+        inputMaxRef.current.value = priceUpSelect;
       }
     }
     dispatch(setFilterPriceUp(evt.target.value));
@@ -65,7 +71,7 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="price"
-              placeholder={`от ${priceMin}`}
+              placeholder={`от ${priceMin || ''}`}
               ref={inputMinRef}
               onBlur={(evt) => handleChangePriceDown(evt)}
             />
@@ -76,7 +82,7 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="priceUp"
-              placeholder={`до ${priceMax}`}
+              placeholder={`до ${priceMax || ''}`}
               ref={inputMaxRef}
               onBlur={(evt) => handleChangePriceUp(evt)}
             />

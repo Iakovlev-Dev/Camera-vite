@@ -27,7 +27,7 @@ export default function CatalogFilterLevel() {
             <input
               type="checkbox"
               name={level}
-              onChange={() => handlerChangeLevel(FilterLevel[level])}
+              onClick={() => handlerChangeLevel(FilterLevel[level])}
             />
             <span className="custom-checkbox__icon"/>
             <span className="custom-checkbox__label">{FilterLevel[level]}</span>
