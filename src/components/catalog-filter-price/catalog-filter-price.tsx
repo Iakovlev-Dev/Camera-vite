@@ -9,8 +9,8 @@ export default function CatalogFilterPrice() {
   const filteredCameras = useAppSelector(selectFilteredCameras);
   const filteredCamerasByPrice = [...filteredCameras].sort((a, b) => a.price - b.price);
 
-  const priceMin = filteredCamerasByPrice[0]?.price;
-  const priceMax = filteredCamerasByPrice[filteredCamerasByPrice.length - 1]?.price;
+  const priceMinFiltered = filteredCamerasByPrice[0]?.price;
+  const priceMaxFiltered = filteredCamerasByPrice[filteredCamerasByPrice.length - 1]?.price;
 
   const inputMinRef = useRef<HTMLInputElement | null>(null);
   const inputMaxRef = useRef<HTMLInputElement | null>(null);
@@ -19,13 +19,13 @@ export default function CatalogFilterPrice() {
   const priceUpSelect = useAppSelector(selectFilterUp);
 
   useEffect(() => {
-    if(inputMinRef.current && priceMin && priceMax && inputMaxRef.current) {
-      dispatch(setFilterPriceDown(priceMin?.toString()));
-      dispatch(setFilterPriceUp(priceMax?.toString()));
-      inputMinRef.current.value = priceMin.toString();
-      inputMaxRef.current.value = priceMax.toString();
+    if(inputMinRef.current && priceMinFiltered && priceMaxFiltered && inputMaxRef.current) {
+      dispatch(setFilterPriceDown(priceMinFiltered?.toString()));
+      dispatch(setFilterPriceUp(priceMaxFiltered?.toString()));
+      inputMinRef.current.value = priceMinFiltered.toString();
+      inputMaxRef.current.value = priceMaxFiltered.toString();
     }
-  }, [priceMin, priceMax, dispatch]);
+  }, [priceMinFiltered, priceMaxFiltered, dispatch]);
 
   useEffect(() => {
     if(filteredCameras.length === 0 && filteredCameras) {
@@ -35,15 +35,15 @@ export default function CatalogFilterPrice() {
 
   const handleChangePriceDown = (evt: React.FocusEvent<HTMLInputElement>) => {
     const minValue = Number(evt.target.value);
-    if(minValue < priceMin && inputMinRef.current || minValue < Number(priceDownSelect) && inputMinRef.current) {
-      inputMinRef.current.value = priceMin.toString();
+    if(minValue < priceMinFiltered && inputMinRef.current || minValue < Number(priceDownSelect) && inputMinRef.current) {
+      inputMinRef.current.value = priceMinFiltered.toString();
     } else if (minValue > Number(priceUpSelect) && inputMinRef.current) {
       inputMinRef.current.value = priceUpSelect;
       dispatch(setFilterPriceDown(priceUpSelect));
-    } else if (minValue > priceMax && inputMinRef.current) {
-      inputMinRef.current.value = priceMax?.toString();
-      dispatch(setFilterPriceDown(priceMin?.toString()));
-      dispatch(setFilterPriceUp(priceMax?.toString()));
+    } else if (minValue > priceMaxFiltered && inputMinRef.current) {
+      inputMinRef.current.value = priceMaxFiltered?.toString();
+      dispatch(setFilterPriceDown(priceMinFiltered?.toString()));
+      dispatch(setFilterPriceUp(priceMaxFiltered?.toString()));
     } else {
       dispatch(setFilterPriceDown(minValue.toString()));
     }
@@ -54,7 +54,7 @@ export default function CatalogFilterPrice() {
     if(inputMinRef.current && inputMaxRef.current) {
       const inputMinRefValue = Number(inputMinRef.current.value);
       if(maxValue > Number(priceUpSelect)) {
-        inputMaxRef.current.value = priceMax?.toString();
+        inputMaxRef.current.value = priceMaxFiltered?.toString();
       } else if (maxValue < inputMinRefValue) {
         inputMaxRef.current.value = priceUpSelect;
       }
@@ -71,7 +71,7 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="price"
-              placeholder={`от ${priceMin || ''}`}
+              placeholder={`от ${priceMinFiltered || ''}`}
               ref={inputMinRef}
               onBlur={(evt) => handleChangePriceDown(evt)}
             />
@@ -82,7 +82,7 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="priceUp"
-              placeholder={`до ${priceMax || ''}`}
+              placeholder={`до ${priceMaxFiltered || ''}`}
               ref={inputMaxRef}
               onBlur={(evt) => handleChangePriceUp(evt)}
             />
