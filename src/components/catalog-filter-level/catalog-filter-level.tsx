@@ -19,7 +19,7 @@ export default function CatalogFilterLevel() {
   };
 
   return (
-    <fieldset className="catalog-filter__block">
+    <fieldset className="catalog-filter__block" data-testid="catalogFilterLevel">
       <legend className="title title--h5">Уровень</legend>
       {Object.keys(FilterLevel).map((level) => (
         <div className="custom-checkbox catalog-filter__item" key={level}>

@@ -1,13 +1,13 @@
 import {describe, expect} from 'vitest';
+import {withStore} from '../../utils/mock-component.tsx';
+import CatalogFilterCategories from './catalog-filter-category.tsx';
 import {render, screen} from '@testing-library/react';
-import CatalogFilter from './catalog-filter.tsx';
 import {makeFakeStore} from '../../utils/mocks.ts';
 import {NameSpace} from '../../const.ts';
-import {withHistory, withStore} from '../../utils/mock-component.tsx';
 
-describe('Component: CatalogFilter', () => {
+describe('Component: CatalogFilterCategory', () => {
   it('should render correctly', () => {
-    const expectedText = 'Фильтр';
+    const catalogCategoryTestId = 'catalogFilterCategory';
     const fakeStore = makeFakeStore({
       [NameSpace.FILTERS]: {
         filterCategory: '',
@@ -19,11 +19,10 @@ describe('Component: CatalogFilter', () => {
       }
     });
 
-    const {withStoreComponent} = withStore(<CatalogFilter />, fakeStore);
-    const preparedComponent = withHistory(withStoreComponent);
+    const {withStoreComponent} = withStore(<CatalogFilterCategories />, fakeStore);
 
-    render(preparedComponent);
+    render(withStoreComponent);
 
-    expect(screen.getByText(expectedText)).toBeInTheDocument();
+    expect(screen.getByTestId(catalogCategoryTestId)).toBeInTheDocument();
   });
 });

@@ -19,7 +19,7 @@ export default function CatalogFilterCategories() {
   };
 
   return (
-    <fieldset className="catalog-filter__block">
+    <fieldset className="catalog-filter__block" data-testid='catalogFilterCategory'>
       <legend className="title title--h5">Категория</legend>
       {Object.keys(FilterCategory).map((category) => (
         <div className="custom-radio catalog-filter__item" key={category}>

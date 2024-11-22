@@ -1,12 +1,24 @@
 import {describe} from 'vitest';
 import Header from './header.tsx';
-import {withHistory} from '../../utils/mock-component.tsx';
+import {withHistory, withStore} from '../../utils/mock-component.tsx';
 import {render, screen} from '@testing-library/react';
+import {makeFakeCamera, makeFakeStore} from '../../utils/mocks.ts';
+import {NameSpace} from '../../const.ts';
 
 describe('Component: Header', () => {
   it('should render correctly', () => {
     const headerTestId = 'header';
-    const preparedComponent = withHistory(<Header />);
+    const fakeCameras = [makeFakeCamera()];
+    const fakeStore = makeFakeStore({
+      [NameSpace.DATA_CARDS]: {
+        cameras: fakeCameras,
+        camera: null,
+        similarCameras: []
+      }
+    });
+
+    const {withStoreComponent} = withStore(<Header />, fakeStore);
+    const preparedComponent = withHistory(withStoreComponent);
 
     render(preparedComponent);
 
