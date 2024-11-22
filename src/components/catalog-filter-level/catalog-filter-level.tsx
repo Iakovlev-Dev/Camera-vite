@@ -19,7 +19,7 @@ export default function CatalogFilterLevel() {
   };
 
   return (
-    <fieldset className="catalog-filter__block">
+    <fieldset className="catalog-filter__block" data-testid="catalogFilterLevel">
       <legend className="title title--h5">Уровень</legend>
       {Object.keys(FilterLevel).map((level) => (
         <div className="custom-checkbox catalog-filter__item" key={level}>
@@ -27,7 +27,7 @@ export default function CatalogFilterLevel() {
             <input
               type="checkbox"
               name={level}
-              onChange={() => handlerChangeLevel(FilterLevel[level])}
+              onClick={() => handlerChangeLevel(FilterLevel[level])}
             />
             <span className="custom-checkbox__icon"/>
             <span className="custom-checkbox__label">{FilterLevel[level]}</span>

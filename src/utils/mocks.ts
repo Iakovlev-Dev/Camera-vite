@@ -26,6 +26,14 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
     sortOrder: '',
     sortInner: ''
   },
+  [NameSpace.FILTERS]: {
+    filterCategory: '',
+    filterType: [],
+    filterLevel: [],
+    filterPriceUp: '',
+    filterPriceDown: '',
+    filteredCameras: []
+  },
   ...initialState ?? {},
 });
 

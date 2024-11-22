@@ -1,63 +1,69 @@
 import {useDispatch} from 'react-redux';
 import {setFilterPriceDown, setFilterPriceUp} from '../../store/filters-process/filter-process.ts';
 import {useAppSelector} from '../../store/hooks.ts';
-import {selectFilterDown, selectFilteredCameras, selectFilterUp} from '../../store/filters-process/selectors.ts';
-import React, {useEffect, useRef} from 'react';
+import {selectFilteredCameras} from '../../store/filters-process/selectors.ts';
+import React, {useEffect, useState} from 'react';
+import {useDebounce} from 'use-debounce';
 
 export default function CatalogFilterPrice() {
   const dispatch = useDispatch();
   const filteredCameras = useAppSelector(selectFilteredCameras);
   const filteredCamerasByPrice = [...filteredCameras].sort((a, b) => a.price - b.price);
 
-  const priceMin = filteredCamerasByPrice[0]?.price;
-  const priceMax = filteredCamerasByPrice[filteredCamerasByPrice.length - 1]?.price;
+  const priceMinFiltered = filteredCamerasByPrice[0]?.price;
+  const priceMaxFiltered = filteredCamerasByPrice[filteredCamerasByPrice.length - 1]?.price;
 
-  const inputMinRef = useRef<HTMLInputElement | null>(null);
-  const inputMaxRef = useRef<HTMLInputElement | null>(null);
-
-  const priceDown = useAppSelector(selectFilterDown);
-  const priceUp = useAppSelector(selectFilterUp);
+  const [inputMin, setInputMin] = useState(priceMinFiltered);
+  const [inputMax, setInputMax] = useState(priceMaxFiltered);
 
   useEffect(() => {
-    if(inputMinRef.current && priceMin && priceMax && inputMaxRef.current) {
-      dispatch(setFilterPriceDown(priceMin?.toString()));
-      dispatch(setFilterPriceUp(priceMax?.toString()));
-      inputMinRef.current.value = priceMin.toString();
-      inputMaxRef.current.value = priceMax.toString();
-    }
-  }, [priceMin, priceMax, dispatch]);
+    setInputMin(priceMinFiltered);
+    setInputMax(priceMaxFiltered);
+  }, [priceMaxFiltered, priceMinFiltered]);
 
-  const handleChangePriceDown = (evt: React.FocusEvent<HTMLInputElement>) => {
-    const minValue = Number(evt.target.value);
-    if(minValue < priceMin && inputMinRef.current || minValue < Number(priceDown) && inputMinRef.current) {
-      inputMinRef.current.value = priceMin.toString();
-    } else if (minValue > Number(priceUp) && inputMinRef.current) {
-      inputMinRef.current.value = priceUp;
-      dispatch(setFilterPriceDown(priceUp));
-    } else if (minValue > priceMax && inputMinRef.current) {
-      inputMinRef.current.value = priceMax?.toString();
-      dispatch(setFilterPriceDown(priceMin?.toString()));
-      dispatch(setFilterPriceUp(priceMax?.toString()));
-    } else {
-      dispatch(setFilterPriceDown(minValue.toString()));
-    }
-  };
+  const [debounceMin] = useDebounce(inputMin, 2000);
+  const [debounceMax] = useDebounce(inputMax, 2000);
 
-  const handleChangePriceUp = (evt: React.FocusEvent<HTMLInputElement>) => {
-    const maxValue = Number(evt.target.value);
-    if(inputMinRef.current && inputMaxRef.current) {
-      const inputMinRefValue = Number(inputMinRef.current.value);
-      if(maxValue > Number(priceUp)) {
-        inputMaxRef.current.value = priceMax?.toString();
-      } else if (maxValue < inputMinRefValue) {
-        inputMaxRef.current.value = priceUp;
+  useEffect(() => {
+    if (debounceMin <= debounceMax) {
+      if (debounceMin < priceMinFiltered) {
+        setInputMin(priceMinFiltered);
       }
+      if (debounceMin > priceMinFiltered) {
+        dispatch(setFilterPriceDown(debounceMin.toString()));
+      }
+    } else {
+      setInputMin(priceMinFiltered);
     }
-    dispatch(setFilterPriceUp(evt.target.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounceMax, debounceMin, dispatch]);
+
+  useEffect(() => {
+    if (debounceMax >= debounceMin) {
+      if (debounceMax > priceMaxFiltered) {
+        setInputMax(priceMaxFiltered);
+      } else {
+        dispatch(setFilterPriceUp(debounceMax.toString()));
+      }
+    } else {
+      setInputMax(priceMaxFiltered);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounceMax, debounceMin, dispatch]);
+
+
+  const handleChangePrice = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const {value, name} = evt.currentTarget;
+    if (name === 'price') {
+      setInputMin(Number(value));
+    }
+    if (name === 'priceUp') {
+      setInputMax(Number(value));
+    }
   };
 
   return (
-    <fieldset className="catalog-filter__block">
+    <fieldset className="catalog-filter__block" data-testid="filterPrice">
       <legend className="title title--h5">Цена, ₽</legend>
       <div className="catalog-filter__price-range">
         <div className="custom-input">
@@ -65,9 +71,9 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="price"
-              placeholder={`от ${priceMin}`}
-              ref={inputMinRef}
-              onBlur={(evt) => handleChangePriceDown(evt)}
+              placeholder={`от ${priceMinFiltered || ''}`}
+              value={inputMin || ''}
+              onChange={(evt) => handleChangePrice(evt)}
             />
           </label>
         </div>
@@ -76,9 +82,10 @@ export default function CatalogFilterPrice() {
             <input
               type="number"
               name="priceUp"
-              placeholder={`до ${priceMax}`}
-              ref={inputMaxRef}
-              onBlur={(evt) => handleChangePriceUp(evt)}
+              placeholder={`до ${priceMaxFiltered || ''}`}
+              value={inputMax || ''}
+              onChange={(evt) => handleChangePrice(evt)}
+
             />
           </label>
         </div>

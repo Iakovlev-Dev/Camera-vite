@@ -1,4 +1,4 @@
-import { FilterType} from '../../const.ts';
+import {FilterType} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setFilterType} from '../../store/filters-process/filter-process.ts';
 import {selectFilterCategory, selectFilterType} from '../../store/filters-process/selectors.ts';
@@ -17,13 +17,10 @@ export default function CatalogFilterType() {
   };
 
   const handleChangeType = (type: string) => {
-    const checkedType = [...currentFiltersType];
-    const indexType = checkedType.indexOf(type);
-    if(indexType === -1) {
-      checkedType.push(type);
-    } else {
-      checkedType.splice(indexType, 1);
-    }
+    const checkedType =
+    currentFiltersType.includes(type)
+      ? currentFiltersType.filter((item) => item !== type)
+      : [...currentFiltersType, type];
     dispatch(setFilterType(checkedType));
   };
 
@@ -36,8 +33,10 @@ export default function CatalogFilterType() {
             <input
               type="checkbox"
               name={type}
-              onChange={() => handleChangeType(FilterType[type])}
+              onClick={() => handleChangeType(FilterType[type])}
+              checked={currentFiltersType.includes(FilterType[type])}
               disabled={disabledItem(currentFilterCategory, FilterType[type])}
+              readOnly
             />
             <span className="custom-checkbox__icon"/>
             <span className="custom-checkbox__label">{FilterType[type]}</span>
