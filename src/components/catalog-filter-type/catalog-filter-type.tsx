@@ -36,6 +36,7 @@ export default function CatalogFilterType() {
               onClick={() => handleChangeType(FilterType[type])}
               checked={currentFiltersType.includes(FilterType[type])}
               disabled={disabledItem(currentFilterCategory, FilterType[type])}
+              readOnly
             />
             <span className="custom-checkbox__icon"/>
             <span className="custom-checkbox__label">{FilterType[type]}</span>
