@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TCameraCard} from '../../types/type-cards.ts';
 import {NameSpace} from '../../const.ts';
 import {fetchCameraCardAction, fetchCameraCardsAction, fetchSimilarCameras} from '../api-actions.ts';
@@ -7,18 +7,24 @@ export type TInitialStateDataCard = {
   cameras: TCameraCard [];
   camera: TCameraCard | null;
   similarCameras: TCameraCard [];
+  currentPage: number;
 }
 
 const initialState: TInitialStateDataCard = {
   cameras: [],
   camera: null,
-  similarCameras: []
+  similarCameras: [],
+  currentPage: 1
 };
 
 export const dataCardProcess = createSlice({
   name: NameSpace.DATA_CARDS,
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPageSlice: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    }
+  },
   extraReducers (builder) {
     builder
       .addCase(fetchCameraCardsAction.fulfilled, (state, action) => {
@@ -33,3 +39,4 @@ export const dataCardProcess = createSlice({
   }
 });
 
+export const {setCurrentPageSlice} = dataCardProcess.actions;

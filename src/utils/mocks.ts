@@ -14,7 +14,8 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
   [NameSpace.DATA_CARDS]: {
     cameras: [],
     camera: null,
-    similarCameras: []
+    similarCameras: [],
+    currentPage: 1
   },
   [NameSpace.REVIEWS]: {
     reviews: [],
