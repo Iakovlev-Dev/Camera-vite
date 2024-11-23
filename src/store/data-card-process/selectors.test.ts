@@ -1,7 +1,7 @@
 import {describe, expect} from 'vitest';
 import {NameSpace} from '../../const.ts';
 import {makeFakeCamera, makeFakeStore} from '../../utils/mocks.ts';
-import {selectCamera, selectCameras, selectSimilarCameras} from './selectors.ts';
+import {selectCamera, selectCameras, selectCurrentPage, selectSimilarCameras} from './selectors.ts';
 
 describe('DataProcess Selectors', () => {
   const fakeCamera = makeFakeCamera();
@@ -9,7 +9,8 @@ describe('DataProcess Selectors', () => {
     [NameSpace.DATA_CARDS]: {
       cameras: [fakeCamera],
       camera: null,
-      similarCameras: [fakeCamera]
+      similarCameras: [fakeCamera],
+      currentPage: 1
     }
   });
 
@@ -32,5 +33,12 @@ describe('DataProcess Selectors', () => {
     const result = selectSimilarCameras(state);
 
     expect(result).toEqual(similarCameras);
+  });
+
+  it('should return current page from state', () => {
+    const {currentPage} = state.DATA_CARDS;
+    const result = selectCurrentPage(state);
+
+    expect(result).toEqual(currentPage);
   });
 });

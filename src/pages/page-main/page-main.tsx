@@ -5,10 +5,13 @@ import Catalog from '../../components/catalog/catalog.tsx';
 import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
+import Pagination from '../../components/pagination/pagination.tsx';
+
 
 export default function PageMain () {
   const [isOpen, setIsOpen] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
+
 
   const handleModalOpen = (id: number) => {
     setIsOpen(true);
@@ -60,6 +63,7 @@ export default function PageMain () {
          <div className="page-content">
            <Breadcrumbs/>
            <Catalog onClick={handleModalOpen}/>
+           <Pagination />
          </div>
          {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
        </main>

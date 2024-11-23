@@ -9,7 +9,8 @@ describe('DataCardProcess Slice', () => {
     const expectedState = {
       cameras: [],
       camera: null,
-      similarCameras: []
+      similarCameras: [],
+      currentPage: 1
     };
 
     const result = dataCardProcess.reducer(expectedState, emptyAction);
@@ -22,7 +23,8 @@ describe('DataCardProcess Slice', () => {
     const expectedState = {
       cameras: [],
       camera: null,
-      similarCameras: []
+      similarCameras: [],
+      currentPage: 1
     };
 
     const result = dataCardProcess.reducer(undefined, emptyAction);
@@ -35,7 +37,8 @@ describe('DataCardProcess Slice', () => {
     const expectedState = {
       cameras: [fakeCamera],
       camera: null,
-      similarCameras: []
+      similarCameras: [],
+      currentPage: 1
     };
 
     const result = dataCardProcess.reducer(
@@ -50,7 +53,8 @@ describe('DataCardProcess Slice', () => {
     const expectedState = {
       cameras: [],
       camera: fakeCamera,
-      similarCameras: []
+      similarCameras: [],
+      currentPage: 1
     };
 
     const result = dataCardProcess.reducer(
@@ -65,7 +69,8 @@ describe('DataCardProcess Slice', () => {
     const expectedState = {
       cameras: [],
       camera: null,
-      similarCameras: [fakeSimilarCamera]
+      similarCameras: [fakeSimilarCamera],
+      currentPage: 1
     };
 
     const result = dataCardProcess.reducer(

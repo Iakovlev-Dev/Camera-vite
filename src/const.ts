@@ -56,3 +56,7 @@ export const FilterType: Record<string, string> = {
   snapshot: 'Моментальная',
   collection: 'Коллекционная'
 };
+
+export const COUNT_CAMERAS_ON_PAGE = 9;
+
+export const MAX_COUNT_PAGE = 3;
