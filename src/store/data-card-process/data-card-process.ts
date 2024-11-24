@@ -7,14 +7,14 @@ export type TInitialStateDataCard = {
   cameras: TCameraCard [];
   camera: TCameraCard | null;
   similarCameras: TCameraCard [];
-  currentPage: number;
+  currentPage: number | null;
 }
 
 const initialState: TInitialStateDataCard = {
   cameras: [],
   camera: null,
   similarCameras: [],
-  currentPage: 1
+  currentPage: null
 };
 
 export const dataCardProcess = createSlice({
