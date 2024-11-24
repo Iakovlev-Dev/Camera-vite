@@ -2,17 +2,32 @@ import {useAppSelector} from '../../store/hooks.ts';
 import {selectCamera} from '../../store/data-card-process/selectors.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Helmet} from 'react-helmet-async';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 
 export default function ProductCard () {
   const currentCamera = useAppSelector(selectCamera);
   const [isActiveTabList, setIsActiveTabList] = useState<boolean>(false);
   const [isActiveTabText, setIsActiveTabText] = useState<boolean>(true);
 
+  const [, setSearchParams] = useSearchParams();
+
   const handleClick = () => {
     setIsActiveTabList(!isActiveTabList);
     setIsActiveTabText(!isActiveTabText);
   };
+
+  useEffect(() => {
+    setSearchParams((prev) => {
+      const param = new URLSearchParams(prev);
+      if(isActiveTabText) {
+        param.set('tab', 'text');
+      } else {
+        param.set('tab', 'list');
+      }
+      return param;
+    });
+  }, [isActiveTabText, setSearchParams]);
 
   return (currentCamera &&
     <>
