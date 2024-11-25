@@ -44,6 +44,7 @@ export default function PageMain () {
     } else if (category === 'Видеокамера') {
       dispatch(setFilterCategory('Видеокамера'));
     }
+    // eslint-disable-next-line
   }, []);
 
   const handleModalOpen = (id: number) => {
