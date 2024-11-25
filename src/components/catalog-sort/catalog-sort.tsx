@@ -2,11 +2,32 @@ import {SortingInner, SortingOrder} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setSortInner, setSortOrder} from '../../store/sorting-filtered-process/sorting-process.ts';
 import {selectSortInner, selectSortOrder} from '../../store/sorting-filtered-process/selectors.ts';
+import {useSearchParams} from 'react-router-dom';
 
 export default function CatalogSort() {
   const dispatch = useAppDispatch();
   const currentSortInner = useAppSelector(selectSortInner);
   const currentSortOrder = useAppSelector(selectSortOrder);
+
+  const [, setSearchParams] = useSearchParams();
+
+  const handleChangeSortInner = (sortInner: string) => {
+    dispatch(setSortInner(SortingInner[sortInner]))
+
+    setSearchParams((prev) => {
+      prev.set('sort_inner', SortingInner[sortInner])
+      return prev
+    })
+  }
+
+  const handleChangeSortOrder = (sortOrder: string) => {
+    dispatch(setSortOrder(SortingOrder[sortOrder]))
+
+    setSearchParams((prev) => {
+      prev.set('sort_order', SortingInner[sortOrder])
+      return prev
+    })
+  }
 
   return (
     <div className="catalog-sort">
@@ -20,7 +41,7 @@ export default function CatalogSort() {
                   type="radio"
                   id={type}
                   name="sort"
-                  onChange={() => dispatch(setSortInner(SortingInner[type]))}
+                  onChange={() => handleChangeSortInner(type)}
                   checked={currentSortInner === SortingInner[type]}
                 />
                 <label htmlFor={type}>{SortingInner[type]}</label>
@@ -36,7 +57,7 @@ export default function CatalogSort() {
                   id={order}
                   name="sort-icon"
                   aria-label={SortingOrder[order]}
-                  onChange={() => dispatch(setSortOrder(SortingOrder[order]))}
+                  onChange={() => handleChangeSortOrder(order)}
                   checked={currentSortOrder === SortingOrder[order]}
                 />
                 <label htmlFor={order}>

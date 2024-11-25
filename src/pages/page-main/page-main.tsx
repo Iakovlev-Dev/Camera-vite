@@ -13,6 +13,7 @@ import {
   setFilterPriceDown, setFilterPriceUp,
   setFilterType
 } from '../../store/filters-process/filter-process.ts';
+import {setSortInner, setSortOrder} from '../../store/sorting-filtered-process/sorting-process.ts';
 
 export default function PageMain () {
   const dispatch = useAppDispatch();
@@ -27,12 +28,16 @@ export default function PageMain () {
   const level = searchParams.get('level')?.split(' ');
   const priceMin = searchParams.get('priceMin');
   const priceMax = searchParams.get('priceMax');
+  const sortInner = searchParams.get('sort_inner');
+  const sortOrder = searchParams.get('sort_order');
 
   useEffect(() => {
     dispatch(setFilterType(types || []));
     dispatch(setFilterLevel(level || []));
     dispatch(setFilterPriceDown(priceMin || ''));
     dispatch(setFilterPriceUp(priceMax || ''));
+    dispatch(setSortInner(sortInner|| ''))
+    dispatch(setSortOrder(sortOrder || ''))
 
     if (category === 'Фотокамера') {
       dispatch(setFilterCategory('Фотоаппарат'));
