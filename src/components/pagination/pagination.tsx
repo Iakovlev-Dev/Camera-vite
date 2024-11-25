@@ -9,10 +9,13 @@ import {COUNT_CAMERAS_ON_PAGE, MAX_COUNT_PAGE} from '../../const.ts';
 import {useEffect, useState} from 'react';
 import {setCurrentPageSlice} from '../../store/data-card-process/data-card-process.ts';
 import {selectCurrentPage} from '../../store/data-card-process/selectors.ts';
+import {useSearchParams} from 'react-router-dom';
 
 
 export default function Pagination () {
   const dispatch = useAppDispatch();
+
+  const [, setSearchParams] = useSearchParams();
 
   const currentFilterCategory = useAppSelector(selectFilterCategory);
   const currentFilterType = useAppSelector(selectFilterType);
@@ -25,6 +28,17 @@ export default function Pagination () {
   const numberPages = Array.from({length: countPages}, (_, index) => index + 1);
 
   const currentPage = useAppSelector(selectCurrentPage);
+
+  useEffect(() => {
+    if(currentPage) {
+      setSearchParams((prev) => {
+        const param = new URLSearchParams(prev);
+        param.set('page', currentPage.toString());
+        return param;
+      });
+    }
+
+  }, [currentPage, setSearchParams]);
 
   const [startSlice, setStartSlice] = useState(0);
   const [endSlice, setEndSlice] = useState(3);

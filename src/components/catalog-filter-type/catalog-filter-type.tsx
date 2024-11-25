@@ -2,11 +2,14 @@ import {FilterType} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setFilterType} from '../../store/filters-process/filter-process.ts';
 import {selectFilterCategory, selectFilterType} from '../../store/filters-process/selectors.ts';
+import {useSearchParams} from 'react-router-dom';
 
 export default function CatalogFilterType() {
   const dispatch = useAppDispatch();
   const currentFiltersType = useAppSelector(selectFilterType);
   const currentFilterCategory = useAppSelector(selectFilterCategory);
+
+  const [, setSearchParams] = useSearchParams();
 
   const disabledItem = (active: string, current: string) => {
     if(active === 'Фотоаппарат' || !active) {
@@ -22,6 +25,15 @@ export default function CatalogFilterType() {
       ? currentFiltersType.filter((item) => item !== type)
       : [...currentFiltersType, type];
     dispatch(setFilterType(checkedType));
+
+    setSearchParams((prev) => {
+      if(checkedType.length === 0) {
+        prev.delete('types');
+        return prev;
+      }
+      prev.set('types' ,checkedType.join(' '));
+      return prev;
+    });
   };
 
   return (
@@ -34,7 +46,7 @@ export default function CatalogFilterType() {
               type="checkbox"
               name={type}
               onClick={() => handleChangeType(FilterType[type])}
-              checked={currentFiltersType.includes(FilterType[type])}
+              checked={currentFiltersType?.includes(FilterType[type])}
               disabled={disabledItem(currentFilterCategory, FilterType[type])}
               readOnly
             />

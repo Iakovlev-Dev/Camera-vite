@@ -4,11 +4,14 @@ import {useAppSelector} from '../../store/hooks.ts';
 import {selectFilteredCameras} from '../../store/filters-process/selectors.ts';
 import React, {useEffect, useState} from 'react';
 import {useDebounce} from 'use-debounce';
+import {useSearchParams} from 'react-router-dom';
 
 export default function CatalogFilterPrice() {
   const dispatch = useDispatch();
   const filteredCameras = useAppSelector(selectFilteredCameras);
   const filteredCamerasByPrice = [...filteredCameras].sort((a, b) => a.price - b.price);
+
+  const [, setSearchParams] = useSearchParams();
 
   const priceMinFiltered = filteredCamerasByPrice[0]?.price;
   const priceMaxFiltered = filteredCamerasByPrice[filteredCamerasByPrice.length - 1]?.price;
@@ -56,9 +59,19 @@ export default function CatalogFilterPrice() {
     const {value, name} = evt.currentTarget;
     if (name === 'price') {
       setInputMin(Number(value));
+
+      setSearchParams((prev) => {
+        prev.set('priceMin', value);
+        return prev;
+      });
     }
     if (name === 'priceUp') {
       setInputMax(Number(value));
+
+      setSearchParams((prev) => {
+        prev.set('priceMax', value);
+        return prev;
+      });
     }
   };
 

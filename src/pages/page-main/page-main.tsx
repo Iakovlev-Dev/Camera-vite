@@ -5,13 +5,47 @@ import Catalog from '../../components/catalog/catalog.tsx';
 import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
-import Pagination from '../../components/pagination/pagination.tsx';
-
+import {useSearchParams} from 'react-router-dom';
+import {useAppDispatch} from '../../store/hooks.ts';
+import {
+  setFilterCategory,
+  setFilterLevel,
+  setFilterPriceDown, setFilterPriceUp,
+  setFilterType
+} from '../../store/filters-process/filter-process.ts';
+import {setSortInner, setSortOrder} from '../../store/sorting-filtered-process/sorting-process.ts';
 
 export default function PageMain () {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
 
+  const [searchParams] = useSearchParams();
+
+
+  const types = searchParams.get('types')?.split(' ');
+  const category = searchParams.get('category');
+  const level = searchParams.get('level')?.split(' ');
+  const priceMin = searchParams.get('priceMin');
+  const priceMax = searchParams.get('priceMax');
+  const sortInner = searchParams.get('sort_inner');
+  const sortOrder = searchParams.get('sort_order');
+
+  useEffect(() => {
+    dispatch(setFilterType(types || []));
+    dispatch(setFilterLevel(level || []));
+    dispatch(setFilterPriceDown(priceMin || ''));
+    dispatch(setFilterPriceUp(priceMax || ''));
+    dispatch(setSortInner(sortInner || ''));
+    dispatch(setSortOrder(sortOrder || ''));
+
+    if (category === 'Фотокамера') {
+      dispatch(setFilterCategory('Фотоаппарат'));
+    } else if (category === 'Видеокамера') {
+      dispatch(setFilterCategory('Видеокамера'));
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const handleModalOpen = (id: number) => {
     setIsOpen(true);
@@ -63,7 +97,7 @@ export default function PageMain () {
          <div className="page-content">
            <Breadcrumbs/>
            <Catalog onClick={handleModalOpen}/>
-           <Pagination />
+
          </div>
          {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
        </main>

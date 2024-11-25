@@ -1,5 +1,5 @@
 import {describe, expect} from 'vitest';
-import {withStore} from '../../utils/mock-component.tsx';
+import {withHistory, withStore} from '../../utils/mock-component.tsx';
 import Pagination from './pagination.tsx';
 import {render, screen} from '@testing-library/react';
 import {makeFakeCamera, makeFakeStore} from '../../utils/mocks.ts';
@@ -22,8 +22,9 @@ describe('Component: Pagination', () => {
     });
 
     const {withStoreComponent} = withStore(<Pagination />, fakeState);
+    const preparedComponent = withHistory(withStoreComponent);
 
-    render(withStoreComponent);
+    render(preparedComponent);
 
     expect(screen.getByTestId(expectedTestId)).toBeInTheDocument();
   });

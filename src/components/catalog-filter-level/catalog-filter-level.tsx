@@ -2,20 +2,32 @@ import {FilterLevel} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {setFilterLevel} from '../../store/filters-process/filter-process.ts';
 import {selectFilterLevel} from '../../store/filters-process/selectors.ts';
+import {useSearchParams} from 'react-router-dom';
 
 export default function CatalogFilterLevel() {
   const dispatch = useAppDispatch();
   const currentFiltersLevel = useAppSelector(selectFilterLevel);
 
+  const [, setSearchParams] = useSearchParams();
+
   const handlerChangeLevel = (level: string) => {
-    const checkedType = [...currentFiltersLevel];
-    const indexType = checkedType.indexOf(level);
+    const checkedLevel = [...currentFiltersLevel];
+    const indexType = checkedLevel.indexOf(level);
     if(indexType === -1) {
-      checkedType.push(level);
+      checkedLevel.push(level);
     } else {
-      checkedType.splice(indexType, 1);
+      checkedLevel.splice(indexType, 1);
     }
-    dispatch(setFilterLevel(checkedType));
+    dispatch(setFilterLevel(checkedLevel));
+
+    setSearchParams((prev) => {
+      if(checkedLevel.length === 0) {
+        prev.delete('level');
+        return prev;
+      }
+      prev.set('level', checkedLevel.join(' '));
+      return prev;
+    });
   };
 
   return (
@@ -27,7 +39,8 @@ export default function CatalogFilterLevel() {
             <input
               type="checkbox"
               name={level}
-              onClick={() => handlerChangeLevel(FilterLevel[level])}
+              checked={currentFiltersLevel.includes(FilterLevel[level])}
+              onChange={() => handlerChangeLevel(FilterLevel[level])}
             />
             <span className="custom-checkbox__icon"/>
             <span className="custom-checkbox__label">{FilterLevel[level]}</span>
