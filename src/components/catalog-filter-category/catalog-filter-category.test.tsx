@@ -1,5 +1,5 @@
 import {describe, expect} from 'vitest';
-import {withStore} from '../../utils/mock-component.tsx';
+import {withHistory, withStore} from '../../utils/mock-component.tsx';
 import CatalogFilterCategories from './catalog-filter-category.tsx';
 import {render, screen} from '@testing-library/react';
 import {makeFakeStore} from '../../utils/mocks.ts';
@@ -20,8 +20,9 @@ describe('Component: CatalogFilterCategory', () => {
     });
 
     const {withStoreComponent} = withStore(<CatalogFilterCategories />, fakeStore);
+    const preparedComponent = withHistory(withStoreComponent);
 
-    render(withStoreComponent);
+    render(preparedComponent);
 
     expect(screen.getByTestId(catalogCategoryTestId)).toBeInTheDocument();
   });

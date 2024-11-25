@@ -1,7 +1,7 @@
 import {describe, expect} from 'vitest';
 import {makeFakeStore} from '../../utils/mocks.ts';
 import {NameSpace} from '../../const.ts';
-import {withStore} from '../../utils/mock-component.tsx';
+import {withHistory, withStore} from '../../utils/mock-component.tsx';
 import CatalogFilterType from './catalog-filter-type.tsx';
 import {render, screen} from '@testing-library/react';
 
@@ -20,8 +20,9 @@ describe('Component: CatalogFilterType', () => {
     });
 
     const {withStoreComponent} = withStore(<CatalogFilterType />, fakeStore);
+    const preparedComponent = withHistory(withStoreComponent);
 
-    render(withStoreComponent);
+    render(preparedComponent);
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });

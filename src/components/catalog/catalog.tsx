@@ -1,6 +1,7 @@
 import CatalogCards from '../catalog-cards/catalog-cards.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
 import CatalogFilter from '../catalog-filter/catalog-filter.tsx';
+import Pagination from '../pagination/pagination.tsx';
 
 type TCatalog = {
   onClick: (id: number) => void;
@@ -22,6 +23,7 @@ export default function Catalog ({onClick}: TCatalog) {
           <div className="catalog__content">
             <CatalogSort />
             <CatalogCards onClick={handleClick} />
+            <Pagination />
           </div>
         </div>
       </div>
