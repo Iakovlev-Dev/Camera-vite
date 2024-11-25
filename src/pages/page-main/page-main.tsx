@@ -36,8 +36,8 @@ export default function PageMain () {
     dispatch(setFilterLevel(level || []));
     dispatch(setFilterPriceDown(priceMin || ''));
     dispatch(setFilterPriceUp(priceMax || ''));
-    dispatch(setSortInner(sortInner|| ''))
-    dispatch(setSortOrder(sortOrder || ''))
+    dispatch(setSortInner(sortInner || ''));
+    dispatch(setSortOrder(sortOrder || ''));
 
     if (category === 'Фотокамера') {
       dispatch(setFilterCategory('Фотоаппарат'));
@@ -45,7 +45,6 @@ export default function PageMain () {
       dispatch(setFilterCategory('Видеокамера'));
     }
   }, []);
-
 
   const handleModalOpen = (id: number) => {
     setIsOpen(true);

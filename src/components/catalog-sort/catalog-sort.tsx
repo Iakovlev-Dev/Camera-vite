@@ -12,22 +12,22 @@ export default function CatalogSort() {
   const [, setSearchParams] = useSearchParams();
 
   const handleChangeSortInner = (sortInner: string) => {
-    dispatch(setSortInner(SortingInner[sortInner]))
+    dispatch(setSortInner(SortingInner[sortInner]));
 
     setSearchParams((prev) => {
-      prev.set('sort_inner', SortingInner[sortInner])
-      return prev
-    })
-  }
+      prev.set('sort_inner', SortingInner[sortInner]);
+      return prev;
+    });
+  };
 
   const handleChangeSortOrder = (sortOrder: string) => {
-    dispatch(setSortOrder(SortingOrder[sortOrder]))
+    dispatch(setSortOrder(SortingOrder[sortOrder]));
 
     setSearchParams((prev) => {
-      prev.set('sort_order', SortingInner[sortOrder])
-      return prev
-    })
-  }
+      prev.set('sort_order', SortingInner[sortOrder]);
+      return prev;
+    });
+  };
 
   return (
     <div className="catalog-sort">
