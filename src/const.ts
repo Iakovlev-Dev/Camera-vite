@@ -15,7 +15,8 @@ export const NameSpace = {
   REVIEWS: 'REVIEWS',
   PROMO: 'PROMO',
   SORTING: 'SORTING',
-  FILTERS: 'FILTERS'
+  FILTERS: 'FILTERS',
+  BASKET: 'BASKET'
 } as const;
 
 export const APIRoute = {
