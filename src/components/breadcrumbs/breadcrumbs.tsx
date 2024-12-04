@@ -1,4 +1,4 @@
-import {Link, useParams} from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {TCameraCard} from '../../types/type-cards.ts';
@@ -8,6 +8,9 @@ export default function Breadcrumbs () {
   const {id} = useParams();
   const cameras = useAppSelector(selectCameras);
   const currentCamera = cameras.find((camera) => camera.id.toString() === id);
+
+  const location = useLocation()
+  console.log(location);
 
   const renderBreadcrumbs = (idParams: string | undefined, camera: TCameraCard | undefined) => {
     if(typeof idParams === 'string') {

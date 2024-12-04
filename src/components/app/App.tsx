@@ -7,6 +7,7 @@ import PageMain from '../../pages/page-main/page-main.tsx';
 import {AppRoute} from '../../const.ts';
 import PageCard from '../../pages/page-card/page-card.tsx';
 import PageNotFound from '../../pages/page-not-found/page-not-found.tsx';
+import PageBasket from '../../pages/page-basket/page-basket.tsx';
 
 export default function App () {
   return (
@@ -20,6 +21,10 @@ export default function App () {
           <Route
             path={AppRoute.Cameras}
             element={<PageCard />}
+          />
+          <Route
+            path={AppRoute.Card}
+            element={<PageBasket />}
           />
           <Route
             path='*'

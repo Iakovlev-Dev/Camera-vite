@@ -1,11 +1,13 @@
 import {useAppSelector} from '../../store/hooks.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const.ts';
 
 export default function BasketIcon () {
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
   return (
-    <a className="header__basket-link" href="#">
+    <Link className="header__basket-link" to={AppRoute.Card}>
       <svg width={16} height={16} aria-hidden="true">
         <use xlinkHref="#icon-basket"/>
       </svg>
@@ -13,6 +15,6 @@ export default function BasketIcon () {
         camerasIdBasket.length === 0 ? '' :
           <span className="header__basket-count">{camerasIdBasket.length}</span>
       }
-    </a>
+    </Link>
   );
 }
