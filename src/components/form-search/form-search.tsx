@@ -17,54 +17,48 @@ export default function FormSearch() {
   }, [id]);
 
   return (
-    <>
-      <div className={`form-search ${searchValue.length >= MIN_LETTER_FOR_SEARCH ? 'list-opened' : ''}`} data-testid="form-search">
-        <form>
-          <label>
-            <svg
-              className="form-search__icon"
-              width={16}
-              height={16}
-              aria-hidden="true"
-            >
-              <use xlinkHref="#icon-lens" />
-            </svg>
-            <input
-              value={searchValue}
-              className="form-search__input"
-              type="text"
-              autoComplete="off"
-              placeholder="Поиск по сайту"
-              onChange={(evt) => setSearchValue(evt.target.value)}
-            />
-          </label>
-          <ul className="form-search__select-list">
-            {filteredCameras.map((camera) => (
-              <Link to={`/cameras/${camera.id}`} key={camera.id}>
-                <li className="form-search__select-item">
-                  {camera.name}
-                </li>
-              </Link>
-
-            ))}
-          </ul>
-        </form>
-        <button
-          className="form-search__reset"
-          type="reset"
-          onClick={() => setSearchValue('')}
-        >
-          <svg width={10} height={10} aria-hidden="true">
-            <use xlinkHref="#icon-close" />
+    <div className={`form-search ${searchValue.length >= MIN_LETTER_FOR_SEARCH ? 'list-opened' : ''}`} data-testid="form-search">
+      <form>
+        <label>
+          <svg
+            className="form-search__icon"
+            width={16}
+            height={16}
+            aria-hidden="true"
+          >
+            <use xlinkHref="#icon-lens" />
           </svg>
-          <span className="visually-hidden">Сбросить поиск</span>
-        </button>
-      </div>
-      <a className="header__basket-link" href="#">
-        <svg width={16} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-basket" />
+          <input
+            value={searchValue}
+            className="form-search__input"
+            type="text"
+            autoComplete="off"
+            placeholder="Поиск по сайту"
+            onChange={(evt) => setSearchValue(evt.target.value)}
+          />
+        </label>
+        <ul className="form-search__select-list">
+          {filteredCameras.map((camera) => (
+            <Link to={`/cameras/${camera.id}`} key={camera.id}>
+              <li className="form-search__select-item">
+                {camera.name}
+              </li>
+            </Link>
+
+          ))}
+        </ul>
+      </form>
+      <button
+        className="form-search__reset"
+        type="reset"
+        onClick={() => setSearchValue('')}
+      >
+        <svg width={10} height={10} aria-hidden="true">
+          <use xlinkHref="#icon-close" />
         </svg>
-      </a>
-    </>
+        <span className="visually-hidden">Сбросить поиск</span>
+      </button>
+    </div>
+
   );
 }

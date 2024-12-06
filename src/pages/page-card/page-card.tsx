@@ -23,20 +23,28 @@ export default function PageCard () {
     dispatch(fetchSimilarCameras(id as string));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top:0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [id]);
+
   return (
     <ReactFocusLock autoFocus={false}>
       <div className="wrapper">
         <Header/>
         <main>
           <div className="page-content">
-            <Breadcrumbs/>
-            <ProductCard/>
+            <Breadcrumbs />
+            <ProductCard />
             <ProductSimilar />
-            <ProductReviews/>
+            <ProductReviews />
           </div>
         </main>
-        <ProductReviewsButtonUp/>
-        <Footer/>
+        <ProductReviewsButtonUp />
+        <Footer />
       </div>
     </ReactFocusLock>
   );

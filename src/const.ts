@@ -1,6 +1,7 @@
 export enum AppRoute {
   Main = '/',
-  Cameras = '/cameras/:id' //добавить id
+  Cameras = '/cameras/:id',
+  Card = '/card'
 }
 
 export const NavLinkMenu = {
@@ -15,7 +16,8 @@ export const NameSpace = {
   REVIEWS: 'REVIEWS',
   PROMO: 'PROMO',
   SORTING: 'SORTING',
-  FILTERS: 'FILTERS'
+  FILTERS: 'FILTERS',
+  BASKET: 'BASKET'
 } as const;
 
 export const APIRoute = {

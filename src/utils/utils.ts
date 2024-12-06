@@ -42,3 +42,5 @@ export const sortingCameras = (sortInner: string, sortOrder: string, cameras: TC
       return cameras;
   }
 };
+
+export const isCameraInBasket = (arr: number[], item: number) => arr.includes(item);

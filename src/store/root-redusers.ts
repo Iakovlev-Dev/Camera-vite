@@ -5,11 +5,13 @@ import {reviewProcess} from './review-proccess/review-proccess.ts';
 import {promoProcess} from './promo-process/promo-process.ts';
 import {sortingProcess} from './sorting-filtered-process/sorting-process.ts';
 import {filterProcess} from './filters-process/filter-process.ts';
+import {basketProcess} from './basket-process/basket-process.ts';
 
 export const rootReducers = combineReducers({
   [NameSpace.DATA_CARDS]: dataCardProcess.reducer,
   [NameSpace.REVIEWS]: reviewProcess.reducer,
   [NameSpace.PROMO]: promoProcess.reducer,
   [NameSpace.SORTING]: sortingProcess.reducer,
-  [NameSpace.FILTERS]: filterProcess.reducer
+  [NameSpace.FILTERS]: filterProcess.reducer,
+  [NameSpace.BASKET]: basketProcess.reducer
 });

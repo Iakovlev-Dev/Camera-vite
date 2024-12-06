@@ -1,6 +1,11 @@
 import {TCameraCard} from '../../types/type-cards.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../store/hooks.ts';
+import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
+import ButtonBuy from '../button-buy/button-buy.tsx';
+import ButtonInBasket from '../button-in-basket/button-in-basket.tsx';
+import {isCameraInBasket} from '../../utils/utils.ts';
 
 type TCatalogCard = {
   card: TCameraCard;
@@ -12,6 +17,8 @@ export default function CatalogCard({card, onClick}: TCatalogCard) {
   const handleClickModal = (id: number) => {
     onClick(id);
   };
+
+  const basket = useAppSelector(selectCamerasIdBasket);
 
   return (
     <div className="product-card" data-testid="catalog-card">
@@ -40,13 +47,9 @@ export default function CatalogCard({card, onClick}: TCatalogCard) {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button
-          className="btn btn--purple product-card__btn"
-          type="button"
-          onClick={() => handleClickModal(card.id)}
-        >
-          Купить
-        </button>
+        {
+          isCameraInBasket(basket, card.id) ? <ButtonInBasket /> : <ButtonBuy onClick={handleClickModal} card={card}/>
+        }
         <Link
           className="btn btn--transparent"
           to={pathCard}

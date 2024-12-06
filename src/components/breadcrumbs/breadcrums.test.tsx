@@ -1,7 +1,7 @@
 import {describe, expect} from 'vitest';
 import {makeFakeCamera, makeFakeStore} from '../../utils/mocks.ts';
 import {NameSpace} from '../../const.ts';
-import {withStore} from '../../utils/mock-component.tsx';
+import {withHistory, withStore} from '../../utils/mock-component.tsx';
 import Breadcrumbs from './breadcrumbs.tsx';
 import {render, screen} from '@testing-library/react';
 
@@ -13,12 +13,15 @@ describe('Component: Breadcrumbs', () => {
       [NameSpace.DATA_CARDS]: {
         cameras: fakeCameras,
         camera: null,
-        similarCameras: []
+        similarCameras: [],
+        currentPage: 1
       }
     });
     const {withStoreComponent} = withStore(<Breadcrumbs />, fakeStore);
 
-    render(withStoreComponent);
+    const preparedComponent = withHistory(withStoreComponent)
+
+    render(preparedComponent);
 
     expect(screen.getByTestId(breadcrumbsTestId)).toBeInTheDocument();
   });
