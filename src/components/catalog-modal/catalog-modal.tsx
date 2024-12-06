@@ -8,9 +8,10 @@ import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 type TCatalogModal = {
   idCamera: number;
   onClose: () => void;
+  onAddItem: () => void;
 }
 
-export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
+export default function CatalogModal({onClose, idCamera, onAddItem}: TCatalogModal) {
   const dispatch = useAppDispatch();
   const cameras = useAppSelector(selectCameras);
   const currentCamera = cameras.find((camera) => camera.id === idCamera);
@@ -20,6 +21,7 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
     const newArr: number[] = [...camerasIdBasket];
     newArr.push(camera.id);
     dispatch(setCamerasBasket(newArr));
+    onAddItem();
   };
 
   if(!currentCamera) {
@@ -32,7 +34,7 @@ export default function CatalogModal({onClose, idCamera}: TCatalogModal) {
           <div className="modal__wrapper">
             <div className="modal__overlay"/>
             <div className="modal__content">
-              <p className="title title--h4">Свяжитесь со мной</p>
+              <p className="title title--h4">Добавить товар в корзину</p>
               <div className="basket-item basket-item--short">
                 <div className="basket-item__img">
                   <picture>

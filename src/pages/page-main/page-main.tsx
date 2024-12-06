@@ -14,10 +14,13 @@ import {
   setFilterType
 } from '../../store/filters-process/filter-process.ts';
 import {setSortInner, setSortOrder} from '../../store/sorting-filtered-process/sorting-process.ts';
+import CatalogModalAddItemSuccess
+  from '../../components/catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
 
 export default function PageMain () {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalSuccess, setIsModalSuccess] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
 
   const [searchParams] = useSearchParams();
@@ -58,6 +61,16 @@ export default function PageMain () {
     document.body.classList.remove('scroll-lock');
   };
 
+  const handleAddItemSuccess = () => {
+    setIsOpen(false);
+    setIsModalSuccess(true);
+  };
+
+  const handleModalSuccessClose = () => {
+    setIsModalSuccess(false);
+    document.body.classList.remove('scroll-lock');
+  };
+
  type TEventKey = {
    key: string;
    preventDefault: () => void;
@@ -74,6 +87,7 @@ export default function PageMain () {
    const handleOverlayClick = (evt: MouseEvent) => {
      if ((evt.target as HTMLElement).className === 'modal__overlay') {
        setIsOpen(false);
+       setIsModalSuccess(false);
        document.body.classList.remove('scroll-lock');
      }
    };
@@ -83,7 +97,7 @@ export default function PageMain () {
      document.removeEventListener('keydown', handleEscClick);
      document.removeEventListener('click', handleOverlayClick);
    };
- }, [isOpen]);
+ }, [isOpen, isModalSuccess]);
 
  return (
    <>
@@ -97,9 +111,9 @@ export default function PageMain () {
          <div className="page-content">
            <Breadcrumbs/>
            <Catalog onClick={handleModalOpen}/>
-
          </div>
-         {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera}/>}
+         {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera} onAddItem={handleAddItemSuccess}/>}
+         {isModalSuccess && <CatalogModalAddItemSuccess onClose={handleModalSuccessClose}/>}
        </main>
      </div>
    </>

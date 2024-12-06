@@ -10,6 +10,7 @@ import PageNotFound from '../../pages/page-not-found/page-not-found.tsx';
 import PageBasket from '../../pages/page-basket/page-basket.tsx';
 
 export default function App () {
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
