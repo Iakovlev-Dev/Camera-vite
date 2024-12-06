@@ -20,7 +20,6 @@ export default function CatalogCard({card, onClick}: TCatalogCard) {
 
   const basket = useAppSelector(selectCamerasIdBasket);
 
-
   return (
     <div className="product-card" data-testid="catalog-card">
       <div className="product-card__img">

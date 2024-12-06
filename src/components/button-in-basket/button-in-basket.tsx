@@ -13,5 +13,5 @@ export default function ButtonInBasket () {
       В корзине
     </Link>
 
-  )
+  );
 }

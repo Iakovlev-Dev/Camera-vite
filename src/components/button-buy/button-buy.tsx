@@ -1,8 +1,8 @@
 import {TCameraCard} from '../../types/type-cards.ts';
 
 type TButtonBuy = {
-  onClick: (id: number) => void
-  card: TCameraCard
+  onClick: (id: number) => void;
+  card: TCameraCard;
 }
 
 export default function ButtonBuy ({onClick, card}: TButtonBuy) {
@@ -14,5 +14,5 @@ export default function ButtonBuy ({onClick, card}: TButtonBuy) {
     >
       Купить
     </button>
-  )
+  );
 }

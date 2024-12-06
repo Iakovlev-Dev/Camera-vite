@@ -16,7 +16,7 @@ export default function ProductCard () {
   const currentCamera = useAppSelector(selectCamera);
   const [isActiveTabList, setIsActiveTabList] = useState<boolean>(false);
   const [isActiveTabText, setIsActiveTabText] = useState<boolean>(true);
-  const [isAddSuccess, setAddSuccess ] = useState(false)
+  const [isAddSuccess, setAddSuccess ] = useState(false);
 
   const [, setSearchParams] = useSearchParams();
 
@@ -41,14 +41,14 @@ export default function ProductCard () {
     const newArr: number[] = [...camerasIdBasket];
     newArr.push(camera.id);
     dispatch(setCamerasBasket(newArr));
-    setAddSuccess(true)
+    setAddSuccess(true);
     document.body.classList.add('scroll-lock');
   };
 
   const handleCloseModal = () => {
-    setAddSuccess(false)
-    document.body.classList.remove('scroll-lock')
-  }
+    setAddSuccess(false);
+    document.body.classList.remove('scroll-lock');
+  };
 
   type TEventKey = {
     key: string;
@@ -58,14 +58,14 @@ export default function ProductCard () {
   useEffect(() => {
     const handleEscClick = (evt: TEventKey) => {
       if (evt.key === 'Escape') {
-        setAddSuccess(false)
+        setAddSuccess(false);
         document.body.classList.remove('scroll-lock');
       }
     };
 
     const handleOverlayClick = (evt: MouseEvent) => {
       if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        setAddSuccess(false)
+        setAddSuccess(false);
         document.body.classList.remove('scroll-lock');
       }
     };
@@ -76,7 +76,6 @@ export default function ProductCard () {
       document.removeEventListener('click', handleOverlayClick);
     };
   }, [isAddSuccess]);
-
 
 
   return (currentCamera &&
