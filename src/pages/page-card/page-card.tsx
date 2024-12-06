@@ -37,14 +37,14 @@ export default function PageCard () {
         <Header/>
         <main>
           <div className="page-content">
-            <Breadcrumbs/>
-            <ProductCard/>
+            <Breadcrumbs />
+            <ProductCard />
             <ProductSimilar />
-            <ProductReviews/>
+            <ProductReviews />
           </div>
         </main>
-        <ProductReviewsButtonUp/>
-        <Footer/>
+        <ProductReviewsButtonUp />
+        <Footer />
       </div>
     </ReactFocusLock>
   );

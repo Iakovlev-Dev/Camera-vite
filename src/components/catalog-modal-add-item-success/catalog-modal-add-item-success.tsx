@@ -16,12 +16,13 @@ export default function CatalogModalAddItemSuccess({onClose}: TCCatalogModalAddI
             <use xlinkHref="#icon-success"/>
           </svg>
           <div className="modal__buttons">
-            <a
+            <Link
               className="btn btn--transparent modal__btn"
+              to={AppRoute.Main}
               onClick={onClose}
             >
               Продолжить покупки
-            </a>
+            </Link>
             <Link className="btn btn--purple modal__btn modal__btn--fit-width" to={AppRoute.Card} onClick={onClose}>
               Перейти в корзину
             </Link>

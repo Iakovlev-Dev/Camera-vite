@@ -1,14 +1,22 @@
-import {useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCamera} from '../../store/data-card-process/selectors.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Helmet} from 'react-helmet-async';
 import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
+import {TCameraCard} from '../../types/type-cards.ts';
+import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
+import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
+import CatalogModalAddItemSuccess from '../catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
 
 export default function ProductCard () {
+  const dispatch = useAppDispatch();
+
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
   const currentCamera = useAppSelector(selectCamera);
   const [isActiveTabList, setIsActiveTabList] = useState<boolean>(false);
   const [isActiveTabText, setIsActiveTabText] = useState<boolean>(true);
+  const [isAddSuccess, setAddSuccess ] = useState(false)
 
   const [, setSearchParams] = useSearchParams();
 
@@ -28,6 +36,48 @@ export default function ProductCard () {
       return prev;
     });
   }, [isActiveTabText, setSearchParams]);
+
+  const handleAddToBasket = (camera: TCameraCard) => {
+    const newArr: number[] = [...camerasIdBasket];
+    newArr.push(camera.id);
+    dispatch(setCamerasBasket(newArr));
+    setAddSuccess(true)
+    document.body.classList.add('scroll-lock');
+  };
+
+  const handleCloseModal = () => {
+    setAddSuccess(false)
+    document.body.classList.remove('scroll-lock')
+  }
+
+  type TEventKey = {
+    key: string;
+    preventDefault: () => void;
+  }
+
+  useEffect(() => {
+    const handleEscClick = (evt: TEventKey) => {
+      if (evt.key === 'Escape') {
+        setAddSuccess(false)
+        document.body.classList.remove('scroll-lock');
+      }
+    };
+
+    const handleOverlayClick = (evt: MouseEvent) => {
+      if ((evt.target as HTMLElement).className === 'modal__overlay') {
+        setAddSuccess(false)
+        document.body.classList.remove('scroll-lock');
+      }
+    };
+    document.addEventListener('click', handleOverlayClick);
+    document.addEventListener('keydown', handleEscClick);
+    return () => {
+      document.removeEventListener('keydown', handleEscClick);
+      document.removeEventListener('click', handleOverlayClick);
+    };
+  }, [isAddSuccess]);
+
+
 
   return (currentCamera &&
       <>
@@ -58,7 +108,7 @@ export default function ProductCard () {
                 <p className="product__price">
                   <span className="visually-hidden">Цена:</span>{currentCamera.price} ₽
                 </p>
-                <button className="btn btn--purple" type="button">
+                <button className="btn btn--purple" type="button" onClick={() => handleAddToBasket(currentCamera)}>
                   <svg width={24} height={16} aria-hidden="true">
                     <use xlinkHref="#icon-add-basket"/>
                   </svg>
@@ -114,6 +164,7 @@ export default function ProductCard () {
               </div>
             </div>
           </section>
+          {isAddSuccess && <CatalogModalAddItemSuccess onClose={handleCloseModal} />}
         </div>
       </>
   );
