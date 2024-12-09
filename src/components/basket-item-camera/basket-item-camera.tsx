@@ -1,43 +1,100 @@
-export default function BasketItemCamera () {
-  return (
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {selectCameras} from '../../store/data-card-process/selectors.ts';
+import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
+import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
+import {removeElement} from '../../utils/utils.ts';
+import {MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
+
+type TBasketItemCamera = {
+  idCamera: number;
+}
+
+export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
+  const dispatch = useAppDispatch();
+
+
+  const cameras = useAppSelector(selectCameras);
+  const currentCamera = cameras.find((item) => item.id === idCamera);
+
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
+  const countCameras = camerasIdBasket.filter((item) => item === idCamera).length;
+  // const [count, setCount] = useState(countCameras.toString());
+
+  const handleCountIncrease = (id: number) => {
+    // setCount((Number(count) + 1).toString());
+    dispatch(setCamerasBasket([...camerasIdBasket, id]));
+  };
+
+  const handleCountDecrease = (id: number) => {
+    // setCount((Number(count) - 1).toString());
+    const newIdBasket = removeElement(camerasIdBasket, id);
+    dispatch(setCamerasBasket(newIdBasket));
+  };
+
+  // const handleCountChange = (evt: React.FormEvent<HTMLInputElement>, id: number) => {
+  //   const valueInput = evt.currentTarget.value;
+  //   setCount(valueInput);
+  //
+  //   const sortedCamerasId = [...camerasIdBasket].sort((a, b) => a - b);
+  //   const index = sortedCamerasId.indexOf(id);
+  //   if (index !== -1) {
+  //     const newArr = [...sortedCamerasId]
+  //     if(valueInput < count) {
+  //       const deleteCount = +count - +(valueInput);
+  //       newArr.splice(index, deleteCount);
+  //       dispatch(setCamerasBasket(newArr))
+  //       return
+  //     }
+  //
+  //   }
+  //   console.log(sortedCamerasId);
+  // }
+
+  if(!currentCamera) {
+    return null;
+  }
+
+  return (currentCamera &&
     <li className="basket-item">
       <div className="basket-item__img">
         <picture>
           <source
             type="image/webp"
-            srcSet="img/content/orlenok.webp, img/content/orlenok@2x.webp 2x"
+            srcSet={`/${currentCamera.previewImgWebp}, ${currentCamera.previewImgWebp2x} 2x`}
           />
           <img
-            src="img/content/orlenok.jpg"
-            srcSet="img/content/orlenok@2x.jpg 2x"
+            src={`/${currentCamera.previewImg}`}
+            srcSet={`/${currentCamera.previewImg2x} 2x`}
             width={140}
             height={120}
-            alt="Фотоаппарат «Орлёнок»"
+            alt={currentCamera.name}
           />
         </picture>
       </div>
       <div className="basket-item__description">
-        <p className="basket-item__title">Фотоаппарат «Орлёнок»</p>
+        <p className="basket-item__title">{currentCamera.name}</p>
         <ul className="basket-item__list">
           <li className="basket-item__list-item">
             <span className="basket-item__article">Артикул:</span>{' '}
-            <span className="basket-item__number">O78DFGSD832</span>
+            <span className="basket-item__number">{currentCamera.vendorCode}</span>
           </li>
           <li className="basket-item__list-item">
-            Плёночная фотокамера
+            {currentCamera.type}
           </li>
           <li className="basket-item__list-item">
-            Любительский уровень
+            {currentCamera.level}
           </li>
         </ul>
       </div>
       <p className="basket-item__price">
-        <span className="visually-hidden">Цена:</span>18 970 ₽
+        <span className="visually-hidden">Цена:</span>{currentCamera.price} ₽
       </p>
       <div className="quantity">
         <button
           className="btn-icon btn-icon--prev"
           aria-label="уменьшить количество товара"
+          onClick={() => handleCountDecrease(currentCamera.id)}
+          disabled={countCameras === MIN_CAMERAS_IN_BASKET}
         >
           <svg width={7} height={12} aria-hidden="true">
             <use xlinkHref="#icon-arrow"/>
@@ -47,14 +104,17 @@ export default function BasketItemCamera () {
         <input
           type="number"
           id="counter1"
-          defaultValue={2}
           min={1}
-          max={99}
+          value={countCameras}
+          max={9}
           aria-label="количество товара"
+          readOnly
         />
         <button
           className="btn-icon btn-icon--next"
           aria-label="увеличить количество товара"
+          onClick={() => handleCountIncrease(currentCamera?.id)}
+          disabled={countCameras >= MAX_CAMERAS_IN_BASKET}
         >
           <svg width={7} height={12} aria-hidden="true">
             <use xlinkHref="#icon-arrow"/>
@@ -62,7 +122,7 @@ export default function BasketItemCamera () {
         </button>
       </div>
       <div className="basket-item__total-price">
-        <span className="visually-hidden">Общая цена:</span>37 940 ₽
+        <span className="visually-hidden">Общая цена:</span>{countCameras * currentCamera.price} ₽
       </div>
       <button
         className="cross-btn"
@@ -74,5 +134,5 @@ export default function BasketItemCamera () {
         </svg>
       </button>
     </li>
-  )
+  );
 }

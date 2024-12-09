@@ -8,6 +8,7 @@ import {TCameraCard} from '../../types/type-cards.ts';
 import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import CatalogModalAddItemSuccess from '../catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
+import {MAX_CAMERAS_IN_BASKET} from '../../const.ts';
 
 export default function ProductCard () {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ export default function ProductCard () {
   const [isActiveTabList, setIsActiveTabList] = useState<boolean>(false);
   const [isActiveTabText, setIsActiveTabText] = useState<boolean>(true);
   const [isAddSuccess, setAddSuccess ] = useState(false);
+  const countCurrentCamera = camerasIdBasket.filter((item) => item === currentCamera?.id).length;
 
   const [, setSearchParams] = useSearchParams();
 
@@ -107,7 +109,12 @@ export default function ProductCard () {
                 <p className="product__price">
                   <span className="visually-hidden">Цена:</span>{currentCamera.price} ₽
                 </p>
-                <button className="btn btn--purple" type="button" onClick={() => handleAddToBasket(currentCamera)}>
+                <button
+                  className="btn btn--purple"
+                  type="button"
+                  onClick={() => handleAddToBasket(currentCamera)}
+                  disabled={countCurrentCamera >= MAX_CAMERAS_IN_BASKET}
+                >
                   <svg width={24} height={16} aria-hidden="true">
                     <use xlinkHref="#icon-add-basket"/>
                   </svg>
