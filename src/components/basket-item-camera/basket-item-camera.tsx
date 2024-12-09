@@ -3,9 +3,10 @@ import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 import {removeElement} from '../../utils/utils.ts';
-import {MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
+import { MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
 import React, {useEffect, useState} from 'react';
 import {useDebounce} from 'use-debounce';
+
 
 type TBasketItemCamera = {
   idCamera: number;
@@ -13,12 +14,11 @@ type TBasketItemCamera = {
 
 export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   const dispatch = useAppDispatch();
-
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
   const cameras = useAppSelector(selectCameras);
   const currentCamera = cameras.find((item) => item.id === idCamera);
 
-  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
   const countCameras = camerasIdBasket.filter((item) => item === idCamera).length;
 
   const [count, setCount] = useState(countCameras);
