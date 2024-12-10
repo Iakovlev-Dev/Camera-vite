@@ -13,7 +13,7 @@ export default function PageBasket () {
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
   if(camerasIdBasket.length === 0) {
-    dispatch(redirectToRote(AppRoute.Main))
+    dispatch(redirectToRote(AppRoute.Main));
   }
 
   useEffect(() => {

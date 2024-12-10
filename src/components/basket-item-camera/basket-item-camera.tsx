@@ -18,6 +18,7 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
 
   const cameras = useAppSelector(selectCameras);
   const currentCamera = cameras.find((item) => item.id === idCamera);
+  const sortedCamerasId = [...camerasIdBasket].sort((a, b) => a - b);
 
   const countCameras = camerasIdBasket.filter((item) => item === idCamera).length;
 
@@ -37,7 +38,6 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
 
   useEffect(() => {
     if(currentCamera) {
-      const sortedCamerasId = [...camerasIdBasket].sort((a, b) => a - b);
       const index = sortedCamerasId.indexOf(currentCamera?.id);
       const filteredCameras = sortedCamerasId.filter((id) => id !== currentCamera.id);
       const newArrId = [];
@@ -61,6 +61,13 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   const handleCountChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const valueInput = evt.currentTarget.value;
     setCount(Number(valueInput));
+  };
+
+  const handleClickDelete = (id: number) => {
+    const newArr = [...sortedCamerasId];
+    const index = sortedCamerasId.indexOf(id);
+    newArr.splice(index, countCameras);
+    dispatch(setCamerasBasket(newArr));
   };
 
   if(!currentCamera) {
@@ -141,6 +148,7 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
         className="cross-btn"
         type="button"
         aria-label="Удалить товар"
+        onClick={() => handleClickDelete(currentCamera?.id)}
       >
         <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close"/>
