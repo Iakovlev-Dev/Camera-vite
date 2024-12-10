@@ -55,7 +55,7 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
       const newArr = filteredCameras.concat(newArrId).sort((a, b) => a - b);
       dispatch(setCamerasBasket(newArr));
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceCount, dispatch]);
 
   const handleCountChange = (evt: React.FormEvent<HTMLInputElement>) => {
