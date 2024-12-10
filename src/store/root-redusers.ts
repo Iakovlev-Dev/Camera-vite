@@ -7,7 +7,7 @@ import {sortingProcess} from './sorting-filtered-process/sorting-process.ts';
 import {filterProcess} from './filters-process/filter-process.ts';
 import {basketProcess} from './basket-process/basket-process.ts';
 
-export const rootReducers = combineReducers({
+export const rootReducer = combineReducers({
   [NameSpace.DATA_CARDS]: dataCardProcess.reducer,
   [NameSpace.REVIEWS]: reviewProcess.reducer,
   [NameSpace.PROMO]: promoProcess.reducer,

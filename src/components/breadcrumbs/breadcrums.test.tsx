@@ -19,7 +19,7 @@ describe('Component: Breadcrumbs', () => {
     });
     const {withStoreComponent} = withStore(<Breadcrumbs />, fakeStore);
 
-    const preparedComponent = withHistory(withStoreComponent)
+    const preparedComponent = withHistory(withStoreComponent);
 
     render(preparedComponent);
 

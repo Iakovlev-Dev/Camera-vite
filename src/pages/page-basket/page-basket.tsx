@@ -3,8 +3,14 @@ import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import Basket from '../../components/basket/basket.tsx';
 import {useEffect} from 'react';
+import BasketModalDelete from '../../components/basket-modal-delete/basket-modal-delete.tsx';
+import {useAppSelector} from '../../store/hooks.ts';
+import {selectCamerasIdBasket, selectIsDeletingCamera} from '../../store/basket-process/selectors.ts';
 
 export default function PageBasket () {
+  const isDeletingCamera = useAppSelector(selectIsDeletingCamera);
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
+
   useEffect(() => {
     window.scrollTo({
       top:0,
@@ -12,6 +18,10 @@ export default function PageBasket () {
       behavior: 'smooth',
     });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('camerasId', JSON.stringify(camerasIdBasket));
+  }, [camerasIdBasket]);
 
   return (
     <div className="wrapper">
@@ -21,6 +31,7 @@ export default function PageBasket () {
           <Breadcrumbs />
           <Basket />
         </div>
+        {isDeletingCamera && <BasketModalDelete />}
       </main>
       <Footer />
     </div>

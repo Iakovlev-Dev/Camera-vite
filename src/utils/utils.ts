@@ -44,3 +44,12 @@ export const sortingCameras = (sortInner: string, sortOrder: string, cameras: TC
 };
 
 export const isCameraInBasket = (arr: number[], item: number) => arr.includes(item);
+
+export function removeElement (arr: number[], el: number) {
+  const newArr = [...arr];
+  const index = newArr.indexOf(el);
+  if(index !== -1) {
+    newArr.splice(index, 1);
+  }
+  return newArr;
+}

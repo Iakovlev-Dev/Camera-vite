@@ -6,7 +6,7 @@ import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
 import {useSearchParams} from 'react-router-dom';
-import {useAppDispatch} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {
   setFilterCategory,
   setFilterLevel,
@@ -16,15 +16,16 @@ import {
 import {setSortInner, setSortOrder} from '../../store/sorting-filtered-process/sorting-process.ts';
 import CatalogModalAddItemSuccess
   from '../../components/catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
+import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 
 export default function PageMain () {
   const dispatch = useAppDispatch();
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
   const [isOpen, setIsOpen] = useState(false);
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
 
   const [searchParams] = useSearchParams();
-
 
   const types = searchParams.get('types')?.split(' ');
   const category = searchParams.get('category');
@@ -99,6 +100,10 @@ export default function PageMain () {
    };
  }, [isOpen, isModalSuccess]);
 
+ useEffect(() => {
+   localStorage.setItem('camerasId', JSON.stringify(camerasIdBasket));
+ }, [camerasIdBasket]);
+
  return (
    <>
      <Helmet>
@@ -117,7 +122,5 @@ export default function PageMain () {
        </main>
      </div>
    </>
-
-
  );
 }
