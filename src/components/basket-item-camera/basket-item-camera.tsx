@@ -1,13 +1,11 @@
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
-import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
+import {setCamerasBasket, setDeleteIdCamera, setIsDeleteCamera} from '../../store/basket-process/basket-process.ts';
 import {removeElement} from '../../utils/utils.ts';
-import {AppRoute, MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
+import { MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET } from '../../const.ts';
 import React, {useEffect, useState} from 'react';
 import {useDebounce} from 'use-debounce';
-import {redirectToRote} from '../../store/action.ts';
-
 
 type TBasketItemCamera = {
   idCamera: number;
@@ -65,13 +63,9 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   };
 
   const handleClickDelete = (id: number) => {
-    const newArr = [...sortedCamerasId];
-    const index = sortedCamerasId.indexOf(id);
-    newArr.splice(index, countCameras);
-    dispatch(setCamerasBasket(newArr));
-    if(newArr.length === 0) {
-      dispatch(redirectToRote(AppRoute.Main));
-    }
+
+    dispatch(setIsDeleteCamera(true))
+    dispatch(setDeleteIdCamera(id))
   };
 
   if(!currentCamera) {
