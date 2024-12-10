@@ -10,20 +10,20 @@ export default function BasketSummary () {
           <span className="basket__summary-text">Скидка:</span>
           <span className="basket__summary-value basket__summary-value--bonus">
                   0 ₽
-              </span>
+          </span>
         </p>
         <p className="basket__summary-item">
-              <span className="basket__summary-text basket__summary-text--total">
+          <span className="basket__summary-text basket__summary-text--total">
                   К оплате:
-              </span>
+          </span>
           <span className="basket__summary-value basket__summary-value--total">
                   111 390 ₽
-              </span>
+          </span>
         </p>
         <button className="btn btn--purple" type="submit">
           Оформить заказ
         </button>
       </div>
     </div>
-  )
+  );
 }

@@ -9,10 +9,10 @@ import {redirectToRote} from '../../store/action.ts';
 
 export default function BasketModalDelete() {
   const dispatch = useAppDispatch();
-  const cameras = useAppSelector(selectCameras)
-  const idDeletingCamera = useAppSelector(selectDeleteIdCamera)
-  const currentCamera = cameras.find((item) => item.id === idDeletingCamera )
-  const camerasIdBasket = useAppSelector(selectCamerasIdBasket)
+  const cameras = useAppSelector(selectCameras);
+  const idDeletingCamera = useAppSelector(selectDeleteIdCamera);
+  const currentCamera = cameras.find((item) => item.id === idDeletingCamera);
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
 
   type TEventKey = {
@@ -40,21 +40,21 @@ export default function BasketModalDelete() {
       document.removeEventListener('keydown', handleEscClick);
       document.removeEventListener('click', handleOverlayClick);
     };
-  }, [idDeletingCamera]);
+  }, [dispatch, idDeletingCamera]);
 
   const handleClickDelete = (id: number) => {
     const sortedCamerasId = [...camerasIdBasket].sort((a, b) => a - b);
     const newArr = [...sortedCamerasId];
     const index = sortedCamerasId.indexOf(id);
-    const countCameras = camerasIdBasket.filter((item) => item === id).length
+    const countCameras = camerasIdBasket.filter((item) => item === id).length;
     newArr.splice(index, countCameras);
     dispatch(setCamerasBasket(newArr));
-    dispatch(setIsDeleteCamera(false))
+    dispatch(setIsDeleteCamera(false));
     if(newArr.length === 0) {
       dispatch(redirectToRote(AppRoute.Main));
     }
 
-  }
+  };
 
   if(!currentCamera) {
     return null;
@@ -86,7 +86,7 @@ export default function BasketModalDelete() {
               <p className="basket-item__title">{currentCamera.name}</p>
               <ul className="basket-item__list">
                 <li className="basket-item__list-item">
-                  <span className="basket-item__article">Артикул:</span>{" "}
+                  <span className="basket-item__article">Артикул:</span>{' '}
                   <span className="basket-item__number">{currentCamera.vendorCode}</span>
                 </li>
                 <li className="basket-item__list-item">{currentCamera.type}</li>
@@ -122,5 +122,5 @@ export default function BasketModalDelete() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -17,7 +17,7 @@ import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 export default function PageCard () {
   const dispatch = useAppDispatch();
   const {id} = useParams();
-  const camerasIdBasket = useAppSelector(selectCamerasIdBasket)
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
   useEffect(() => {
     dispatch(fetchCameraCardAction(id as string));

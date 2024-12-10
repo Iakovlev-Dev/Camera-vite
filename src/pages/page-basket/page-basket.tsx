@@ -8,8 +8,8 @@ import {useAppSelector} from '../../store/hooks.ts';
 import {selectCamerasIdBasket, selectIsDeletingCamera} from '../../store/basket-process/selectors.ts';
 
 export default function PageBasket () {
-  const isDeletingCamera = useAppSelector(selectIsDeletingCamera)
-  const camerasIdBasket = useAppSelector(selectCamerasIdBasket)
+  const isDeletingCamera = useAppSelector(selectIsDeletingCamera);
+  const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
 
   useEffect(() => {
     window.scrollTo({

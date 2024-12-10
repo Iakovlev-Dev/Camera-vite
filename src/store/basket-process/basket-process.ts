@@ -5,7 +5,7 @@ import {NameSpace} from '../../const.ts';
 type initialState = {
   camerasIdBasket: number[];
   isDeleteCamera: boolean;
-  deleteIdCamera: number | null
+  deleteIdCamera: number | null;
 }
 
 const initialState: initialState = {

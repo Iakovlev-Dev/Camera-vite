@@ -64,8 +64,8 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
 
   const handleClickDelete = (id: number) => {
 
-    dispatch(setIsDeleteCamera(true))
-    dispatch(setDeleteIdCamera(id))
+    dispatch(setIsDeleteCamera(true));
+    dispatch(setDeleteIdCamera(id));
   };
 
   if(!currentCamera) {
