@@ -3,9 +3,10 @@ import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 import {removeElement} from '../../utils/utils.ts';
-import { MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
+import {AppRoute, MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET} from '../../const.ts';
 import React, {useEffect, useState} from 'react';
 import {useDebounce} from 'use-debounce';
+import {redirectToRote} from '../../store/action.ts';
 
 
 type TBasketItemCamera = {
@@ -68,6 +69,9 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
     const index = sortedCamerasId.indexOf(id);
     newArr.splice(index, countCameras);
     dispatch(setCamerasBasket(newArr));
+    if(newArr.length === 0) {
+      dispatch(redirectToRote(AppRoute.Main));
+    }
   };
 
   if(!currentCamera) {

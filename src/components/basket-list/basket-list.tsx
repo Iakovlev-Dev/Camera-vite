@@ -4,15 +4,16 @@ import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 
 
 export default function BasketList () {
-  const basketIdCameras = useAppSelector(selectCamerasIdBasket)
-  const uniqueId = new Set(basketIdCameras)
+  const basketIdCameras = useAppSelector(selectCamerasIdBasket);
+  const uniqueId = new Set(basketIdCameras);
 
   return (
     <ul className="basket__list">
-      {Array.from(uniqueId).map((item) => (
-        <BasketItemCamera key={item} idCamera={item}/>
-      ))}
-
+      {basketIdCameras.length === 0
+        ? 'Корзина пуста'
+        : Array.from(uniqueId).map((item) => (
+          <BasketItemCamera key={item} idCamera={item} />
+        ))}
     </ul>
-  )
+  );
 }
