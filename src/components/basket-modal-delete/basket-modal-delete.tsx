@@ -60,7 +60,11 @@ export default function BasketModalDelete() {
     return null;
   }
 
-  return (idDeletingCamera &&
+  if(!idDeletingCamera) {
+    return null;
+  }
+
+  return (
     <div className="modal is-active">
       <div className="modal__wrapper">
         <div className="modal__overlay"/>
