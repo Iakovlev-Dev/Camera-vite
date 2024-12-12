@@ -53,3 +53,28 @@ export function removeElement (arr: number[], el: number) {
   }
   return newArr;
 }
+
+export const getDiscount = (idCameras: number[], sum: number): number => {
+  const cameraCount = idCameras.length;
+  let discount = 0;
+
+  if (cameraCount > 10) {
+    discount = 15;
+  } else if (cameraCount >= 6) {
+    discount = 10;
+  } else if (cameraCount >= 3) {
+    discount = 5;
+  } else if (cameraCount === 2) {
+    discount = 3;
+  }
+
+  if (sum >= 30000) {
+    discount -= 3;
+  } else if (sum >= 20000) {
+    discount -= 2;
+  } else if (sum >= 10000) {
+    discount -= 1;
+  }
+
+  return Math.max(discount, 0);
+};

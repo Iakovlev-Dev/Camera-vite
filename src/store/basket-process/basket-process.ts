@@ -6,12 +6,14 @@ type initialState = {
   camerasIdBasket: number[];
   isDeleteCamera: boolean;
   deleteIdCamera: number | null;
+  orderAmount: number;
 }
 
 const initialState: initialState = {
   camerasIdBasket: [],
   isDeleteCamera: false,
   deleteIdCamera: null,
+  orderAmount: 0,
 };
 
 export const basketProcess = createSlice({
@@ -26,6 +28,9 @@ export const basketProcess = createSlice({
     },
     setDeleteIdCamera: (state, action: PayloadAction<number>) => {
       state.deleteIdCamera = action.payload;
+    },
+    setSumOrder: (state, action: PayloadAction<number>) => {
+      state.orderAmount = action.payload;
     }
   }
 });
@@ -33,5 +38,6 @@ export const basketProcess = createSlice({
 export const {
   setCamerasBasket,
   setIsDeleteCamera,
-  setDeleteIdCamera
+  setDeleteIdCamera,
+  setSumOrder
 } = basketProcess.actions;

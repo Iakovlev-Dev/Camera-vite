@@ -1,7 +1,11 @@
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
-import {setCamerasBasket, setDeleteIdCamera, setIsDeleteCamera} from '../../store/basket-process/basket-process.ts';
+import {
+  setCamerasBasket,
+  setDeleteIdCamera,
+  setIsDeleteCamera, setSumOrder,
+} from '../../store/basket-process/basket-process.ts';
 import {removeElement} from '../../utils/utils.ts';
 import { MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET } from '../../const.ts';
 import React, {useEffect, useState} from 'react';
@@ -23,6 +27,15 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
 
   const [count, setCount] = useState(countCameras);
   const [debounceCount] = useDebounce(count, 2000);
+
+  const sumOrder = sortedCamerasId.reduce((sum, id) => {
+    const item = cameras.find((camera) => camera.id === id);
+    return item ? sum + item.price : sum;
+  }, 0);
+
+  useEffect(() => {
+    dispatch(setSumOrder(sumOrder));
+  }, [dispatch, sumOrder]);
 
   const handleCountIncrease = (id: number) => {
     setCount(count + 1);
@@ -63,7 +76,6 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   };
 
   const handleClickDelete = (id: number) => {
-
     dispatch(setIsDeleteCamera(true));
     dispatch(setDeleteIdCamera(id));
   };
