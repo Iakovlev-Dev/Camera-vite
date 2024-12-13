@@ -1,5 +1,8 @@
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
-import {selectCamerasIdBasket, selectSumOrder} from '../../store/basket-process/selectors.ts';
+import {
+  selectCamerasIdBasket,
+  selectSumOrder
+} from '../../store/basket-process/selectors.ts';
 import {selectPromo} from '../../store/promo-process/selectors.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import {getDiscount} from '../../utils/utils.ts';
@@ -7,7 +10,7 @@ import classNames from 'classnames';
 import {useForm} from 'react-hook-form';
 import {TOrder} from '../../types/type-order.ts';
 import {postOrder} from '../../store/api-actions.ts';
-
+import { setOrderPostSuccess} from '../../store/basket-process/basket-process.ts';
 
 export default function BasketSummary () {
   const dispatch = useAppDispatch();
@@ -41,6 +44,7 @@ export default function BasketSummary () {
       coupon: null,
     };
     dispatch(postOrder(orderToPost));
+    dispatch(setOrderPostSuccess(true));
   };
 
   return (

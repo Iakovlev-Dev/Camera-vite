@@ -5,11 +5,19 @@ import Basket from '../../components/basket/basket.tsx';
 import {useEffect} from 'react';
 import BasketModalDelete from '../../components/basket-modal-delete/basket-modal-delete.tsx';
 import {useAppSelector} from '../../store/hooks.ts';
-import {selectCamerasIdBasket, selectIsDeletingCamera} from '../../store/basket-process/selectors.ts';
+import {
+  selectCamerasIdBasket,
+  selectIsDeletingCamera, selectIsLoading,
+  selectIsOrderPostSuccess
+} from '../../store/basket-process/selectors.ts';
+import BasketSuccessOrder from '../../components/basket-success-order/basket-success-order.tsx';
+import Loader from '../../components/loader/loader.tsx';
 
 export default function PageBasket () {
   const isDeletingCamera = useAppSelector(selectIsDeletingCamera);
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
+  const isOrderPostSuccess = useAppSelector(selectIsOrderPostSuccess);
+  const isLoading = useAppSelector(selectIsLoading);
 
   useEffect(() => {
     window.scrollTo({
@@ -32,6 +40,8 @@ export default function PageBasket () {
           <Basket />
         </div>
         {isDeletingCamera && <BasketModalDelete />}
+        {isOrderPostSuccess && !isLoading && <BasketSuccessOrder />}
+        {isLoading && <Loader />}
       </main>
       <Footer />
     </div>
