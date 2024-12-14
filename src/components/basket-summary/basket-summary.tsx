@@ -10,7 +10,6 @@ import classNames from 'classnames';
 import {useForm} from 'react-hook-form';
 import {TOrder} from '../../types/type-order.ts';
 import {postOrder} from '../../store/api-actions.ts';
-import { setOrderPostSuccess} from '../../store/basket-process/basket-process.ts';
 
 export default function BasketSummary () {
   const dispatch = useAppDispatch();
@@ -44,7 +43,7 @@ export default function BasketSummary () {
       coupon: null,
     };
     dispatch(postOrder(orderToPost));
-    dispatch(setOrderPostSuccess(true));
+
   };
 
   return (

@@ -7,3 +7,4 @@ export const selectDeleteIdCamera = (state: TState) => state[NameSpace.BASKET].d
 export const selectSumOrder = (state: TState) => state[NameSpace.BASKET].orderAmount;
 export const selectIsOrderPostSuccess = (state: TState) => state[NameSpace.BASKET].isOrderPostSuccess;
 export const selectIsLoading = (state: TState) => state[NameSpace.BASKET].isLoading;
+export const selectIsErrorPostBasket = (state: TState) => state[NameSpace.BASKET].isErrorBasket;

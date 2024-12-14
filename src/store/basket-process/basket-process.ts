@@ -44,6 +44,9 @@ export const basketProcess = createSlice({
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setIsErrorPostBasket: (state, action: PayloadAction<boolean>) => {
+      state.isErrorBasket = action.payload;
     }
   },
   extraReducers (builder) {
@@ -53,10 +56,12 @@ export const basketProcess = createSlice({
       })
       .addCase(postOrder.fulfilled, (state) => {
         state.isLoading = false;
+        state.isOrderPostSuccess = true;
         state.camerasIdBasket = [];
       })
       .addCase(postOrder.rejected, (state) => {
         state.isErrorBasket = true;
+        state.isLoading = false;
       });
   }
 });
@@ -67,5 +72,5 @@ export const {
   setDeleteIdCamera,
   setOrderPostSuccess,
   setSumOrder,
-  setIsLoading
+  setIsErrorPostBasket
 } = basketProcess.actions;

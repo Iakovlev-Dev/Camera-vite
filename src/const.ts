@@ -22,7 +22,7 @@ export const NameSpace = {
 
 export const APIRoute = {
   Cameras: '/cameras',
-  Orders: '/orders',
+  Orders: '/order',
   Promo: '/promo'
 };
 
