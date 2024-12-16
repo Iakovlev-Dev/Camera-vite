@@ -40,11 +40,11 @@ export default function CatalogModal({onClose, idCamera, onAddItem}: TCatalogMod
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet={`${currentCamera.previewImgWebp && currentCamera.previewImgWebp2x} 2x`}
+                      srcSet={`/${currentCamera.previewImgWebp && currentCamera.previewImgWebp2x} 2x`}
                     />
                     <img
-                      src={`${currentCamera.previewImg}`}
-                      srcSet={`${currentCamera.previewImg2x} 2x`}
+                      src={`/${currentCamera.previewImg}`}
+                      srcSet={`/${currentCamera.previewImg2x} 2x`}
                       width={140}
                       height={120}
                       alt={currentCamera.name}

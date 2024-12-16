@@ -26,13 +26,12 @@ export default function BasketSummerOrder() {
   }, 0);
 
   const discount = getDiscount(idCamerasToDiscount, sumOrderToDiscount);
-  const sumDiscount = Math.round(sumOrderToDiscount * (discount / 100));
+  const sumDiscount = (sumOrderToDiscount * (discount / 100)).toFixed(2);
 
   const classNameDiscount = classNames(
     'basket__summary-value', {
-      'basket__summary-value--bonus': sumDiscount > 0
+      'basket__summary-value--bonus': +sumDiscount > 0
     });
-
 
   const onSubmitOrder = () => {
     const orderToPost: TOrder = {
@@ -61,7 +60,7 @@ export default function BasketSummerOrder() {
                   К оплате:
           </span>
           <span className="basket__summary-value basket__summary-value--total">
-            {idCamerasBasket.length ? sumOrder - sumDiscount : '0'} ₽
+            {idCamerasBasket.length ? sumOrder - +sumDiscount : '0'} ₽
           </span>
         </p>
         <button

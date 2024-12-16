@@ -9,15 +9,19 @@ import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import CatalogModalAddItemSuccess from '../catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
 import {MAX_CAMERAS_IN_BASKET} from '../../const.ts';
+import CatalogModal from '../catalog-modal/catalog-modal.tsx';
 
 export default function ProductCard () {
   const dispatch = useAppDispatch();
 
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
   const currentCamera = useAppSelector(selectCamera);
+
   const [isActiveTabList, setIsActiveTabList] = useState<boolean>(false);
   const [isActiveTabText, setIsActiveTabText] = useState<boolean>(true);
+  const [isAdd, setIsAdd] = useState(false);
   const [isAddSuccess, setAddSuccess ] = useState(false);
+
   const countCurrentCamera = camerasIdBasket.filter((item) => item === currentCamera?.id).length;
 
   const [, setSearchParams] = useSearchParams();
@@ -29,7 +33,6 @@ export default function ProductCard () {
 
   useEffect(() => {
     setSearchParams((prev) => {
-
       if (isActiveTabText) {
         prev.set('tab', 'text');
       } else {
@@ -43,11 +46,21 @@ export default function ProductCard () {
     const newArr: number[] = [...camerasIdBasket];
     newArr.push(camera.id);
     dispatch(setCamerasBasket(newArr));
-    setAddSuccess(true);
+    setIsAdd(true);
     document.body.classList.add('scroll-lock');
   };
 
   const handleCloseModal = () => {
+    setIsAdd(false);
+    document.body.classList.remove('scroll-lock');
+  };
+
+  const handleAddItemSuccess = () => {
+    setIsAdd(false);
+    setAddSuccess(true);
+  };
+
+  const handleModalSuccessClose = () => {
     setAddSuccess(false);
     document.body.classList.remove('scroll-lock');
   };
@@ -60,14 +73,14 @@ export default function ProductCard () {
   useEffect(() => {
     const handleEscClick = (evt: TEventKey) => {
       if (evt.key === 'Escape') {
-        setAddSuccess(false);
+        setIsAdd(false);
         document.body.classList.remove('scroll-lock');
       }
     };
 
     const handleOverlayClick = (evt: MouseEvent) => {
       if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        setAddSuccess(false);
+        setIsAdd(false);
         document.body.classList.remove('scroll-lock');
       }
     };
@@ -77,8 +90,7 @@ export default function ProductCard () {
       document.removeEventListener('keydown', handleEscClick);
       document.removeEventListener('click', handleOverlayClick);
     };
-  }, [isAddSuccess]);
-
+  }, [isAdd]);
 
   return (currentCamera &&
       <>
@@ -170,7 +182,8 @@ export default function ProductCard () {
               </div>
             </div>
           </section>
-          {isAddSuccess && <CatalogModalAddItemSuccess onClose={handleCloseModal} />}
+          {isAdd && <CatalogModal idCamera={currentCamera.id} onClose={handleCloseModal} onAddItem={handleAddItemSuccess} />}
+          {isAddSuccess && <CatalogModalAddItemSuccess onClose={handleModalSuccessClose} />}
         </div>
       </>
   );
