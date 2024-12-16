@@ -17,7 +17,9 @@ export default function ProductReviews () {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            {/*<button class="btn" type="button">Оставить свой отзыв</button>*/}
+            <button className="btn" type="button">
+              Оставить свой отзыв
+            </button>
           </div>
           <ProductReviewsList countReviews={countReviews} />
           {countReviews < reviews.length ? <ProductReviewsButton onClick={handleClickButtonReviews}/> : ''}
