@@ -53,7 +53,6 @@ export default function BasketModalDelete() {
     if(newArr.length === 0) {
       dispatch(redirectToRote(AppRoute.Main));
     }
-
   };
 
   if(!currentCamera) {
@@ -65,7 +64,7 @@ export default function BasketModalDelete() {
   }
 
   return (
-    <div className="modal is-active">
+    <div className="modal is-active" data-testid="basket-modal-delete">
       <div className="modal__wrapper">
         <div className="modal__overlay"/>
         <div className="modal__content">

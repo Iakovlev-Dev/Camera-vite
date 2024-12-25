@@ -8,7 +8,7 @@ export default function BasketList () {
   const uniqueId = new Set(basketIdCameras);
 
   return (
-    <ul className="basket__list">
+    <ul className="basket__list" data-testid="basket-list">
       {basketIdCameras.length === 0
         ? 'Корзина пуста'
         : Array.from(uniqueId).map((item) => (

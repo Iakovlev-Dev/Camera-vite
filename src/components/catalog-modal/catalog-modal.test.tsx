@@ -11,14 +11,16 @@ describe('Component: CatalogModal', () => {
     const fakeCameras = [makeFakeCamera()];
     const fakeIdCamera = fakeCameras[0].id;
     const fakeOnClose = vi.fn();
+    const fakeOnAdd = vi.fn();
     const fakeStore = makeFakeStore({
       [NameSpace.DATA_CARDS]: {
         cameras: fakeCameras,
         camera: null,
-        similarCameras: []
+        similarCameras: [],
+        currentPage: null
       }
     });
-    const {withStoreComponent} = withStore(<CatalogModal idCamera={fakeIdCamera} onClose={fakeOnClose} />, fakeStore);
+    const {withStoreComponent} = withStore(<CatalogModal idCamera={fakeIdCamera} onClose={fakeOnClose} onAddItem={fakeOnAdd}/>, fakeStore);
     const preparedComponent = withHistory(withStoreComponent);
 
     render(preparedComponent);
