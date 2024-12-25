@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import {TOrder} from '../../types/type-order.ts';
 import {postOrder} from '../../store/api-actions.ts';
 
-export default function BasketSummerOrder() {
+export default function BasketSummeryOrder() {
   const dispatch = useAppDispatch();
   const {handleSubmit} = useForm();
 

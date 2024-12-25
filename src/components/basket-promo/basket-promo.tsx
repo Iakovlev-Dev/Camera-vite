@@ -20,5 +20,5 @@ export default function BasketPromo () {
         </form>
       </div>
     </div>
-  )
+  );
 }

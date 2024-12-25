@@ -36,7 +36,13 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
     filteredCameras: []
   },
   [NameSpace.BASKET]: {
-    camerasIdBasket: []
+    camerasIdBasket: [],
+    isDeleteCamera: false,
+    deleteIdCamera: null,
+    orderAmount: 0,
+    isOrderPostSuccess: false,
+    isLoading: false,
+    isErrorBasket: false,
   },
   ...initialState ?? {},
 });

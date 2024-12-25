@@ -14,7 +14,8 @@ describe('Component: Catalog', () => {
       [NameSpace.DATA_CARDS]: {
         cameras: fakeCameras,
         camera: null,
-        similarCameras: []
+        similarCameras: [],
+        currentPage: 1,
       }
     });
     const {withStoreComponent} = withStore(<Catalog onClick={fakeOnClick} />, fakeStore);

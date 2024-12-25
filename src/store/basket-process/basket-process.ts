@@ -1,9 +1,9 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, Slice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const.ts';
 import {postOrder} from '../api-actions.ts';
 
 
-type initialState = {
+type TInitialStateBasketProcess = {
   camerasIdBasket: number[];
   isDeleteCamera: boolean;
   deleteIdCamera: number | null;
@@ -13,7 +13,7 @@ type initialState = {
   isErrorBasket: boolean;
 }
 
-const initialState: initialState = {
+const initialState: TInitialStateBasketProcess = {
   camerasIdBasket: [],
   isDeleteCamera: false,
   deleteIdCamera: null,
@@ -23,7 +23,7 @@ const initialState: initialState = {
   isErrorBasket: false,
 };
 
-export const basketProcess = createSlice({
+export const basketProcess: Slice<TInitialStateBasketProcess> = createSlice({
   name: NameSpace.BASKET,
   initialState,
   reducers: {
@@ -41,9 +41,6 @@ export const basketProcess = createSlice({
     },
     setOrderPostSuccess: (state, action: PayloadAction<boolean>) => {
       state.isOrderPostSuccess = action.payload;
-    },
-    setIsLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
     },
     setIsErrorPostBasket: (state, action: PayloadAction<boolean>) => {
       state.isErrorBasket = action.payload;
@@ -72,5 +69,5 @@ export const {
   setDeleteIdCamera,
   setOrderPostSuccess,
   setSumOrder,
-  setIsErrorPostBasket
+  setIsErrorPostBasket,
 } = basketProcess.actions;

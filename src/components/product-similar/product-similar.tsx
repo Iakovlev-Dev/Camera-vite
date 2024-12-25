@@ -5,7 +5,11 @@ import {useEffect, useState} from 'react';
 
 const MAX_SIMILAR_CAMERAS = 3;
 
-export default function ProductSimilar () {
+type TProductSimilar = {
+  onClick: (id: number) => void;
+}
+
+export default function ProductSimilar ({onClick}: TProductSimilar) {
   const similarCameras = useAppSelector(selectSimilarCameras);
 
   const [firstIndex, setFirstIndex] = useState(0);
@@ -28,6 +32,10 @@ export default function ProductSimilar () {
     setLastIndex(MAX_SIMILAR_CAMERAS);
   }, [similarCameras]);
 
+  const handleClickOpen = (id: number) => {
+    onClick(id);
+  };
+
   return (
     <div className="page-content__section">
       <section className="product-similar">
@@ -36,7 +44,7 @@ export default function ProductSimilar () {
           <div className="product-similar__slider">
             <div className="product-similar__slider-list">
               {slicedSimilarCameras.map((item) => (
-                <ProductCardSimilar camera={item} key={item.id} />
+                <ProductCardSimilar camera={item} key={item.id} onClick={handleClickOpen}/>
               ))}
             </div>
             <button

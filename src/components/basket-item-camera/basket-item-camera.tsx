@@ -85,7 +85,7 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   }
 
   return (currentCamera &&
-    <li className="basket-item">
+    <li className="basket-item" data-testid="basket-item-camera">
       <div className="basket-item__img">
         <picture>
           <source
