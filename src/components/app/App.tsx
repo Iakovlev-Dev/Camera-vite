@@ -9,15 +9,30 @@ import PageNotFound from '../../pages/page-not-found/page-not-found.tsx';
 import PageBasket from '../../pages/page-basket/page-basket.tsx';
 import {useAppDispatch} from '../../store/hooks.ts';
 import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
+import {setCouponBasket, setDiscount} from '../../store/coupon-process/coupon-process.ts';
 
 export default function App () {
   const dispatch = useAppDispatch();
 
-  const localStorageData = localStorage.getItem('camerasId');
+  const localStorageCamerasId = localStorage.getItem('camerasId');
+  const localStorageCoupon = localStorage.getItem('coupon');
+  const localStorageDiscount = localStorage.getItem('discount');
 
-  if (localStorageData !== null) {
-    const camerasIdBasketGet = JSON.parse(localStorageData) as number [];
+  if (localStorageCamerasId !== null) {
+    const camerasIdBasketGet = JSON.parse(localStorageCamerasId) as number [];
     dispatch(setCamerasBasket(camerasIdBasketGet));
+  }
+
+  if(localStorageCoupon === null) {
+    dispatch(setCouponBasket(null));
+  } else {
+    const coupon = JSON.parse(localStorageCoupon) as string;
+    dispatch(setCouponBasket(coupon));
+  }
+
+  if (localStorageDiscount) {
+    const discount = JSON.parse(localStorageDiscount) as string;
+    dispatch(setDiscount(discount));
   }
 
   return (

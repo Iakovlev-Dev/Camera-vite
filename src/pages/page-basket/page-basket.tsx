@@ -12,6 +12,10 @@ import {
 } from '../../store/basket-process/selectors.ts';
 import BasketSuccessOrder from '../../components/basket-success-order/basket-success-order.tsx';
 import Loader from '../../components/loader/loader.tsx';
+import {
+  selectCoupon,
+  selectDiscount, selectIsLoadingCoupon,
+} from '../../store/coupon-process/selectors.ts';
 
 export default function PageBasket () {
   const isDeletingCamera = useAppSelector(selectIsDeletingCamera);
@@ -19,6 +23,9 @@ export default function PageBasket () {
   const isOrderPostSuccess = useAppSelector(selectIsOrderPostSuccess);
   const isLoading = useAppSelector(selectIsLoading);
   const isErrorPost = useAppSelector(selectIsErrorPostBasket);
+  const discount = useAppSelector(selectDiscount);
+  const coupon = useAppSelector(selectCoupon);
+  const isLoadingCoupon = useAppSelector(selectIsLoadingCoupon);
 
   useEffect(() => {
     window.scrollTo({
@@ -30,7 +37,9 @@ export default function PageBasket () {
 
   useEffect(() => {
     localStorage.setItem('camerasId', JSON.stringify(camerasIdBasket));
-  }, [camerasIdBasket]);
+    localStorage.setItem('discount', JSON.stringify(discount));
+    localStorage.setItem('coupon', JSON.stringify(coupon));
+  }, [camerasIdBasket, coupon, discount]);
 
   return (
     <div className="wrapper">
@@ -43,6 +52,7 @@ export default function PageBasket () {
         {isDeletingCamera && <BasketModalDelete />}
         {isOrderPostSuccess && <BasketSuccessOrder /> || isErrorPost && <BasketSuccessOrder />}
         {isLoading && <Loader />}
+        {isLoadingCoupon && <Loader />}
       </main>
       <Footer />
     </div>

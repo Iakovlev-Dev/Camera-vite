@@ -1,8 +1,8 @@
 import {describe, expect} from 'vitest';
 import {makeFakeStore} from '../../utils/mocks.ts';
 import {NameSpace} from '../../const.ts';
-import {selectCameras} from '../data-card-process/selectors.ts';
 import {
+  selectCamerasIdBasket,
   selectDeleteIdCamera,
   selectIsDeletingCamera, selectIsErrorPostBasket,
   selectIsLoading,
@@ -25,7 +25,7 @@ describe('BasketProcess selectors', () => {
 
   it('should return camerasIdBasket', () => {
     const {camerasIdBasket} = fakeStore.BASKET;
-    const result = selectCameras(fakeStore);
+    const result = selectCamerasIdBasket(fakeStore);
 
     expect(camerasIdBasket).toEqual(result);
   });

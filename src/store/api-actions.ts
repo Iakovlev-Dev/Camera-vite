@@ -6,6 +6,7 @@ import {APIRoute} from '../const.ts';
 import {TOrder} from '../types/type-order.ts';
 import {TReviews} from '../types/type-reviews.ts';
 import {TPromoArray} from '../types/type-promo.ts';
+import {TCouponPost} from '../components/basket-promo/basket-promo.tsx';
 
 export type TAPIAction = {
   dispatch: TAppDispatch;
@@ -50,6 +51,13 @@ export const fetchPromo = createAsyncThunk<TPromoArray, undefined, TAPIAction>('
 export const fetchSimilarCameras = createAsyncThunk<TCameraArray, string, TAPIAction>('fetchSimilarCameras',
   async (id: string, {extra: api}) => {
     const {data} = await api.get<TCameraArray>(`${APIRoute.Cameras}/${id}/similar`);
+    return data;
+  }
+);
+
+export const postCoupon = createAsyncThunk<string, TCouponPost, TAPIAction>('postCoupon',
+  async (couponBody, {extra: api}) => {
+    const {data} = await api.post<string>(APIRoute.Coupons, couponBody);
     return data;
   }
 );

@@ -44,6 +44,13 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
     isLoading: false,
     isErrorBasket: false,
   },
+  [NameSpace.COUPON]: {
+    discount: '',
+    coupon: null,
+    isLoadingCoupon: false,
+    isSuccessCoupon: false,
+    isErrorCoupon: false,
+  },
   ...initialState ?? {},
 });
 

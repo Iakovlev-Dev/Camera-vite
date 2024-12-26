@@ -17,13 +17,15 @@ export const NameSpace = {
   PROMO: 'PROMO',
   SORTING: 'SORTING',
   FILTERS: 'FILTERS',
-  BASKET: 'BASKET'
+  BASKET: 'BASKET',
+  COUPON: 'COUPON'
 } as const;
 
 export const APIRoute = {
   Cameras: '/cameras',
   Orders: '/orders',
-  Promo: '/promo'
+  Promo: '/promo',
+  Coupons: '/coupons'
 };
 
 export const MIN_COUNT_STARS = 1;

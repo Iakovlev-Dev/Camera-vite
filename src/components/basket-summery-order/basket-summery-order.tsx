@@ -1,12 +1,20 @@
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {useForm} from 'react-hook-form';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
-import {selectCamerasIdBasket, selectSumOrder} from '../../store/basket-process/selectors.ts';
+import {selectCamerasIdBasket, selectIsOrderPostSuccess, selectSumOrder} from '../../store/basket-process/selectors.ts';
 import {selectPromo} from '../../store/promo-process/selectors.ts';
 import {getDiscount} from '../../utils/utils.ts';
 import classNames from 'classnames';
 import {TOrder} from '../../types/type-order.ts';
 import {postOrder} from '../../store/api-actions.ts';
+import {
+  setCouponBasket,
+  setDiscount,
+  setIsErrorCoupon,
+  setIsSuccessCoupon
+} from '../../store/coupon-process/coupon-process.ts';
+import {selectCoupon, selectDiscount} from '../../store/coupon-process/selectors.ts';
+import {useEffect} from 'react';
 
 export default function BasketSummeryOrder() {
   const dispatch = useAppDispatch();
@@ -16,6 +24,9 @@ export default function BasketSummeryOrder() {
   const sumOrder = useAppSelector(selectSumOrder);
   const idCamerasBasket = useAppSelector(selectCamerasIdBasket);
   const promo = useAppSelector(selectPromo);
+  const coupon = useAppSelector(selectCoupon);
+  const isSuccessBasketPost = useAppSelector(selectIsOrderPostSuccess);
+  const discountCoupon = useAppSelector(selectDiscount);
 
   const promoId = promo.map((item) => item.id);
   const idCamerasToDiscount = idCamerasBasket.filter((id) => !promoId.includes(id));
@@ -24,9 +35,9 @@ export default function BasketSummeryOrder() {
     const item = cameras.find((camera) => camera.id === id);
     return item ? sum + item.price : sum;
   }, 0);
-
+  
   const discount = getDiscount(idCamerasToDiscount, sumOrderToDiscount);
-  const sumDiscount = (sumOrderToDiscount * (discount / 100)).toFixed(2);
+  const sumDiscount = (sumOrderToDiscount * ((discount + +(discountCoupon)) / 100)).toFixed(2);
 
   const classNameDiscount = classNames(
     'basket__summary-value', {
@@ -36,10 +47,19 @@ export default function BasketSummeryOrder() {
   const onSubmitOrder = () => {
     const orderToPost: TOrder = {
       camerasIds: idCamerasBasket,
-      coupon: null,
+      coupon: coupon,
     };
     dispatch(postOrder(orderToPost));
   };
+
+  useEffect(() => {
+    if (isSuccessBasketPost) {
+      dispatch(setIsSuccessCoupon(false));
+      dispatch(setCouponBasket(null));
+      dispatch(setDiscount(''));
+      dispatch(setIsErrorCoupon(false));
+    }
+  }, [dispatch, isSuccessBasketPost]);
 
   return (
     <div className="basket__summary-order">
