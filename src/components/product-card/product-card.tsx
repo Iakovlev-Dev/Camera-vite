@@ -1,19 +1,15 @@
-import {useAppDispatch, useAppSelector, useCloseModal} from '../../store/hooks.ts';
+import {useAppSelector, useCloseModal} from '../../store/hooks.ts';
 import {selectCamera} from '../../store/data-card-process/selectors.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Helmet} from 'react-helmet-async';
 import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {TCameraCard} from '../../types/type-cards.ts';
-import {setCamerasBasket} from '../../store/basket-process/basket-process.ts';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import CatalogModalAddItemSuccess from '../catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
 import {MAX_CAMERAS_IN_BASKET} from '../../const.ts';
 import CatalogModal from '../catalog-modal/catalog-modal.tsx';
 
 export default function ProductCard () {
-  const dispatch = useAppDispatch();
-
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
   const currentCamera = useAppSelector(selectCamera);
 
@@ -42,10 +38,7 @@ export default function ProductCard () {
     });
   }, [isActiveTabText, setSearchParams]);
 
-  const handleAddToBasket = (camera: TCameraCard) => {
-    const newArr: number[] = [...camerasIdBasket];
-    newArr.push(camera.id);
-    dispatch(setCamerasBasket(newArr));
+  const handleAddToBasket = () => {
     setIsAdd(true);
     document.body.classList.add('scroll-lock');
   };
@@ -65,7 +58,7 @@ export default function ProductCard () {
     document.body.classList.remove('scroll-lock');
   };
 
-  useCloseModal(setIsAdd)
+  useCloseModal(setIsAdd);
 
   return (currentCamera &&
       <>
@@ -99,7 +92,7 @@ export default function ProductCard () {
                 <button
                   className="btn btn--purple"
                   type="button"
-                  onClick={() => handleAddToBasket(currentCamera)}
+                  onClick={handleAddToBasket}
                   disabled={countCurrentCamera >= MAX_CAMERAS_IN_BASKET}
                 >
                   <svg width={24} height={16} aria-hidden="true">

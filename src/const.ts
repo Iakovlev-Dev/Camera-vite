@@ -63,12 +63,10 @@ export const FilterType: Record<string, string> = {
 };
 
 export const COUNT_CAMERAS_ON_PAGE = 9;
-
 export const MAX_COUNT_PAGE = 3;
-
 export const MAX_CAMERAS_IN_BASKET = 9;
-
 export const MIN_CAMERAS_IN_BASKET = 1;
+export const OVER_CAMERAS = 10;
 
 export enum ActionType {
   RedirectToRoute = 'redirectToRoute',
