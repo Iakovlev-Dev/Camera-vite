@@ -6,7 +6,7 @@ type TReviewAddSuccessModal = {
 
 export default function ReviewAddSuccessModal ({onClose}: TReviewAddSuccessModal) {
 
- useCloseModal(onClose)
+  useCloseModal(onClose);
 
   return (
     <div className="modal is-active modal--narrow">

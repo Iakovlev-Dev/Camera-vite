@@ -7,7 +7,7 @@ type TCCatalogModalAddItemSuccess = {
 }
 
 export default function CatalogModalAddItemSuccess({onClose}: TCCatalogModalAddItemSuccess) {
-  useCloseModal(onClose)
+  useCloseModal(onClose);
 
   return (
     <div className="modal is-active modal--narrow">

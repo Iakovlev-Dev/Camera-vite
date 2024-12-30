@@ -33,4 +33,4 @@ export const useCloseModal = (fn: (bool: boolean) => void) => {
       document.removeEventListener('click', handleOverlayClick);
     };
   }, [fn]);
-}
+};

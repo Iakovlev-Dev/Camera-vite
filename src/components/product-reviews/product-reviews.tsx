@@ -6,7 +6,7 @@ import {selectReviews} from '../../store/review-proccess/selectors.ts';
 import {START_COUNT_REVIEWS, STEP_REVIEWS} from '../../const.ts';
 
 type TProductReviews = {
-  onOpenReview: (bool: boolean) => void
+  onOpenReview: () => void;
 }
 
 export default function ProductReviews ({onOpenReview}: TProductReviews) {
@@ -18,8 +18,8 @@ export default function ProductReviews ({onOpenReview}: TProductReviews) {
   };
 
   const handleOpenreviewModal = () => {
-    onOpenReview(true)
-  }
+    onOpenReview();
+  };
 
   return (
     <div className="page-content__section">

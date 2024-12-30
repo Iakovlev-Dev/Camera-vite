@@ -6,6 +6,7 @@ import {setCamerasBasket, setIsDeleteCamera} from '../../store/basket-process/ba
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {redirectToRote} from '../../store/action.ts';
+import ReactFocusLock from 'react-focus-lock';
 
 export default function BasketModalDelete() {
   const dispatch = useAppDispatch();
@@ -55,6 +56,11 @@ export default function BasketModalDelete() {
     }
   };
 
+  const handleCloseModal = () => {
+    document.body.classList.remove('scroll-lock');
+    dispatch(setIsDeleteCamera(false));
+  };
+
   if(!currentCamera) {
     return null;
   }
@@ -64,66 +70,74 @@ export default function BasketModalDelete() {
   }
 
   return (
-    <div className="modal is-active" data-testid="basket-modal-delete">
-      <div className="modal__wrapper">
-        <div className="modal__overlay"/>
-        <div className="modal__content">
-          <p className="title title--h4">Удалить этот товар?</p>
-          <div className="basket-item basket-item--short">
-            <div className="basket-item__img">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcSet={`/${currentCamera.previewImgWebp && currentCamera.previewImgWebp2x } 2x`}
-                />
-                <img
-                  src={`/${currentCamera.previewImg}`}
-                  srcSet={`/${currentCamera.previewImgWebp2x} 2x`}
-                  width={140}
-                  height={120}
-                  alt={currentCamera.name}
-                />
-              </picture>
+    <ReactFocusLock>
+      <div className="modal is-active" data-testid="basket-modal-delete">
+        <div className="modal__wrapper">
+          <div className="modal__overlay"/>
+          <div className="modal__content">
+            <p className="title title--h4">Удалить этот товар?</p>
+            <div className="basket-item basket-item--short">
+              <div className="basket-item__img">
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={`/${currentCamera.previewImgWebp && currentCamera.previewImgWebp2x} 2x`}
+                  />
+                  <img
+                    src={`/${currentCamera.previewImg}`}
+                    srcSet={`/${currentCamera.previewImgWebp2x} 2x`}
+                    width={140}
+                    height={120}
+                    alt={currentCamera.name}
+                  />
+                </picture>
+              </div>
+              <div className="basket-item__description">
+                <p className="basket-item__title">{currentCamera.name}</p>
+                <ul className="basket-item__list">
+                  <li className="basket-item__list-item">
+                    <span className="basket-item__article">Артикул:</span>{' '}
+                    <span className="basket-item__number">{currentCamera.vendorCode}</span>
+                  </li>
+                  <li className="basket-item__list-item">{currentCamera.type}</li>
+                  <li className="basket-item__list-item">{currentCamera.level}</li>
+                </ul>
+              </div>
             </div>
-            <div className="basket-item__description">
-              <p className="basket-item__title">{currentCamera.name}</p>
-              <ul className="basket-item__list">
-                <li className="basket-item__list-item">
-                  <span className="basket-item__article">Артикул:</span>{' '}
-                  <span className="basket-item__number">{currentCamera.vendorCode}</span>
-                </li>
-                <li className="basket-item__list-item">{currentCamera.type}</li>
-                <li className="basket-item__list-item">{currentCamera.level}</li>
-              </ul>
+            <div className="modal__buttons">
+              <button
+                className="btn btn--purple modal__btn modal__btn--half-width"
+                type="button"
+                onClick={() => {
+                  handleClickDelete(idDeletingCamera);
+                  handleCloseModal();
+                }}
+                autoFocus
+              >
+                Удалить
+              </button>
+              <Link
+                className="btn btn--transparent modal__btn modal__btn--half-width"
+                to={AppRoute.Main}
+                onClick={handleCloseModal}
+              >
+                Продолжить покупки
+              </Link>
             </div>
-          </div>
-          <div className="modal__buttons">
             <button
-              className="btn btn--purple modal__btn modal__btn--half-width"
+              className="cross-btn"
               type="button"
-              onClick={() => handleClickDelete(idDeletingCamera)}
+              aria-label="Закрыть попап"
+              onClick={handleCloseModal}
             >
-              Удалить
+              <svg width={10} height={10} aria-hidden="true">
+                <use xlinkHref="#icon-close"/>
+              </svg>
             </button>
-            <Link
-              className="btn btn--transparent modal__btn modal__btn--half-width"
-              to={AppRoute.Main}
-            >
-              Продолжить покупки
-            </Link>
           </div>
-          <button
-            className="cross-btn"
-            type="button"
-            aria-label="Закрыть попап"
-            onClick={() => dispatch(setIsDeleteCamera(false))}
-          >
-            <svg width={10} height={10} aria-hidden="true">
-              <use xlinkHref="#icon-close"/>
-            </svg>
-          </button>
         </div>
       </div>
-    </div>
+    </ReactFocusLock>
+
   );
 }

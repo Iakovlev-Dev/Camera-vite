@@ -53,7 +53,6 @@ export const basketProcess: Slice<TInitialStateBasketProcess> = createSlice({
       })
       .addCase(postOrder.fulfilled, (state) => {
         state.isLoading = false;
-        state.isOrderPostSuccess = true;
         state.camerasIdBasket = [];
       })
       .addCase(postOrder.rejected, (state) => {

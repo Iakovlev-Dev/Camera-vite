@@ -24,7 +24,7 @@ export default function ProductRateReview ({onChange, register}: TProductRateRev
               required: true,
             })}
             value={item}
-            onBlur={() => {
+            onChange={() => {
               onChange(item);
             }}
           />

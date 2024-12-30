@@ -77,6 +77,7 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   const handleClickDelete = (id: number) => {
     dispatch(setIsDeleteCamera(true));
     dispatch(setDeleteIdCamera(id));
+    document.body.classList.add('scroll-lock');
   };
 
   if(!currentCamera) {
