@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import ProductRateReview from '../product-rate-review/product-rate-review.tsx';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import classNames from 'classnames';
 import {useParams} from 'react-router-dom';
-import {useAppDispatch} from '../../store/hooks.ts';
+import {useAppDispatch, useCloseModal} from '../../store/hooks.ts';
 import {postReview} from '../../store/api-actions.ts';
 import {MAX_SYMBOLS_REVIEW, MAX_SYMBOLS_USERNAME, MIN_SYMBOLS_REVIEW, MIN_SYMBOLS_USERNAME} from '../../const.ts';
 
@@ -28,33 +28,9 @@ export default function ProductAddReviewModal ({onCloseModal}: TProductAddReview
 
   const {id} = useParams();
 
-  type TEventKey = {
-    key: string;
-    preventDefault: () => void;
-  }
   const [ratingStars, setRatingStars] = useState<string>('');
 
-  useEffect(() => {
-    const handleEscClick = (evt: TEventKey) => {
-      if (evt.key === 'Escape') {
-        onCloseModal(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-
-    const handleOverlayClick = (evt: MouseEvent) => {
-      if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        onCloseModal(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-    document.addEventListener('click', handleOverlayClick);
-    document.addEventListener('keydown', handleEscClick);
-    return () => {
-      document.removeEventListener('keydown', handleEscClick);
-      document.removeEventListener('click', handleOverlayClick);
-    };
-  }, [onCloseModal]);
+  useCloseModal(onCloseModal)
 
   if(!id) {
     return null;

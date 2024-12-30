@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector, useCloseModal} from '../../store/hooks.ts';
 import {selectCamera} from '../../store/data-card-process/selectors.ts';
 import CatalogCardRating from '../catalog-card-rating/catalog-card-rating.tsx';
 import {Helmet} from 'react-helmet-async';
@@ -65,32 +65,7 @@ export default function ProductCard () {
     document.body.classList.remove('scroll-lock');
   };
 
-  type TEventKey = {
-    key: string;
-    preventDefault: () => void;
-  }
-
-  useEffect(() => {
-    const handleEscClick = (evt: TEventKey) => {
-      if (evt.key === 'Escape') {
-        setIsAdd(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-
-    const handleOverlayClick = (evt: MouseEvent) => {
-      if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        setIsAdd(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-    document.addEventListener('click', handleOverlayClick);
-    document.addEventListener('keydown', handleEscClick);
-    return () => {
-      document.removeEventListener('keydown', handleEscClick);
-      document.removeEventListener('click', handleOverlayClick);
-    };
-  }, [isAdd]);
+  useCloseModal(setIsAdd)
 
   return (currentCamera &&
       <>

@@ -1,38 +1,13 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
-import {useEffect} from 'react';
+import {useCloseModal} from '../../store/hooks.ts';
 
 type TCCatalogModalAddItemSuccess = {
   onClose: (bool?: boolean) => void;
 }
 
 export default function CatalogModalAddItemSuccess({onClose}: TCCatalogModalAddItemSuccess) {
-  type TEventKey = {
-    key: string;
-    preventDefault: () => void;
-  }
-
-  useEffect(() => {
-    const handleEscClick = (evt: TEventKey) => {
-      if (evt.key === 'Escape') {
-        onClose(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-
-    const handleOverlayClick = (evt: MouseEvent) => {
-      if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        onClose(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-    document.addEventListener('click', handleOverlayClick);
-    document.addEventListener('keydown', handleEscClick);
-    return () => {
-      document.removeEventListener('keydown', handleEscClick);
-      document.removeEventListener('click', handleOverlayClick);
-    };
-  }, [onClose]);
+  useCloseModal(onClose)
 
   return (
     <div className="modal is-active modal--narrow">

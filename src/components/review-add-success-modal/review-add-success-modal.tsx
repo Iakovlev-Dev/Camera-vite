@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useCloseModal} from '../../store/hooks.ts';
 
 type TReviewAddSuccessModal = {
   onClose: (bool: boolean) => void;
@@ -6,32 +6,7 @@ type TReviewAddSuccessModal = {
 
 export default function ReviewAddSuccessModal ({onClose}: TReviewAddSuccessModal) {
 
-  type TEventKey = {
-    key: string;
-    preventDefault: () => void;
-  }
-
-  useEffect(() => {
-    const handleEscClick = (evt: TEventKey) => {
-      if (evt.key === 'Escape') {
-        onClose(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-
-    const handleOverlayClick = (evt: MouseEvent) => {
-      if ((evt.target as HTMLElement).className === 'modal__overlay') {
-        onClose(false);
-        document.body.classList.remove('scroll-lock');
-      }
-    };
-    document.addEventListener('click', handleOverlayClick);
-    document.addEventListener('keydown', handleEscClick);
-    return () => {
-      document.removeEventListener('keydown', handleEscClick);
-      document.removeEventListener('click', handleOverlayClick);
-    };
-  }, [onClose]);
+ useCloseModal(onClose)
 
   return (
     <div className="modal is-active modal--narrow">
