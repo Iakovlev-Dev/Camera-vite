@@ -3,12 +3,22 @@ import ProductReviewsButton from '../product-reviews-button/product-reviews-butt
 import {useState} from 'react';
 import {useAppSelector} from '../../store/hooks.ts';
 import {selectReviews} from '../../store/review-proccess/selectors.ts';
+import {START_COUNT_REVIEWS, STEP_REVIEWS} from '../../const.ts';
 
-export default function ProductReviews () {
-  const [countReviews, setCountReviews] = useState(3);
+type TProductReviews = {
+  onOpenReview: () => void;
+}
+
+export default function ProductReviews ({onOpenReview}: TProductReviews) {
+  const [countReviews, setCountReviews] = useState(START_COUNT_REVIEWS);
   const reviews = useAppSelector(selectReviews);
+
   const handleClickButtonReviews = () => {
-    setCountReviews(countReviews + 3);
+    setCountReviews(countReviews + STEP_REVIEWS);
+  };
+
+  const handleOpenreviewModal = () => {
+    onOpenReview();
   };
 
   return (
@@ -17,7 +27,11 @@ export default function ProductReviews () {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button className="btn" type="button">
+            <button
+              className="btn"
+              type="button"
+              onClick={handleOpenreviewModal}
+            >
               Оставить свой отзыв
             </button>
           </div>

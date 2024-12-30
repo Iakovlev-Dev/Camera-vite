@@ -15,6 +15,7 @@ import {
 } from '../../store/coupon-process/coupon-process.ts';
 import {selectCoupon, selectDiscount} from '../../store/coupon-process/selectors.ts';
 import {useEffect} from 'react';
+import {setIsErrorPostBasket} from '../../store/basket-process/basket-process.ts';
 
 export default function BasketSummeryOrder() {
   const dispatch = useAppDispatch();
@@ -35,7 +36,7 @@ export default function BasketSummeryOrder() {
     const item = cameras.find((camera) => camera.id === id);
     return item ? sum + item.price : sum;
   }, 0);
-  
+
   const discount = getDiscount(idCamerasToDiscount, sumOrderToDiscount);
   const sumDiscount = (sumOrderToDiscount * ((discount + +(discountCoupon)) / 100)).toFixed(2);
 
@@ -49,7 +50,15 @@ export default function BasketSummeryOrder() {
       camerasIds: idCamerasBasket,
       coupon: coupon,
     };
-    dispatch(postOrder(orderToPost));
+    try{
+      dispatch(postOrder(orderToPost));
+    } catch {
+      if(coupon === null) {
+        dispatch(setIsErrorPostBasket(true));
+      } else {
+        dispatch(setIsErrorCoupon(true));
+      }
+    }
   };
 
   useEffect(() => {

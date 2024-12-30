@@ -2,7 +2,7 @@ import {useForm} from 'react-hook-form';
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {postCoupon} from '../../store/api-actions.ts';
-import {selectIsErrorCoupon, selectIsSuccessCoupon} from '../../store/coupon-process/selectors.ts';
+import {selectCoupon, selectIsErrorCoupon, selectIsSuccessCoupon} from '../../store/coupon-process/selectors.ts';
 import classNames from 'classnames';
 import {setCouponBasket} from '../../store/coupon-process/coupon-process.ts';
 
@@ -14,10 +14,11 @@ export default function BasketPromo () {
 
   const isSuccessCoupon = useAppSelector(selectIsSuccessCoupon);
   const isErrorCoupon = useAppSelector(selectIsErrorCoupon);
+  const coupon = useAppSelector(selectCoupon);
 
 
   const {handleSubmit} = useForm();
-  const [couponPost, setCoupon] = useState('');
+  const [couponPost, setCoupon] = useState(coupon || '');
 
   const handleSubmitCoupon = () => {
     const couponBody: TCouponPost = {
@@ -39,7 +40,7 @@ export default function BasketPromo () {
   const customInputClassName = classNames(
     'custom-input',
     {
-      'is-valid': isSuccessCoupon,
+      'is-valid': isSuccessCoupon || coupon,
       'is-invalid': isErrorCoupon
     });
 

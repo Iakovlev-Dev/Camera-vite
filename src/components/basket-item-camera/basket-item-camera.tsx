@@ -7,9 +7,8 @@ import {
   setIsDeleteCamera, setSumOrder,
 } from '../../store/basket-process/basket-process.ts';
 import {removeElement} from '../../utils/utils.ts';
-import { MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET } from '../../const.ts';
+import {MAX_CAMERAS_IN_BASKET, MIN_CAMERAS_IN_BASKET, OVER_CAMERAS} from '../../const.ts';
 import React, {useEffect, useState} from 'react';
-import {useDebounce} from 'use-debounce';
 
 type TBasketItemCamera = {
   idCamera: number;
@@ -25,8 +24,8 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
 
   const countCameras = camerasIdBasket.filter((item) => item === idCamera).length;
 
-  const [count, setCount] = useState(countCameras);
-  const [debounceCount] = useDebounce(count, 2000);
+  const [count, setCount] = useState(String(countCameras));
+  const [prevCount, setPrevCount] = useState(countCameras);
 
   const sumOrder = sortedCamerasId.reduce((sum, id) => {
     const item = cameras.find((camera) => camera.id === id);
@@ -38,46 +37,47 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
   }, [dispatch, sumOrder]);
 
   const handleCountIncrease = (id: number) => {
-    setCount(count + 1);
+    setCount(String(Number(count) + 1));
     dispatch(setCamerasBasket([...camerasIdBasket, id]));
   };
 
   const handleCountDecrease = (id: number) => {
-    setCount(count - 1);
+    setCount(String(Number(count) - 1));
     const newIdBasket = removeElement(camerasIdBasket, id);
     dispatch(setCamerasBasket(newIdBasket));
   };
 
-  useEffect(() => {
-    if(currentCamera) {
-      const index = sortedCamerasId.indexOf(currentCamera?.id);
-      const filteredCameras = sortedCamerasId.filter((id) => id !== currentCamera.id);
-      const newArrId = [];
+  const handleInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    setCount(evt.currentTarget.value);
+  };
 
-      if (debounceCount < MIN_CAMERAS_IN_BASKET || debounceCount > MAX_CAMERAS_IN_BASKET) {
-        setCount(countCameras);
-      } else {
-        setCount(count);
+  const handleInputBlur = (evt: React.FormEvent<HTMLInputElement>) => {
+    const valueInput = Number(evt.currentTarget.value);
+    if(valueInput < MIN_CAMERAS_IN_BASKET || isNaN(valueInput) || valueInput >= OVER_CAMERAS) {
+      setCount(String(prevCount));
+      setPrevCount(prevCount);
+    } else {
+      setCount(String(valueInput));
+      setPrevCount(valueInput);
+      if(currentCamera) {
+        const index = sortedCamerasId.indexOf(currentCamera?.id);
+        const filteredCameras = sortedCamerasId.filter((id) => id !== currentCamera.id);
+        const newArrId = [];
         if(index !== -1) {
-          while (newArrId.length < count) {
+          while (newArrId.length < +count) {
             newArrId.push(currentCamera.id);
           }
         }
+        const newArr = filteredCameras.concat(newArrId).sort((a, b) => a - b);
+        dispatch(setCamerasBasket(newArr));
       }
-      const newArr = filteredCameras.concat(newArrId).sort((a, b) => a - b);
-      dispatch(setCamerasBasket(newArr));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceCount, dispatch]);
-
-  const handleCountChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    const valueInput = evt.currentTarget.value;
-    setCount(Number(valueInput));
   };
 
   const handleClickDelete = (id: number) => {
     dispatch(setIsDeleteCamera(true));
     dispatch(setDeleteIdCamera(id));
+    document.body.classList.add('scroll-lock');
   };
 
   if(!currentCamera) {
@@ -134,11 +134,10 @@ export default function BasketItemCamera ({idCamera}: TBasketItemCamera) {
         <input
           type="number"
           id="counter1"
-          min={1}
           value={count}
-          max={9}
           aria-label="количество товара"
-          onChange={(evt) => handleCountChange(evt) }
+          onBlur={handleInputBlur}
+          onChange={handleInputChange}
         />
         <button
           className="btn-icon btn-icon--next"

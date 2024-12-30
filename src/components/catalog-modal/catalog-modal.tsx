@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector, useCloseModal} from '../../store/hooks.ts';
 import {selectCameras} from '../../store/data-card-process/selectors.ts';
 import ReactFocusLock from 'react-focus-lock';
 import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
@@ -23,6 +23,8 @@ export default function CatalogModal({onClose, idCamera, onAddItem}: TCatalogMod
     dispatch(setCamerasBasket(newArr));
     onAddItem();
   };
+
+  useCloseModal(onClose);
 
   if(!currentCamera) {
     return null;

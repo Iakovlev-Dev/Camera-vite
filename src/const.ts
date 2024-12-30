@@ -25,7 +25,8 @@ export const APIRoute = {
   Cameras: '/cameras',
   Orders: '/orders',
   Promo: '/promo',
-  Coupons: '/coupons'
+  Coupons: '/coupons',
+  Reviews: '/reviews',
 };
 
 export const MIN_COUNT_STARS = 1;
@@ -62,13 +63,27 @@ export const FilterType: Record<string, string> = {
 };
 
 export const COUNT_CAMERAS_ON_PAGE = 9;
-
 export const MAX_COUNT_PAGE = 3;
-
 export const MAX_CAMERAS_IN_BASKET = 9;
-
 export const MIN_CAMERAS_IN_BASKET = 1;
+export const OVER_CAMERAS = 10;
 
 export enum ActionType {
   RedirectToRoute = 'redirectToRoute',
 }
+
+export const START_COUNT_REVIEWS = 3;
+export const STEP_REVIEWS = 3;
+
+export const RateReview: Record<string, string> = {
+  5: 'Отлично',
+  4: 'Хорошо',
+  3: 'Нормально',
+  2: 'Плохо',
+  1: 'Ужасно',
+};
+
+export const MIN_SYMBOLS_USERNAME = 2;
+export const MAX_SYMBOLS_USERNAME = 15;
+export const MIN_SYMBOLS_REVIEW = 10;
+export const MAX_SYMBOLS_REVIEW = 160;

@@ -15,21 +15,31 @@ import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import CatalogModalAddItemSuccess
   from '../../components/catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
+import ProductAddReviewModal from '../../components/product-add-review-modal/product-add-review-modal.tsx';
+import {selectIsLoadingReviews, selectIsLoadingSuccessReview} from '../../store/review-proccess/selectors.ts';
+import Loader from '../../components/loader/loader.tsx';
+import ReviewAddSuccessModal from '../../components/review-add-success-modal/review-add-success-modal.tsx';
+import {setIsLoadingReviews} from '../../store/review-proccess/review-proccess.ts';
+import {setOrderPostSuccess} from '../../store/basket-process/basket-process.ts';
 
 
 export default function PageCard () {
   const dispatch = useAppDispatch();
   const {id} = useParams();
+
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
+  const isLoadingReviews = useAppSelector(selectIsLoadingReviews);
+  const isLoadingSuccessReview = useAppSelector(selectIsLoadingSuccessReview);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
+  const [isOpenReviewAdd, setIsOpenReviewAdd] = useState(false);
 
   const handleModalOpen = (idCameraOpen: number) => {
     setIsOpen(true);
-    document.body.classList.add('scroll-lock');
     setIdCamera(idCameraOpen);
+    document.body.classList.add('scroll-lock');
   };
 
   const handleModalClose = () => {
@@ -40,11 +50,32 @@ export default function PageCard () {
   const handleAddItemSuccess = () => {
     setIsOpen(false);
     setIsModalSuccess(true);
+    document.body.classList.add('scroll-lock');
   };
 
   const handleModalSuccessClose = () => {
     setIsModalSuccess(false);
     document.body.classList.remove('scroll-lock');
+  };
+
+  const handleModalSuccessReviewClose = () => {
+    dispatch(setIsLoadingReviews(false));
+    document.body.classList.remove('scroll-lock');
+  };
+
+  const handleOpenModalReview = () => {
+    setIsOpenReviewAdd(true);
+    document.body.classList.add('scroll-lock');
+  };
+
+  const handleCloseModalReview = () => {
+    setIsOpenReviewAdd(false);
+    document.body.classList.remove('scroll-lock');
+  };
+
+  const handleSuccesPostReview = () => {
+    dispatch(setOrderPostSuccess(true));
+    document.body.classList.add('scroll-lock');
   };
 
   useEffect(() => {
@@ -74,10 +105,13 @@ export default function PageCard () {
             <Breadcrumbs />
             <ProductCard />
             <ProductSimilar onClick={handleModalOpen} />
-            <ProductReviews />
+            <ProductReviews onOpenReview={handleOpenModalReview}/>
           </div>
           {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera} onAddItem={handleAddItemSuccess}/>}
           {isModalSuccess && <CatalogModalAddItemSuccess onClose={handleModalSuccessClose}/>}
+          {isOpenReviewAdd && <ProductAddReviewModal onCloseModal={handleCloseModalReview} onOpenSuccess={handleSuccesPostReview}/>}
+          {isLoadingReviews && <Loader />}
+          {isLoadingSuccessReview && <ReviewAddSuccessModal onClose={handleModalSuccessReviewClose}/>}
         </main>
         <ProductReviewsButtonUp />
         <Footer />
