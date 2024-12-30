@@ -12,7 +12,7 @@ type TProductRateReview = {
 export default function ProductRateReview ({onChange, register}: TProductRateReview) {
 
   return (
-    <div className="rate__group">
+    <div className="rate__group" data-testid="rate__group">
       {Object.keys(RateReview).reverse().map((item) => (
         <React.Fragment key={item}>
           <input

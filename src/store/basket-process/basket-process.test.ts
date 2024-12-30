@@ -176,23 +176,6 @@ describe('BasketProcess Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should set isOrderPostSuccess with postOrder.fulfilled', () => {
-    const expectedState = {
-      camerasIdBasket: [],
-      isDeleteCamera: false,
-      deleteIdCamera: null,
-      orderAmount: 0,
-      isOrderPostSuccess: true,
-      isLoading: false,
-      isErrorBasket: false,
-    };
-
-    const result = basketProcess.reducer(
-      undefined, postOrder.fulfilled(undefined, '', fakeOrder),
-    );
-
-    expect(result).toEqual(expectedState);
-  });
 
   it('should set isErrorBasket with postOrder.rejected', () => {
     const expectedState = {

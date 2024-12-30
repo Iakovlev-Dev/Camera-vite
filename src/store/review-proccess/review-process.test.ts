@@ -7,7 +7,9 @@ describe('ReviewProcess Slice', () => {
   it('should return initial state with empty state', () => {
     const emptyAction = {type: ''};
     const expectedState = {
-      reviews: []
+      reviews: [],
+      isLoadingReviews: false,
+      isLoadingSuccessReview: false,
     };
 
     const result = reviewProcess.reducer(expectedState, emptyAction);
@@ -18,7 +20,9 @@ describe('ReviewProcess Slice', () => {
   it('should return initial state with empty action and undefined state', () => {
     const emptyAction = {type: ''};
     const expectedState = {
-      reviews: []
+      reviews: [],
+      isLoadingReviews: false,
+      isLoadingSuccessReview: false,
     };
 
     const result = reviewProcess.reducer(undefined, emptyAction);
@@ -29,7 +33,9 @@ describe('ReviewProcess Slice', () => {
   it('should set "reviews" to array with fetchReviewsAction.fulfilled', () => {
     const fakeReview = makeFakeReview();
     const expectedState = {
-      reviews: [fakeReview]
+      reviews: [fakeReview],
+      isLoadingReviews: false,
+      isLoadingSuccessReview: false,
     };
 
     const result = reviewProcess.reducer(undefined,
