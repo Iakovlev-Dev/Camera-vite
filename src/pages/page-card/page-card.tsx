@@ -15,16 +15,25 @@ import {selectCamerasIdBasket} from '../../store/basket-process/selectors.ts';
 import CatalogModal from '../../components/catalog-modal/catalog-modal.tsx';
 import CatalogModalAddItemSuccess
   from '../../components/catalog-modal-add-item-success/catalog-modal-add-item-success.tsx';
+import ProductAddReviewModal from '../../components/product-add-review-modal/product-add-review-modal.tsx';
+import {selectIsLoadingReviews, selectIsLoadingSuccessReview} from '../../store/review-proccess/selectors.ts';
+import Loader from '../../components/loader/loader.tsx';
+import ReviewAddSuccessModal from '../../components/review-add-success-modal/review-add-success-modal.tsx';
+import {setIsLoadingReviews} from '../../store/review-proccess/review-proccess.ts';
 
 
 export default function PageCard () {
   const dispatch = useAppDispatch();
   const {id} = useParams();
+
   const camerasIdBasket = useAppSelector(selectCamerasIdBasket);
+  const isLoadingReviews = useAppSelector(selectIsLoadingReviews);
+  const isLoadingSuccessReview = useAppSelector(selectIsLoadingSuccessReview);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const [idCamera, setIdCamera] = useState<number>(0);
+  const [isOpenReviewAdd, setIsOpenReviewAdd] = useState(false);
 
   const handleModalOpen = (idCameraOpen: number) => {
     setIsOpen(true);
@@ -44,6 +53,11 @@ export default function PageCard () {
 
   const handleModalSuccessClose = () => {
     setIsModalSuccess(false);
+    document.body.classList.remove('scroll-lock');
+  };
+
+  const handleModalSuccessReviewClose = () => {
+    dispatch(setIsLoadingReviews(false));
     document.body.classList.remove('scroll-lock');
   };
 
@@ -74,10 +88,13 @@ export default function PageCard () {
             <Breadcrumbs />
             <ProductCard />
             <ProductSimilar onClick={handleModalOpen} />
-            <ProductReviews />
+            <ProductReviews onOpenReview={setIsOpenReviewAdd}/>
           </div>
           {isOpen && <CatalogModal onClose={handleModalClose} idCamera={idCamera} onAddItem={handleAddItemSuccess}/>}
           {isModalSuccess && <CatalogModalAddItemSuccess onClose={handleModalSuccessClose}/>}
+          {isOpenReviewAdd && <ProductAddReviewModal onCloseModal={setIsOpenReviewAdd}/>}
+          {isLoadingReviews && <Loader />}
+          {isLoadingSuccessReview && <ReviewAddSuccessModal onClose={handleModalSuccessReviewClose}/>}
         </main>
         <ProductReviewsButtonUp />
         <Footer />

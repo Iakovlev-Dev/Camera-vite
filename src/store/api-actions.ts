@@ -4,9 +4,10 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {TCameraArray, TCameraCard} from '../types/type-cards.ts';
 import {APIRoute} from '../const.ts';
 import {TOrder} from '../types/type-order.ts';
-import {TReviews} from '../types/type-reviews.ts';
+import {TReview, TReviews} from '../types/type-reviews.ts';
 import {TPromoArray} from '../types/type-promo.ts';
 import {TCouponPost} from '../components/basket-promo/basket-promo.tsx';
+import {TReviewPost} from '../components/product-add-review-modal/product-add-review-modal.tsx';
 
 export type TAPIAction = {
   dispatch: TAppDispatch;
@@ -58,6 +59,13 @@ export const fetchSimilarCameras = createAsyncThunk<TCameraArray, string, TAPIAc
 export const postCoupon = createAsyncThunk<string, TCouponPost, TAPIAction>('postCoupon',
   async (couponBody, {extra: api}) => {
     const {data} = await api.post<string>(APIRoute.Coupons, couponBody);
+    return data;
+  }
+);
+
+export const postReview = createAsyncThunk<TReview, TReviewPost, TAPIAction>('postReview',
+  async (reviewBody, {extra: api}) => {
+    const {data} = await api.post<TReview>(APIRoute.Reviews, reviewBody);
     return data;
   }
 );

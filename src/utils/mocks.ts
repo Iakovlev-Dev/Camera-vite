@@ -19,6 +19,7 @@ export const makeFakeStore = (initialState: Partial<TState>) => ({
   },
   [NameSpace.REVIEWS]: {
     reviews: [],
+    isLoadingReviews: false,
   },
   [NameSpace.PROMO]: {
     promo: []
